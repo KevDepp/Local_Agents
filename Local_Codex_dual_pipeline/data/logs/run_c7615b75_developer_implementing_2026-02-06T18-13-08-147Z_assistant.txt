@@ -1,0 +1,5 @@
+**Summary**  
+No implementation changes: highest‑priority TODO is blocked pending functional clarification, so no code or tests were added.
+
+**Tests**  
+Not run. `data/testing_plan.md` doesn’t define executable commands yet (plan awaits scope clarification).

@@ -1,0 +1,16 @@
+I'll first inspect the existing `doc` files and documentation rules, then create/update the requested planning docs and JSON state, keeping `doc/INDEX.md` and `doc/DECISIONS.md` consistent.Now I’ll update SPEC, TODO, TESTING_PLAN, DECISIONS, and the JSON state strictly as planning, with no code implementation.Here’s what I’ve done, staying strictly in planning/no-implementation mode:
+
+- Updated `doc/SPEC.md` to clearly describe the smoke-test scope, planning-only nature of this run, the dual-pipeline goals, and acceptance criteria for this iteration.
+- Expanded `doc/TODO.md` with a concrete backlog: each item has both a priority (P0/P1/P2) and an explicit development order (1,2,3…), and all tasks are framed as future work, not implemented.
+- Enriched `doc/TESTING_PLAN.md` with a structured test strategy and scenarios for future validation of the dual pipeline and `pipeline_state` behaviour, plus a checklist.
+- Appended a dated entry to `doc/DECISIONS.md` documenting the decision to keep this iteration limited to planning artefacts only.
+- Verified `doc/INDEX.md` already references all required docs and `data/pipeline_state.json`; its structure remains consistent with `doc/DOCS_RULES.md`.
+- Updated `data/pipeline_state.json` to exactly:
+  - `run_id`: `95d863cf-722e-458f-a748-68e89eeb7672`
+  - `iteration`: `1`
+  - `developer_status`: `"ongoing"`
+  - `manager_decision`: `null`
+  - `updated_at`: `"2026-02-07T11:23:02.236Z"`
+  with valid JSON syntax and no extra behavioural changes.
+
+No code or tests were implemented or modified; all changes are limited to planning docs and the pipeline state marker as requested.

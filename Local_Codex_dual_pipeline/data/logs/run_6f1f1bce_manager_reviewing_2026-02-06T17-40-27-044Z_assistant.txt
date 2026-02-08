@@ -1,0 +1,11 @@
+Décision de revue pour l’itération 1 :
+
+- J’ai vérifié `data/todo.json`, `data/testing_plan.md`, la UI (`public/index.html`, `public/app.js`, `public/styles.css`), les tests Playwright (`tests/ui.spec.js`) et la documentation (`README.md`).
+- Les 3 scénarios prévus dans le cahier des charges sont bien couverts : happy path, erreur de saisie, accessibilité (focus clavier/labels), et les tests sont automatisés avec Playwright.
+- La documentation explique comment lancer les tests (`npm test`) et ajouter de nouveaux scénarios, et les tests passent (`npm test` : 3/3 OK).
+- Tous les items de `data/todo.json` sont marqués `completed` avec des notes cohérentes avec le code et la doc.
+- J’ai donc mis à jour `data/pipeline_state.json` avec :  
+  - `"manager_decision": "completed"`  
+  - `"updated_at": "2026-02-06T17:40:27.044Z"`  
+  - un `summary` reflétant l’approbation managériale.  
+- Aucun nouveau correctif n’est requis, je n’ai pas modifié `data/todo.json` ni `data/testing_plan.md`.

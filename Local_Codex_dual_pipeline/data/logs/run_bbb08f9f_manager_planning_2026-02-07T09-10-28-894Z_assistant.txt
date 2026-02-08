@@ -1,0 +1,14 @@
+I'll create the four planning files under `data/` with the requested JSON state and only high-level plans (no code), then report back.Now I'll add the four planning/JSON files under `data/` with the specified pipeline state and no code.I’ve created the requested planning artifacts under `data/`:
+
+- `data/specification.md`: High-level goals, scope, constraints, and acceptance criteria for a future logs smoke test, explicitly stating this is planning-only and no code is implemented.
+- `data/todo.json`: Structured TODO list for the developer agent (requirements review, sample logs definition, invocation strategy, observability criteria, cleanup strategy), all in `pending` state.
+- `data/testing_plan.md`: Conceptual smoke testing plan with preconditions, flow, and three planned test cases (minimal run, idempotent re-run, misconfigured environment), marked as not yet implemented.
+- `data/pipeline_state.json`: Valid JSON with the exact required fields and values:
+  - `"run_id": "bbb08f9f-b57f-4a01-9199-7d26b60cc924"`
+  - `"iteration": 1`
+  - `"developer_status": "ongoing"`
+  - `"manager_decision": null`
+  - `"updated_at": "2026-02-07T09:10:28.894Z"`
+  plus additional planning-only metadata (`phase`, `notes`).
+
+All content is planning and instructions for a future implementation, with no code added.

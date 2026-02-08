@@ -1,0 +1,11 @@
+Reading existing documentation rules and index, then I’ll draft the requested planning docs and JSON state file.Docs rules and index read; now I’ll rewrite SPEC/TODO/TESTING_PLAN as planning-only docs.SPEC, TODO, and TESTING_PLAN have been rewritten as planning-only docs for the logs smoke test; next I’ll update DECISIONS and the docs index, then add the JSON state file.Here’s what I’ve done, following your protocol and keeping everything planning-only:
+
+- Updated `doc/SPEC.md` to define the context, goals, non-goals, high-level behavior, and abstract inputs/outputs for the logs smoke test, explicitly stating that this iteration is planning-only with no implementation details.
+- Updated `doc/TODO.md` to contain a prioritized backlog with both priority tags (P0/P1/P2) and explicit development order (1–6), all phrased as instructions for a future developer agent.
+- Updated `doc/TESTING_PLAN.md` with a conceptual testing strategy and planned test cases (TC1–TC4), focusing on how the future implementation should be validated without specifying commands or code.
+- Appended decisions to `doc/DECISIONS.md` to record that this iteration is strictly planning-only and that `data/pipeline_state.json` is the canonical run-metadata store.
+- Updated `doc/INDEX.md` so it references all relevant docs (`DOCS_RULES.md`, `INDEX.md`, `SPEC.md`, `TODO.md`, `TESTING_PLAN.md`, `DECISIONS.md`) and `data/pipeline_state.json`, clarifying that these are planning-only for this iteration.
+- Created `data/pipeline_state.json` with valid JSON containing exactly the required keys and values:
+  - `{"run_id": "b467969e-f635-451c-919e-9fa8c6b89b3e", "iteration": 1, "developer_status": "ongoing", "manager_decision": null, "updated_at": "2026-02-07T11:24:23.402Z"}`
+
+No code or implementation instructions beyond planning/specification have been added.

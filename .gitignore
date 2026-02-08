@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+dist/
+out/
+tmp/
+
+# Logs and System Files
+*.log
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+*.vsix
+
+# Agent Artifacts
+response.txt
+browser_result.txt
+github_projects.txt

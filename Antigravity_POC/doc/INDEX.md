@@ -1,0 +1,11 @@
+# Documentation Index (Antigravity_POC)
+
+- `doc/DOCS_RULES.md` - Project doc rules (pointer to canonical). (owner: Both)
+- `doc/INDEX.md` - This index. (owner: Both)
+- `doc/SPEC.md` - Requirements and protocol contract. (owner: Codex/AG)
+- `doc/TODO.md` - Prioritized backlog. (owner: Both)
+- `doc/TESTING_PLAN.md` - Test plan. (owner: Both)
+- `doc/DECISIONS.md` - Decision log. (owner: Both)
+- `doc/walkthrough/README.md` - Walkthrough area for AG outputs. (owner: AG)
+- `analysis_and_plan.md` - Initial analysis and extended plan. (owner: Codex)
+- `README.md` - Setup and usage. (owner: Codex)

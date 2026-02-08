@@ -1,0 +1,9 @@
+Je vais d’abord inspecter rapidement le dossier courant, puis créer/mettre à jour les quatre fichiers demandés avec un cahier des charges, une TODO priorisée et un plan de tests, en intégrant les zones floues de la demande.Contexte vérifié; je passe à la rédaction du cahier des charges, en explicitant hypothèses et points à clarifier, puis j’enchaînerai avec la TODO JSON et le plan de tests.Voici ce que j’ai préparé pour l’agent développeur :
+
+- `data/specification.md`: cahier des charges structuré, expliquant que la demande utilisateur est tronquée (`Cr`), listant les hypothèses possibles, les contraintes générales, les questions précises à poser au demandeur, les livrables attendus une fois le besoin clarifié, les risques et la prochaine étape.
+- `data/todo.json`: TODO list priorisée (1, 2, 3, …) orientée flux réel de travail : d’abord clarification de la demande, puis mise à jour du cahier des charges, découpage en tâches de développement concrètes, mise à jour du plan de tests, puis implémentation par l’agent développeur. Chaque entrée a priorité, statut, description, assignee et dépendances.
+- `data/testing_plan.md`: plan de tests générique adapté à une fonctionnalité encore non définie : stratégie globale (unitaires, intégration, manuels), types de cas à prévoir (nominaux, limites, erreurs, performance, régression), critères d’acceptation génériques et actions à mener une fois la demande clarifiée.
+- `data/pipeline_state.json`: état de pipeline mis à jour avec  
+  `{"run_id": "c7615b75-f66c-4e6a-97bb-6322939a3e7d", "iteration": 1, "developer_status": "ongoing", "manager_decision": null, "updated_at": "2026-02-06T17:57:57.290Z"}`.
+
+Aucune implémentation de code n’a été faite ; tout est focalisé sur la préparation, avec des points de clarification explicites pour que le demandeur précise sa requête avant tout développement.

@@ -1,0 +1,13 @@
+{
+  "name": "antigravity-poc",
+  "private": true,
+  "version": "0.0.0",
+  "description": "POC for Antigravity connector + file-based output protocol",
+  "scripts": {
+    "run": "node src/cli.js",
+    "test:unit": "node tests/run_unit.js",
+    "test:connector": "node tests/integration/connector_smoke.js",
+    "test:e2e": "node tests/e2e/file_loop.js"
+  }
+}
+

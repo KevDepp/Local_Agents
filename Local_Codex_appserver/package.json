@@ -1,0 +1,11 @@
+{
+  "name": "local-codex-appserver",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Local browser UI POC for codex app-server",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test:api": "node scripts/api-smoke-test.js"
+  }
+}

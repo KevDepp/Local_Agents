@@ -1,0 +1,9 @@
+Summary:
+- Implemented full V1 chess UI and gameplay logic (board rendering, move validation, turn handling, captures, move history) across `index.html`, `styles.css`, `game.js`, and `main.js`.
+- Added lightweight JS unit tests for the rules engine in `tests/run_tests.js`.
+
+Tests:
+- `node tests\run_tests.js` (pass)
+- Manual browser tests from `data/testing_plan.md` not run in this environment.
+
+If you want, I can run through the manual cases in a browser next.

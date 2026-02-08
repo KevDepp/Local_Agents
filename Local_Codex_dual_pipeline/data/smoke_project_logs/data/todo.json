@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "context": "Logs smoke test – planning only, no code implementation in this iteration.",
+  "items": [
+    {
+      "id": "spec-validate-requirements",
+      "title": "Review and refine logs smoke test requirements",
+      "description": "Confirm that the goals, scope, and constraints in data/specification.md match the actual project needs and logging architecture.",
+      "owner": "developer",
+      "status": "pending",
+      "priority": "high",
+      "blocked_by": []
+    },
+    {
+      "id": "spec-choose-log-samples",
+      "title": "Define sample log events for smoke testing",
+      "description": "Design a small, deterministic set of log entries (services, levels, timestamps) to be used in the smoke test.",
+      "owner": "developer",
+      "status": "pending",
+      "priority": "medium",
+      "blocked_by": [
+        "spec-validate-requirements"
+      ]
+    },
+    {
+      "id": "plan-wire-up-command",
+      "title": "Decide how the smoke test will be invoked",
+      "description": "Select or define a future CLI or script entry point (e.g., `pnpm test:logs:smoke` or similar) without implementing it yet.",
+      "owner": "developer",
+      "status": "pending",
+      "priority": "medium",
+      "blocked_by": [
+        "spec-validate-requirements"
+      ]
+    },
+    {
+      "id": "plan-observability-criteria",
+      "title": "Define basic observability and success criteria",
+      "description": "Specify what signals (file existence, line counts, markers) will be checked to decide if the smoke test passed.",
+      "owner": "developer",
+      "status": "pending",
+      "priority": "medium",
+      "blocked_by": [
+        "spec-validate-requirements"
+      ]
+    },
+    {
+      "id": "plan-cleanup-behavior",
+      "title": "Decide on log artifact cleanup strategy",
+      "description": "Determine whether the smoke test should clean up logs automatically, keep them for inspection, or support a flag to control cleanup.",
+      "owner": "developer",
+      "status": "pending",
+      "priority": "low",
+      "blocked_by": [
+        "plan-wire-up-command"
+      ]
+    }
+  ]
+}
+

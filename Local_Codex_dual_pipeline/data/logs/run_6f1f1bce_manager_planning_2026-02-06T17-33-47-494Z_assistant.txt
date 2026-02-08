@@ -1,0 +1,9 @@
+Je commence par explorer le projet puis je créerai les fichiers `data/*` demandés avec le cahier des charges, la TODO et le plan de tests, sans toucher au code.Je vais maintenant créer/mettre à jour les fichiers `data/*` et y rédiger le cahier des charges, la TODO structurée, le plan de tests et l’état de pipeline.Voici ce que j’ai préparé sans modifier le code, uniquement du cadrage pour l’agent développeur :
+
+- `data/specification.md`: cahier des charges fonctionnel (en français) à partir de la demande « UI Test Prompt », avec vision produit hypothétique, périmètre, exigences fonctionnelles/non fonctionnelles, livrables attendus et questions de clarification à poser au demandeur.
+- `data/todo.json`: TODO structurée pour l’agent développeur (`clarify-requirements`, analyse de l’UI existante, choix de la stack de tests UI, définition de scénarios, implémentation des tests, reproductibilité, documentation des limites), avec priorités, dépendances et outputs attendus.
+- `data/testing_plan.md`: plan de tests décrivant portée, types de tests (UI end‑to‑end, éventuellement composants, tests manuels ciblés), scénarios à couvrir (happy path, erreur, accessibilité optionnelle), critères d’acceptation, stratégie d’exécution (local/CI), données de test et checklist de validation.
+- `data/pipeline_state.json`: état du pipeline mis à jour avec  
+  `{"run_id":"6f1f1bce-8b64-412c-94d0-5f8ef1f27702","iteration":1,"developer_status":"ongoing","manager_decision":null,"updated_at":"2026-02-06T17:33:47.493Z"}`.
+
+Si tu veux, je peux affiner le cahier des charges ou la TODO en fonction de précisions supplémentaires sur ce que recouvre exactement « UI Test Prompt ».

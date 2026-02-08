@@ -1,0 +1,9 @@
+**Summary**
+- Added a single-page UI prompt runner with logic and styling in `public/index.html`, `public/app.js`, and `public/styles.css`.
+- Added Playwright tests and config in `tests/ui.spec.js` and `playwright.config.js`, plus scripts and documentation in `package.json` and `README.md`.
+- Updated task tracking in `data/todo.json` and pipeline status in `data/pipeline_state.json`.
+
+Note: Playwright generated a `test-results` directory during `npm test`; deletion was blocked by the shell policy.
+
+**Tests**
+- `npm test`

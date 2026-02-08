@@ -1,0 +1,35 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jeu d'echecs</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="board-panel">
+        <header class="hero">
+          <p class="kicker">Jeu d'echecs V1</p>
+          <h1>Plateau a deux joueurs</h1>
+          <p class="subtitle">Selectionnez une piece, puis cliquez sur une case cible.</p>
+        </header>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+        <div id="board" class="board" role="grid" aria-label="Plateau d'echecs"></div>
+      </section>
+      <aside class="side-panel">
+        <div class="card">
+          <h2>Historique</h2>
+          <ol id="history" class="history"></ol>
+        </div>
+        <div class="card">
+          <h2>Rappel</h2>
+          <p>Tour: blanc puis noir. Les coups illegaux sont ignores.</p>
+          <p>Pas de roque, pas de prise en passant, pas de promotion avancee.</p>
+        </div>
+      </aside>
+    </main>
+    <script src="game.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

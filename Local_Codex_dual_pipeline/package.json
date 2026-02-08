@@ -1,0 +1,1 @@
+{"name":"local-codex-dual-pipeline","private":true,"version":"0.0.0","description":"Dual-instance Codex pipeline (manager + developer) on top of codex app-server","scripts":{"start":"node server/index.js","dev":"node --watch server/index.js","test:api":"node scripts/api-smoke-test.js","test:logs":"node scripts/api-logs-smoke-test.js"}}

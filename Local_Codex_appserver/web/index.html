@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Local Codex app-server</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div class="title">Local Codex app-server</div>
+        <div class="subtitle">Browser UI POC</div>
+      </div>
+      <div class="meta" id="metaLine">Idle</div>
+    </header>
+
+    <main class="grid">
+      <section class="panel">
+        <h2>Input</h2>
+
+        <label class="field">
+          <div class="label">CWD</div>
+          <div class="row">
+            <input id="cwd" class="input" type="text" spellcheck="false" placeholder="Select a folder..." />
+            <button id="browseCwd" class="btn" type="button">Browse</button>
+          </div>
+        </label>
+
+        <label class="field">
+          <div class="label">Model</div>
+          <div class="row">
+            <input id="model" class="input" list="modelsList" placeholder="(optional)" />
+            <datalist id="modelsList"></datalist>
+            <button id="refreshModels" class="btn" type="button">Refresh</button>
+          </div>
+          <div class="hint">Leave empty to let Codex choose default.</div>
+        </label>
+
+        <label class="field">
+          <div class="label">Effort</div>
+          <div class="row">
+            <select id="effort" class="input">
+              <option value="high" selected>high (default)</option>
+              <option value="medium">medium</option>
+              <option value="low">low</option>
+              <option value="none">none</option>
+              <option value="xhigh">xhigh (extra high)</option>
+            </select>
+          </div>
+          <div class="hint">
+            Default is <code>high</code>. If the model does not support it, the server will automatically retry with the
+            maximum supported value.
+          </div>
+        </label>
+
+        <div class="field">
+          <div class="label">Thread</div>
+          <div class="row">
+            <label class="radio"><input type="radio" name="threadMode" value="new" checked />New</label>
+            <label class="radio"><input type="radio" name="threadMode" value="resume" />Resume</label>
+          </div>
+          <div class="row">
+            <select id="threadId" class="input"></select>
+            <button id="refreshThreads" class="btn" type="button">Reload</button>
+          </div>
+          <div class="hint">Resume uses a previous `threadId` created by this POC.</div>
+        </div>
+
+        <label class="field">
+          <div class="label">Prompt (sent exactly)</div>
+          <textarea id="prompt" class="textarea" rows="12" placeholder="Type your prompt..."></textarea>
+        </label>
+
+        <div class="row">
+          <button id="send" class="btn primary" type="button">Send</button>
+          <button id="stop" class="btn warn" type="button" disabled>Stop</button>
+          <button id="clear" class="btn" type="button">Clear Output</button>
+        </div>
+
+        <div class="kv">
+          <div class="k">runId</div><div class="v" id="runId">(none)</div>
+          <div class="k">threadId</div><div class="v" id="threadIdOut">(none)</div>
+          <div class="k">turnId</div><div class="v" id="turnIdOut">(none)</div>
+          <div class="k">log</div><div class="v mono" id="logPath">(none)</div>
+          <div class="k">rollout</div><div class="v mono" id="rolloutPath">(none)</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Output (streaming)</h2>
+        <div class="row">
+          <label class="radio"><input type="radio" name="renderMode" value="plain" checked />Plain</label>
+          <label class="radio"><input type="radio" name="renderMode" value="markdown" />Markdown</label>
+        </div>
+        <div id="output" class="output"></div>
+      </section>
+    </main>
+
+    <dialog id="cwdDialog" class="dialog">
+      <form method="dialog" class="dialogInner">
+        <div class="dialogTop">
+          <div class="dialogTitle">Choose CWD</div>
+          <div class="row">
+            <button class="btn" value="cancel">Close</button>
+            <button id="cwdCancel" class="btn" type="button">Cancel</button>
+          </div>
+        </div>
+        <div class="row">
+          <button id="cwdUp" class="btn" type="button">Up</button>
+          <input id="cwdPath" class="input" type="text" spellcheck="false" />
+          <button id="cwdSelect" class="btn primary" type="button">Select</button>
+        </div>
+        <div class="cwdList" id="cwdList"></div>
+      </form>
+    </dialog>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

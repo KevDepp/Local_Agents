@@ -1,0 +1,24 @@
+{
+  "iteration": 1,
+  "focus": "planning_only_no_code",
+  "high_level_tasks": [
+    "Decide on the target language and runtime for the pipeline.",
+    "Define the minimal end-to-end behavior for the pipeline (inputs, processing, outputs).",
+    "Design the main entry point and high-level module structure.",
+    "Identify any external dependencies or integrations that may be required.",
+    "Specify how configuration will be provided (e.g., environment variables, config file, CLI arguments).",
+    "Draft a checklist for successful implementation based on this specification.",
+    "Align the testing strategy with the plan in data/testing_plan.md."
+  ],
+  "constraints": [
+    "Do not implement any code in this iteration.",
+    "All changes must be captured as documentation or planning artifacts.",
+    "Future implementation must respect the pipeline state recorded in data/pipeline_state.json."
+  ],
+  "notes_for_developer_agent": [
+    "Use this TODO list as guidance when starting the implementation iteration.",
+    "Before writing code, refine and, if necessary, extend this TODO list with more granular tasks.",
+    "Coordinate changes with the testing plan to ensure all key behaviors will be testable."
+  ]
+}
+

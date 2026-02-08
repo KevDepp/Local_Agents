@@ -1,0 +1,58 @@
+{
+    "name": "antigravity-connector",
+    "displayName": "Antigravity Connector",
+    "description": "Internal connector to script Antigravity chat interactions.",
+    "version": "0.0.1",
+    "publisher": "local",
+    "engines": {
+        "vscode": "^1.90.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished",
+        "onCommand:antigravityConnector.diagnostics"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "antigravityConnector.diagnostics",
+                "title": "Antigravity Connector: Diagnostics"
+            }
+        ],
+        "configuration": {
+            "title": "Antigravity Connector",
+            "properties": {
+                "antigravityConnector.port": {
+                    "type": "number",
+                    "default": 17374,
+                    "description": "HTTP port to listen on."
+                },
+                "antigravityConnector.autoSend": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If true, append newline/submit immediately."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p .",
+        "package": "vsce package",
+        "watch": "tsc -watch -p .",
+        "lint": "eslint ."
+    },
+    "devDependencies": {
+        "@types/node": "^20.14.10",
+        "@types/vscode": "^1.90.0",
+        "@typescript-eslint/eslint-plugin": "^7.18.0",
+        "@typescript-eslint/parser": "^7.18.0",
+        "eslint": "^8.57.0",
+        "typescript": "^5.5.4"
+    },
+    "dependencies": {
+        "@vscode/vsce": "^3.7.1"
+    }
+}

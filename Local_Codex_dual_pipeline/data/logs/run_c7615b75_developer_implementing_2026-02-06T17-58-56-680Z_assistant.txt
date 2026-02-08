@@ -1,0 +1,5 @@
+**Summary**  
+No implementation changes: the highest‑priority TODOs are blocked pending functional clarification per `data/specification.md`. Updated `data/pipeline_state.json` with `developer_status: ready_for_review`.
+
+**Tests**  
+Not run. `data/testing_plan.md` does not define executable commands yet (plan is pending clarified scope).

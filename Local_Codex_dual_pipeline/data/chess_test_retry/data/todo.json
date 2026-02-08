@@ -1,0 +1,121 @@
+{
+  "project": "web-chess",
+  "run_id": "8741de35-a682-4678-84f6-e5567c4efbd9",
+  "iteration": 1,
+  "tasks": [
+    {
+      "order": 1,
+      "id": "setup-structure",
+      "title": "Initialiser la structure du projet",
+      "description": "Créer la structure de base : fichiers index.html, styles.css et main.js (ou équivalents) sans implémentation détaillée de la logique de jeu.",
+      "status": "done",
+      "depends_on": [],
+      "notes_for_developer": "Préparer un squelette propre pour accueillir la logique (sections pour le plateau, l’historique, les messages)."
+    },
+    {
+      "order": 2,
+      "id": "data-model",
+      "title": "Définir le modèle de données du plateau et des pièces",
+      "description": "Concevoir les structures JS pour représenter le plateau, les pièces, leurs couleurs et positions.",
+      "status": "done",
+      "depends_on": [
+        "setup-structure"
+      ],
+      "notes_for_developer": "Choisir une représentation simple (ex. tableau 2D ou liste d’objets) et documenter les choix dans le code."
+    },
+    {
+      "order": 3,
+      "id": "rules-engine",
+      "title": "Implémenter le moteur de règles de déplacement",
+      "description": "Implémenter les fonctions qui calculent les coups autorisés pour chaque type de pièce, en appliquant les règles de base décrites dans specification.md.",
+      "status": "done",
+      "depends_on": [
+        "data-model"
+      ],
+      "notes_for_developer": "Commencer par les pièces simples (Tour, Fou, Dame) puis Cavalier, Roi et Pions. Gérer obstacles, bordures et captures."
+    },
+    {
+      "order": 4,
+      "id": "board-rendering",
+      "title": "Rendu du plateau et des pièces dans le DOM",
+      "description": "Afficher la grille 8x8 dans la page, avec alternance clair/foncé, et positionner les pièces selon l’état interne.",
+      "status": "done",
+      "depends_on": [
+        "setup-structure",
+        "data-model"
+      ],
+      "notes_for_developer": "Utiliser des classes CSS pour les couleurs des cases et un mapping clair entre indices internes (0-7) et cases visuelles."
+    },
+    {
+      "order": 5,
+      "id": "user-interaction",
+      "title": "Gérer les interactions utilisateur (sélection et déplacement)",
+      "description": "Ajouter la gestion des clics sur les cases, la sélection de pièce, l’indication visuelle de la sélection et le déclenchement des tentatives de déplacement.",
+      "status": "done",
+      "depends_on": [
+        "board-rendering",
+        "rules-engine"
+      ],
+      "notes_for_developer": "Séparer clairement la logique de gestion d’événements (UI) et le moteur de règles (validation des coups)."
+    },
+    {
+      "order": 6,
+      "id": "turn-management",
+      "title": "Gérer l’alternance des tours et la validation basique des coups",
+      "description": "Mettre en place la logique qui vérifie que seule la couleur active peut jouer et qui alterne Blanc/Noir après un coup valide.",
+      "status": "done",
+      "depends_on": [
+        "user-interaction"
+      ],
+      "notes_for_developer": "Introduire une variable d’état simple (ex. currentPlayer) et s’assurer que les clics sur les pièces adverses sont ignorés."
+    },
+    {
+      "order": 7,
+      "id": "captures-and-removal",
+      "title": "Implémenter les captures et la suppression des pièces",
+      "description": "Adapter la logique de déplacement pour permettre la capture d’une pièce adverse lorsque le coup est valide et mettre à jour l’affichage.",
+      "status": "done",
+      "depends_on": [
+        "rules-engine",
+        "user-interaction"
+      ],
+      "notes_for_developer": "Vérifier que l’état interne (modèle) et l’état visuel (DOM) restent strictement synchronisés après chaque capture."
+    },
+    {
+      "order": 8,
+      "id": "move-history",
+      "title": "Ajouter un historique simple des coups (optionnel recommandé)",
+      "description": "Afficher une liste textuelle des coups effectués (notation libre).",
+      "status": "done",
+      "depends_on": [
+        "turn-management"
+      ],
+      "notes_for_developer": "Commencer par une notation simple (ex. \"Blanc: Pion e2 → e4\"), l’objectif est surtout la traçabilité."
+    },
+    {
+      "order": 9,
+      "id": "styling-and-ux",
+      "title": "Améliorer le style et l’UX",
+      "description": "Affiner le CSS pour rendre le plateau lisible, gérer les survols/états sélectionnés, et assurer une responsivité basique.",
+      "status": "done",
+      "depends_on": [
+        "board-rendering",
+        "user-interaction"
+      ],
+      "notes_for_developer": "Prioriser la lisibilité et le contraste; pas besoin de design avancé pour cette itération."
+    },
+    {
+      "order": 10,
+      "id": "tests-and-validation",
+      "title": "Réaliser les tests décrits dans le plan de tests",
+      "description": "Exécuter les scénarios du fichier testing_plan.md, corriger les bugs critiques et documenter les limitations connues.",
+      "status": "done",
+      "depends_on": [
+        "rules-engine",
+        "user-interaction",
+        "captures-and-removal"
+      ],
+      "notes_for_developer": "Se focaliser sur la validité des déplacements, la robustesse de l’interface et l’absence d’erreurs JS bloquantes."
+    }
+  ]
+}

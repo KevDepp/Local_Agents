@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "generated_at": "2026-02-06T17:57:57.290Z",
+  "items": [
+    {
+      "id": 1,
+      "title": "Clarifier la demande fonctionnelle avec le demandeur",
+      "priority": 1,
+      "status": "blocked",
+      "description": "Obtenir la version complète de la demande (la phrase tronquée après 'Cr') et une description claire de l’objectif métier.",
+      "assignee": "product_owner_or_manager",
+      "dependencies": []
+    },
+    {
+      "id": 2,
+      "title": "Mettre à jour le cahier des charges avec les réponses",
+      "priority": 2,
+      "status": "pending",
+      "description": "Compléter data/specification.md avec le périmètre fonctionnel détaillé, les cas d’usage et les critères d’acceptation une fois la demande clarifiée.",
+      "assignee": "architect_or_analyst",
+      "dependencies": [1]
+    },
+    {
+      "id": 3,
+      "title": "Définir les tâches de développement concrètes",
+      "priority": 3,
+      "status": "pending",
+      "description": "Découper les besoins clarifiés en tâches de développement précises (création de fichiers, fonctions, endpoints, interfaces, etc.) pour l’agent développeur.",
+      "assignee": "architect_or_tech_lead",
+      "dependencies": [2]
+    },
+    {
+      "id": 4,
+      "title": "Mettre à jour le plan de tests détaillé",
+      "priority": 4,
+      "status": "pending",
+      "description": "Adapter data/testing_plan.md avec des cas de tests concrets (unitaires, intégration, éventuellement end-to-end) en fonction du périmètre validé.",
+      "assignee": "qa_engineer_or_dev",
+      "dependencies": [2]
+    },
+    {
+      "id": 5,
+      "title": "Implémenter la fonctionnalité une fois validée",
+      "priority": 5,
+      "status": "pending",
+      "description": "Réaliser l’implémentation conformément au cahier des charges mis à jour, en respectant les conventions du projet et en ajoutant les tests associés.",
+      "assignee": "developer_agent",
+      "dependencies": [3, 4]
+    }
+  ]
+}
+

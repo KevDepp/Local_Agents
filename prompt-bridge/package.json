@@ -1,0 +1,109 @@
+{
+  "name": "prompt-bridge",
+  "displayName": "Prompt Bridge",
+  "description": "Local HTTP bridge to send prompts into VS Code chat UIs (Codex / Antigravity).",
+  "private": true,
+  "version": "0.0.1",
+  "publisher": "kdeplus",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "promptBridge.showPort",
+        "title": "Prompt Bridge: Show Port"
+      },
+      {
+        "command": "promptBridge.diagnostics",
+        "title": "Prompt Bridge: Diagnostics"
+      }
+    ],
+    "configuration": {
+      "title": "Prompt Bridge",
+      "properties": {
+        "promptBridge.port": {
+          "type": "number",
+          "default": 17373,
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "HTTP listening port."
+        },
+        "promptBridge.token": {
+          "type": "string",
+          "default": "",
+          "description": "Shared secret token required by /send."
+        },
+        "promptBridge.autoSend": {
+          "type": "boolean",
+          "default": true,
+          "description": "If true, submit the chat input after inserting text."
+        },
+        "promptBridge.codexExtensionId": {
+          "type": "string",
+          "default": "openai.chatgpt",
+          "description": "VS Code extension id for Codex sidebar."
+        },
+        "promptBridge.codexOpenCommand": {
+          "type": "string",
+          "default": "chatgpt.openSidebar",
+          "description": "Command used to open the Codex sidebar."
+        },
+        "promptBridge.codexFocusCommandCandidates": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["chatgpt.sidebarView.focus", "workbench.action.chat.focusInput"],
+          "description": "Commands tried to focus the Codex chat input."
+        },
+        "promptBridge.codexSendCommandCandidates": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["chatgpt.sendTextToChat", "chatgpt.sendMessage", "chatgpt.submit", "chatgpt.ask"],
+          "description": "Commands tried to insert text into the Codex chat input."
+        },
+        "promptBridge.codexSubmitCommandCandidates": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [
+            "workbench.action.chat.submit",
+            "workbench.action.chat.submitWithCodebase",
+            "workbench.action.chat.stopListeningAndSubmit"
+          ],
+          "description": "Commands tried to submit the chat input."
+        },
+        "promptBridge.antigravityOpenCommand": {
+          "type": "string",
+          "default": "antigravity.prioritized.chat.openNewConversation",
+          "description": "Command used to open Antigravity chat UI."
+        },
+        "promptBridge.antigravitySendCommandCandidates": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["antigravity.sendTextToChat"],
+          "description": "Commands tried to insert text into Antigravity chat input."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.5.4"
+  }
+}

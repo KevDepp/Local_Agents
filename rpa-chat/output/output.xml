@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.1 (Python 3.11.9 on win32)" generated="2026-02-01T19:15:53.909080" rpa="true" schemaversion="5">
+<suite id="s1" name="Send To Chats" source="C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Local_Agents\rpa-chat\send_to_chats.robot">
+<test id="s1-t1" name="Send clipboard prompt to Codex and Antigravity" line="21">
+<kw name="Get Clipboard Value" owner="Desk">
+<var>${prompt}</var>
+<doc>Read current value from system clipboard.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.662462" elapsed="0.000000"/>
+</kw>
+<kw name="Should Not Be Empty" owner="BuiltIn">
+<arg>${prompt}</arg>
+<doc>Verifies that the given item is not empty.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.662969" elapsed="0.000507"/>
+</kw>
+<kw name="Send Prompt To App">
+<kw name="Control Window" owner="Win">
+<arg>executable:${exe}</arg>
+<tag>window</tag>
+<doc>Controls the window defined by the locator.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.663476" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>0.2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.663476" elapsed="0.000000"/>
+</kw>
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="File Should Exist" owner="OperatingSystem">
+<arg>${input_image}</arg>
+<doc>Fails unless the given ``path`` points to an existing file.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.665053" elapsed="0.000000"/>
+</kw>
+<var>${has_image}</var>
+<arg>File Should Exist</arg>
+<arg>${input_image}</arg>
+<doc>Runs the specified keyword and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2026-02-01T19:15:54.665053" elapsed="0.000544"/>
+</kw>
+<if>
+<branch type="IF" condition="${has_image}">
+<kw name="Click" owner="Desk">
+<arg>image:${input_image}</arg>
+<doc>Click at the element indicated by locator.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.665597" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-02-01T19:15:54.665597" elapsed="0.000000"/>
+</branch>
+<branch type="ELSE">
+<kw name="Press Keys" owner="Desk">
+<arg>@{focus_keys}</arg>
+<doc>Press multiple keys down simultaneously.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.665597" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-02-01T19:15:54.665597" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2026-02-01T19:15:54.665597" elapsed="0.000000"/>
+</if>
+<kw name="Sleep" owner="BuiltIn">
+<arg>0.2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.665597" elapsed="0.000000"/>
+</kw>
+<kw name="Set Clipboard Value" owner="Desk">
+<arg>${text}</arg>
+<doc>Write given value to system clipboard.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.665597" elapsed="0.001008"/>
+</kw>
+<kw name="Press Keys" owner="Desk">
+<arg>ctrl</arg>
+<arg>v</arg>
+<doc>Press multiple keys down simultaneously.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.666605" elapsed="0.000000"/>
+</kw>
+<kw name="Press Keys" owner="Desk">
+<arg>enter</arg>
+<doc>Press multiple keys down simultaneously.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.666605" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>0.2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.666605" elapsed="0.000000"/>
+</kw>
+<arg>${CODEX_EXE}</arg>
+<arg>${CODEX_INPUT_IMAGE}</arg>
+<arg>@{CODEX_FOCUS_KEYS}</arg>
+<arg>${prompt}</arg>
+<status status="PASS" start="2026-02-01T19:15:54.663476" elapsed="0.003635"/>
+</kw>
+<kw name="Send Prompt To App">
+<kw name="Control Window" owner="Win">
+<arg>executable:${exe}</arg>
+<tag>window</tag>
+<doc>Controls the window defined by the locator.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.667111" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>0.2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.667111" elapsed="0.000548"/>
+</kw>
+<kw name="Run Keyword And Return Status" owner="BuiltIn">
+<kw name="File Should Exist" owner="OperatingSystem">
+<arg>${input_image}</arg>
+<doc>Fails unless the given ``path`` points to an existing file.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</kw>
+<var>${has_image}</var>
+<arg>File Should Exist</arg>
+<arg>${input_image}</arg>
+<doc>Runs the specified keyword and returns the status as a Boolean value.</doc>
+<status status="PASS" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="${has_image}">
+<kw name="Click" owner="Desk">
+<arg>image:${input_image}</arg>
+<doc>Click at the element indicated by locator.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</branch>
+<branch type="ELSE">
+<kw name="Press Keys" owner="Desk">
+<arg>@{focus_keys}</arg>
+<doc>Press multiple keys down simultaneously.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</if>
+<kw name="Sleep" owner="BuiltIn">
+<arg>0.2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.667659" elapsed="0.000000"/>
+</kw>
+<kw name="Set Clipboard Value" owner="Desk">
+<arg>${text}</arg>
+<doc>Write given value to system clipboard.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.668666" elapsed="0.000000"/>
+</kw>
+<kw name="Press Keys" owner="Desk">
+<arg>ctrl</arg>
+<arg>v</arg>
+<doc>Press multiple keys down simultaneously.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.668666" elapsed="0.000000"/>
+</kw>
+<kw name="Press Keys" owner="Desk">
+<arg>enter</arg>
+<doc>Press multiple keys down simultaneously.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.668666" elapsed="0.000000"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>0.2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2026-02-01T19:15:54.668666" elapsed="0.000506"/>
+</kw>
+<arg>${ANTI_EXE}</arg>
+<arg>${ANTI_INPUT_IMAGE}</arg>
+<arg>@{ANTI_FOCUS_KEYS}</arg>
+<arg>${prompt}</arg>
+<status status="PASS" start="2026-02-01T19:15:54.667111" elapsed="0.002061"/>
+</kw>
+<status status="PASS" start="2026-02-01T19:15:54.661453" elapsed="0.007719"/>
+</test>
+<status status="PASS" start="2026-02-01T19:15:53.910585" elapsed="0.759127"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Send To Chats" id="s1" pass="1" fail="0" skip="0">Send To Chats</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
