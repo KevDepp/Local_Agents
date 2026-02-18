@@ -9,4 +9,5 @@ Summary:
 - DoD and TESTING_PLAN checks for T-002_world are satisfied.
 
 Git:
-- Commit: PENDING (to be filled after git commit for this task).
+- Commit: 43b1913febc079d7c5258b218ed56212537260c6
+- Push: FAILED (GitHub push protection: detected secret in `secrets/secrets.json`; user must clean history or explicitly unblock before next push).
