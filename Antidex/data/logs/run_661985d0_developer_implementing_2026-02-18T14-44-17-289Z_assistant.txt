@@ -1,0 +1,8 @@
+Confirmed: current task folder is `data/tasks/T-001_hello`.
+
+Status: already completed per previous run.
+- ACK: `data/tasks/T-001_hello/dev_ack.json`
+- Result: `data/tasks/T-001_hello/dev_result.md` (includes tests + “Ecarts & rationale”)
+- Pipeline: `data/pipeline_state.json` set to `ready_for_review`
+
+If you want me to re-run the checks or adjust anything, say the word.

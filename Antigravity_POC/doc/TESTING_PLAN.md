@@ -17,4 +17,5 @@
 
 ## UI Tests (AG, optional)
 - Verify prompt appears in the chat.
+- Verify one click sends (input clears) when `New Thread` is unchecked.
 - Verify browser panel opens and navigates.

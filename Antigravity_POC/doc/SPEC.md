@@ -12,6 +12,10 @@ Provide a minimal, reliable way to send prompts to Antigravity and receive resul
 - Full UI automation or clipboard reading.
 - Integrating Antigravity into the dual pipeline (this is a later step).
 
+## Preconditions
+- The connector must run inside Antigravity (recommended port: `17375`).
+- For reliable prompt injection, launch Antigravity with CDP enabled: `--remote-debugging-port=9000` (see `DEBUG_INJECTION_REPORT.md`).
+
 ## Protocol Contract
 
 Per run:

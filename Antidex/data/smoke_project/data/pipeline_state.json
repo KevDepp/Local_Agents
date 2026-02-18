@@ -1,0 +1,21 @@
+{
+  "run_id": "3f58ff19-b3c2-4bba-85d4-3b356c2e0513",
+  "iteration": 1,
+  "phase": "dispatching",
+  "current_task_id": "T-001_smoke_planning",
+  "assigned_developer": "developer_codex",
+  "thread_policy": {
+    "manager": "reuse",
+    "developer_codex": "reuse",
+    "developer_antigravity": "reuse"
+  },
+  "developer_status": "ongoing",
+  "manager_decision": null,
+  "summary": "dispatching T-001_smoke_planning (planning-only smoke run)",
+  "tests": {
+    "ran": false,
+    "passed": false,
+    "notes": ""
+  },
+  "updated_at": "2026-02-18T14:10:07.5575511Z"
+}

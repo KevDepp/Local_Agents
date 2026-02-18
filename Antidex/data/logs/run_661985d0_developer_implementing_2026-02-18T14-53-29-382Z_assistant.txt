@@ -1,0 +1,2 @@
+Blocked and awaiting your reply to `data/tasks/T-001_hello/questions/Q-001.md`.  
+Please answer with 1, 2, or 3 so I can proceed.

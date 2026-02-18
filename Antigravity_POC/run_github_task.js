@@ -28,14 +28,22 @@ const options = {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'Content-Length': postData.length
+        'Content-Length': Buffer.byteLength(postData, 'utf8')
     }
 };
 
 // 3. Send Prompt
 console.log('Sending GitHub task prompt...');
 const req = http.request(options, (res) => {
-    console.log(`Prompt sent. Status: ${res.statusCode}`);
+    let responseData = '';
+    res.on('data', (chunk) => (responseData += chunk));
+    res.on('end', () => {
+        console.log(`Prompt sent. Status: ${res.statusCode}`);
+        if (res.statusCode !== 200) {
+            console.error(`Connector error: ${responseData}`);
+            process.exit(1);
+        }
+    });
 });
 
 req.on('error', (e) => {

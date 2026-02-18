@@ -1,0 +1,14 @@
+{
+  "name": "antidex",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Antidex orchestrator (Manager + Dev Codex + Dev Antigravity)",
+  "scripts": {
+    "preflight": "node scripts/preflight.js",
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test:api": "node scripts/api-smoke-test.js",
+    "test:logs": "node scripts/api-logs-smoke-test.js",
+    "test:phase1": "node scripts/phase1-e2e.js"
+  }
+}

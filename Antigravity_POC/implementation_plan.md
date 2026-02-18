@@ -2,17 +2,16 @@
 
 ## Component: Antigravity Connector (Installed)
 
-The `antigravity-connector` is installed in `~/.antigravity/extensions`, which is the correct location for the standalone Antigravity app. However, it listens on port **17374**, which conflicts with the VS Code instance where the same extension is also installed (and currently running this session).
+The `antigravity-connector` is installed in Antigravity's own extensions directory (separate from standard VS Code). When both apps run, they must not share the same port.
 
-To allow both to coexist and ensure the test script talks to the *Antigravity App* (not VS Code), we will change the Antigravity Connector's port to **17375**.
+To allow both to coexist and ensure the test script talks to the *Antigravity App* (not VS Code), we use:
+- VS Code connector port: `17374`
+- Antigravity connector port: `17375`
 
 ### Proposed Changes
 
-#### [MODIFY] [package.json](file:///C:/Users/kdeplus/.antigravity/extensions/local.antigravity-connector-0.0.1/package.json)
-- Change default `antigravityConnector.port` from `17374` to `17375`.
-
-#### [MODIFY] [dist/extension.js](file:///C:/Users/kdeplus/.antigravity/extensions/local.antigravity-connector-0.0.1/dist/extension.js)
-- Change hardcoded fallback port from `17374` to `17375`.
+#### [MODIFY] Connector source (recommended)
+- Update `Local_Agents/antigravity-connector/src/extension.ts` to use a non-colliding default port in Antigravity (17375) while keeping VS Code on 17374, then rebuild/reinstall the VSIX.
 
 #### [MODIFY] [Test Scripts]
 - Update all POC test scripts to communicate on port **17375** instead of 17374.

@@ -1,0 +1,1 @@
+Compute 123*456 and follow the output protocol strictly. Write result.tmp then rename to result.json. Output must include 56088.

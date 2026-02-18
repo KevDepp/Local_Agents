@@ -15,12 +15,12 @@
   };
 
   const PIECE_LABELS = {
-    pawn: { white: "P", black: "p" },
-    rook: { white: "R", black: "r" },
-    knight: { white: "N", black: "n" },
-    bishop: { white: "B", black: "b" },
-    queen: { white: "Q", black: "q" },
-    king: { white: "K", black: "k" },
+    pawn: { white: "♙", black: "♟" },
+    rook: { white: "♖", black: "♜" },
+    knight: { white: "♘", black: "♞" },
+    bishop: { white: "♗", black: "♝" },
+    queen: { white: "♕", black: "♛" },
+    king: { white: "♔", black: "♚" },
   };
 
   const MOVE_LABELS = {

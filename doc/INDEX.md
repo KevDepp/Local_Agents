@@ -15,3 +15,5 @@ But: point d'entree unique pour retrouver rapidement les docs (globaux + indexes
 - `Local_Codex_appserver/doc/INDEX.md` - Docs du POC "app-server (browser UI)".
 - `Local_Codex_dual_pipeline/doc/INDEX.md` - Docs du POC "dual pipeline (manager + developer)".
 - `Antigravity_POC/doc/INDEX.md` - Docs du POC "Antigravity connector + file protocol".
+- `antigravity-connector/doc/INDEX.md` - Docs de l'extension "Antigravity Connector" (HTTP endpoints + CDP).
+- `Antidex/doc/INDEX.md` - Docs du projet "Antidex" (manager + dev Codex + dev Antigravity).

@@ -1,0 +1,21 @@
+{
+    "run_id":  "35e4a1f3-d074-4901-8f00-85751b362c59",
+    "iteration":  1,
+    "phase":  "dispatching",
+    "current_task_id":  "T-002_world",
+    "assigned_developer":  "developer_codex",
+    "thread_policy":  {
+                          "manager":  "reuse",
+                          "developer_codex":  "reuse",
+                          "developer_antigravity":  "reuse"
+                      },
+    "developer_status":  "ongoing",
+    "manager_decision":  "continue",
+    "summary":  "ACCEPTED T-001_hello -> dispatching T-002_world (see data/tasks/T-001_hello/manager_review.md).",
+    "tests":  {
+                  "ran":  true,
+                  "passed":  true,
+                  "notes":  "Test-Path hello.txt =\u003e True"
+              },
+    "updated_at":  "2026-02-18T18:12:20.3190780+01:00"
+}

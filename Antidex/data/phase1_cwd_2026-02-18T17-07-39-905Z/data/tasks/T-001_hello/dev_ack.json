@@ -1,0 +1,12 @@
+{
+    "agent":  "developer_codex",
+    "task_id":  "T-001_hello",
+    "notes":  "Read instructions and starting task.",
+    "planned_files":  [
+                          "hello.txt",
+                          "data/tasks/T-001_hello/dev_result.md",
+                          "data/pipeline_state.json"
+                      ],
+    "status":  "ack",
+    "started_at":  "2026-02-18T18:10:40.7910374+01:00"
+}

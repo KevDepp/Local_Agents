@@ -1,0 +1,42 @@
+Je vais relire les docs et résultats de T-001, puis rédiger le manager_review, mettre à jour pipeline_state et TODO/DECISIONS sans toucher au code ni aux fichiers hello/world/files.Les preuves pour T-001_hello semblent complètes; je vais maintenant rédiger le manager_review, mettre à jour pipeline_state puis ajuster TODO/DECISIONS, et enfin gérer le commit demandé.Git status shows many unrelated repo-level changes; I will not commit them to avoid violating "1 tâche = 1 commit" at le mauvais scope. I’ll instead document this in DECISIONS and skip the commit for T-001 in this repo.The patch failed likely due to encoding/special characters; I'll fetch the exact file content and then reapply a minimal, line-accurate patch to mark T-001_hello as done.The patch is failing due to subtle encoding/whitespace differences. I’ll overwrite doc/TODO.md entirely with the same header and backlog, just changing the first entry to checked/ACCEPTED, ensuring the 1-2-3 order stays intact.We’re having repeated patch failures on doc/TODO.md, likely due to encoding/newline issues. I’ll now read it with explicit line numbers and then replace it with a full-file add/delete patch using the exact content shape.Résumé de la revue de T-001_hello (Manager, sans coder) :
+
+- `data/tasks/T-001_hello/dev_ack.json` et `dev_result.md` confirment:
+  - création de `hello.txt` à la racine,
+  - contenu: `Hello from T-001_hello.` (texte lisible, non vide, avec “Hello”),
+  - tests exécutés et passés: `Test-Path hello.txt` et `Get-Content hello.txt`.
+- `data/pipeline_state.json` indiquait `developer_status=ready_for_review` avec tests `ran=true`, `passed=true` et un résumé cohérent avec le résultat.
+
+Actions effectuées :
+
+- `data/tasks/T-001_hello/manager_review.md`:
+  - Statut: **ACCEPTED**.
+  - Justification: exigences de la tâche respectées (création de `hello.txt`, contenu cohérent, tests exécutés et OK, compte‑rendu fourni).
+  - Mention explicite que le pipeline peut continuer avec T-002_world puis T-003_files.
+  - Champ `Commit:` laissé à compléter car aucun commit Git dédié à cette tâche n’a été fait dans ce repo (voir ci‑dessous).
+
+- `data/pipeline_state.json`:
+  - Mis à jour avec:
+    - `developer_status`: `"idle"` (le dev a fini T-001_hello),
+    - `manager_decision`: `"continue"`,
+    - `summary`: `"T-001_hello ACCEPTED (hello.txt created, tests passed). Continue with T-002_world then T-003_files."`,
+    - `tests`: inchangé (`ran=true`, `passed=true`, notes sur les commandes),
+    - `updated_at`: `2026-02-18T15:30:00.000Z`.
+  - `iteration` reste à `1`, `current_task_id` reste `T-001_hello` (fin de revue de l’itération 1).
+
+- `doc/TODO.md`:
+  - T-001 marqué comme fait:
+    - `- [x] P0 (Manager) 1) T-001_hello ... (ACCEPTED 2026-02-18, iteration 1)`
+  - T-002_world et T-003_files restent en P0, avec ordre 2 puis 3, inchangés.
+
+- `doc/DECISIONS.md`:
+  - Ajout d’une entrée:
+    - 2026-02-18: revue et acceptation de T-001_hello, décision de poursuivre avec T-002_world/T-003_files; pas de commit Git ici car le `git status` global montre de nombreux changements hors scope de cette tâche, donc un commit dédié à T-001_hello dans ce repo ne respecterait pas la règle “1 tâche = 1 commit”.
+
+- Git / commit:
+  - `git status` (au niveau du repo parent) montre beaucoup de modifications dans d’autres projets et un dossier `../../` untracked.
+  - Pour ne pas violer la politique “1 tâche acceptée = 1 commit” au mauvais scope, **aucun commit n’a été effectué** dans ce repo pour T-001_hello.
+  - Le champ `Commit:` dans `manager_review.md` reste donc à remplir lorsqu’un contexte Git propre et ciblé sur ce projet sera disponible.
+
+En l’état:
+- T-001_hello est ACCEPTÉE et tracée.
+- Le pipeline est prêt à enchaîner avec T-002_world puis T-003_files, en gardant `manager_decision="continue"` et les tâches 2 et 3 en P0 dans `doc/TODO.md`.

@@ -1,0 +1,7 @@
+{
+  "task_id": "T-001_hello",
+  "agent": "developer_codex",
+  "status": "ack",
+  "started_at": "2026-02-18T18:00:00.000Z",
+  "notes": "Read task and instructions. Starting doc updates per DOCS_RULES."
+}

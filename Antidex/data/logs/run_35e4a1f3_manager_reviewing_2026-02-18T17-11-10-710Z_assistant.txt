@@ -1,0 +1,1 @@
+Now I’ll read the requested files, verify T-001_hello against the DoD, then write the manager review, update pipeline_state (and commit if ACCEPTED), and finally write the turn marker.

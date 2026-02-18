@@ -1,0 +1,26 @@
+{
+  "run_id": "preflight-30c4ffd45b882-19c6d4abc8c",
+  "status": "done",
+  "started_at": "2026-02-17T21:29:12+01:00",
+  "finished_at": "2026-02-17T21:29:12+01:00",
+  "summary": "preflight ok",
+  "output": {
+    "message": "Successfully completed Antidex preflight check",
+    "files_written": [
+      "data/antigravity_runs/preflight-30c4ffd45b882-19c6d4abc8c/ack.json",
+      "data/AG_internal_reports/heartbeat.json",
+      "data/antigravity_runs/preflight-30c4ffd45b882-19c6d4abc8c/result.json"
+    ],
+    "files_read": [
+      "data/preflight_cwds/2026-02-17T20-28-59-000Z/agents/AG_cursorrules.md",
+      "data/preflight_cwds/2026-02-17T20-28-59-000Z/agents/developer_antigravity.md"
+    ],
+    "agent": "developer_antigravity",
+    "capabilities_verified": [
+      "read_file_protocol",
+      "write_file_protocol",
+      "atomic_write_pattern",
+      "heartbeat_mechanism"
+    ]
+  }
+}

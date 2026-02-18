@@ -10,4 +10,4 @@
 - [x] P0 (Codex) Unit tests (protocol + wait logic).
 - [ ] P1 (AG) Validate UI and filesystem access in Antigravity environment.
 - [ ] P1 (AG) Run E2E tests and confirm `result.json` output.
-- [ ] P2 (Both) Decide if a minimal UI is needed.
+- [x] P1 (Codex) Implement minimal UI sender (proxy + page) for faster manual tests (proof: `doc/UI_SENDER_PLAN.md`, `ui/*`, `DEBUG_INJECTION_REPORT.md`).

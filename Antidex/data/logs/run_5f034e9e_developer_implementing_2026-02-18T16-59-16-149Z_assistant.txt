@@ -1,0 +1,9 @@
+Summary:
+- Created `hello.txt`.
+- Updated doc headers for `doc/SPEC.md`, `doc/TODO.md`, and `doc/TESTING_PLAN.md` per DOCS_RULES.
+- Wrote `data/tasks/T-001_hello/dev_ack.json` and `data/tasks/T-001_hello/dev_result.md`.
+
+Tests:
+- `Test-Path hello.txt` → `True`
+
+If you want, I can proceed with T-002_world next.

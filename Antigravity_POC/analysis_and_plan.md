@@ -60,3 +60,14 @@ sequenceDiagram
 ## Next Steps
 1.  **Restart Antigravity**: To load the patched extension.
 2.  **Final Verification**: Run `test_connection.js` on port 17375.
+
+## Correctif complete par Codex (2026-02-08)
+
+Ce que j'ai constate:
+- Les scripts "POC" a la racine pointaient bien sur `17375`, mais le driver Node (`src/cli.js` + `src/connectorClient.js`) et le smoke test d'integration utilisaient encore `17374` par defaut, ce qui faisait facilement parler au mauvais connecteur (VS Code au lieu d'Antigravity).
+
+Ce que j'ai fait:
+- POC: bascule du port par defaut a `17375` dans `src/connectorClient.js` et `src/cli.js`.
+- POC: `tests/integration/connector_smoke.js` verifie maintenant aussi qu'il existe des commandes `antigravity.*` (fail-fast si on tape sur le mauvais host).
+- Connecteur: `Local_Agents/antigravity-connector/src/extension.ts` choisit un port par defaut non-collisant (17375 si `appName` contient "Antigravity", sinon 17374), et le fallback n'ouvre plus une nouvelle conversation.
+- Packaging: regeneration de `Local_Agents/antigravity-connector/antigravity-connector-0.0.1.vsix` avec ces changements.

@@ -1,0 +1,1 @@
+Compute 123*456 and follow the output protocol strictly. The output must include 56088.

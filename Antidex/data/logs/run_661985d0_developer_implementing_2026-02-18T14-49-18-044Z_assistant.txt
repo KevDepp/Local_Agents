@@ -1,0 +1,3 @@
+Blocked waiting for direction. I created `data/tasks/T-001_hello/questions/Q-001.md` and set `data/pipeline_state.json` to `developer_status=blocked`.
+
+Please answer Q-001 with 1, 2, or 3 so I can proceed.

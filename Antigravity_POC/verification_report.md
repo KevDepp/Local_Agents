@@ -7,7 +7,7 @@ The Proof of Concept for integrating Antigravity as an automated agent has been 
 
 | Test Script | Description | Result | Notes |
 | :--- | :--- | :--- | :--- |
-| `test_connection.js` | Connect to `antigravity-connector` | **PASS** | Extension is active on port 17374. |
+| `test_connection.js` | Connect to `antigravity-connector` | **PASS** | Extension is active on port 17375 (Antigravity). |
 | `test_prompt.js` | Send prompt to Chat | **PASS** | Message received by Agent. |
 | `test_file_loop.js` | Task execution & File output | **PASS** | Agent successfully wrote `response.txt` with correct calculation. |
 | `test_browser.js` | Browser control | **PASS** | Agent successfully used browser tool and extracted data to `browser_result.txt`. |

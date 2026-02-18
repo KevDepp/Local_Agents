@@ -6,6 +6,8 @@
 - `doc/TODO.md` - Prioritized backlog. (owner: Both)
 - `doc/TESTING_PLAN.md` - Test plan. (owner: Both)
 - `doc/DECISIONS.md` - Decision log. (owner: Both)
+- `doc/UI_SENDER_PLAN.md` - Plan for a small web UI to send prompts (new/continue thread). (owner: Codex)
 - `doc/walkthrough/README.md` - Walkthrough area for AG outputs. (owner: AG)
+- `DEBUG_INJECTION_REPORT.md` - Debug notes + final conclusions for CDP injection from UI Sender. (owner: Both)
 - `analysis_and_plan.md` - Initial analysis and extended plan. (owner: Codex)
 - `README.md` - Setup and usage. (owner: Codex)

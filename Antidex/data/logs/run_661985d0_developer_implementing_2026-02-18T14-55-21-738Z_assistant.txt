@@ -1,0 +1,5 @@
+Confirmed: current task folder is `data/tasks/T-001_hello`.
+
+Status: task already completed. I reset `data/pipeline_state.json` to `ready_for_review` with the original test notes.
+
+If you want any changes or to proceed to the next task, tell me which.

@@ -7,7 +7,7 @@
     - `antigravity-connector` runs inside `Code.exe` (VS Code extension host).
 
 2.  **Missing Inter-Process Communication (IPC)**:
-    - The `antigravity-connector` extension (listening on port 17374) expects to find `antigravity.*` commands available in its runtime.
+    - The `antigravity-connector` extension (listening on port 17374 in VS Code) expects to find `antigravity.*` commands available in its runtime.
     - `vscode.commands.getCommands()` returns *null* or *empty* for `antigravity.*`.
     - This proves that **Process A (Code.exe)** is not connected to **Process B (Antigravity.exe)**. The extension is running in the wrong place.
 
@@ -30,8 +30,8 @@ To fix this, we must run the connector **inside** the Antigravity application it
     - Manually copy the `antigravity-connector-0.0.1.vsix` (or unzipped folder) into Antigravity's extension directory.
   
 3.  **Verify Port**:
-    - Once running inside Antigravity, the connector will attempt to bind port 17374.
-    - *Risk*: If VS Code is also open with the connector, port 17374 will be taken. We need to configure a different port or ensure VS Code's connector is disabled.
+    - Once running inside Antigravity, the connector should bind a dedicated port (recommended: 17375).
+    - VS Code can keep 17374. This avoids collisions and avoids accidentally targeting the wrong app.
 
 ## Immediate Action for User
 We need to ask the user to investigate *their* Antigravity installation to find where to drop the extension.

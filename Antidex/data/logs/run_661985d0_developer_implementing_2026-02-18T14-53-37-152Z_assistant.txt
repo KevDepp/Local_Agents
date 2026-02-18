@@ -1,0 +1,3 @@
+Confirmed: current task folder is `data/tasks/T-001_hello`.
+
+This task is already completed; I’m blocked awaiting your response to `data/tasks/T-001_hello/questions/Q-001.md`. Please reply with 1, 2, or 3 so I can proceed.

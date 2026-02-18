@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antigravity UI Sender</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Antigravity UI Sender</h1>
+            <div id="status-bar" class="status-bar">
+                <span id="health-status" class="status-item">Health: Checking...</span>
+                <span id="diag-status" class="status-item">Diagnostics: -</span>
+                <span id="cdp-status" class="status-item">CDP: -</span>
+                <button id="ping-btn" class="secondary-btn">Ping</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="panel input-panel">
+                <h2>Compose Prompt</h2>
+                <form id="send-form">
+                    <div class="form-group">
+                        <textarea id="prompt-input" placeholder="Type your prompt here..." rows="6" required></textarea>
+                    </div>
+
+                    <div class="controls-row">
+                        <div class="toggle-group">
+                            <label class="toggle">
+                                <input type="checkbox" id="new-thread-check">
+                                <span class="label-text">New Thread</span>
+                            </label>
+
+                            <label class="toggle">
+                                <input type="checkbox" id="notify-check" checked>
+                                <span class="label-text">Notify</span>
+                            </label>
+
+                            <label class="toggle">
+                                <input type="checkbox" id="debug-check" checked>
+                                <span class="label-text">Debug</span>
+                            </label>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" id="verify-needle" placeholder="Verify Token (optional)">
+                            <button type="button" id="insert-token-btn" class="sm-btn">Gen Token</button>
+                        </div>
+                    </div>
+
+                    <div class="actions-row">
+                        <button type="submit" id="send-btn" class="primary-btn">Send Prompt</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="panel results-panel">
+                <h2>Last Response</h2>
+                <pre id="response-output" class="code-block">Waiting for response...</pre>
+                <div class="actions-row">
+                    <button type="button" id="copy-curl-btn" class="secondary-btn">Copy curl</button>
+                </div>
+            </section>
+
+            <section class="panel history-panel">
+                <h2>History</h2>
+                <ul id="history-list"></ul>
+                <button id="clear-history-btn" class="text-btn">Clear History</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

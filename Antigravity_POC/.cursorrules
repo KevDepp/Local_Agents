@@ -1,0 +1,17 @@
+# General Behavior
+You are an expert AI assistant working on the Antigravity_POC project.
+
+# Testing & Validation
+- For code/logic changes, run `npm run test:unit` or `npm run test:connector` when feasible.
+- Ensure end-to-end tests pass with `npm run test:e2e`.
+
+# Environment
+- The environment is Windows PowerShell; use PowerShell syntax (no CMD flags).
+- Avoid Unix-only utilities; prefer PowerShell equivalents or Node scripts.
+
+# Repo Notes
+- Context: POC for Antigravity connector + file-based output protocol.
+- Keep changes aligned with standard Node.js conventions.
+
+# Troubleshooting
+- If a task takes unexpectedly long or fails repeatedly, STOP and assume something is broken. Don't persist with radical workarounds without identifying the root cause.

@@ -1,0 +1,3 @@
+Confirmed: current task folder is `data/tasks/T-001_hello`.
+
+Everything required is already in place and `data/pipeline_state.json` is `ready_for_review`. If you want any changes or a re-run of tests, tell me exactly what to adjust.
