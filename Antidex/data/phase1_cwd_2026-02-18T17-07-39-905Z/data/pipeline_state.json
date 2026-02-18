@@ -1,8 +1,8 @@
 {
     "run_id":  "35e4a1f3-d074-4901-8f00-85751b362c59",
-    "iteration":  1,
+    "iteration":  2,
     "phase":  "dispatching",
-    "current_task_id":  "T-002_world",
+    "current_task_id":  "T-003_files",
     "assigned_developer":  "developer_codex",
     "thread_policy":  {
                           "manager":  "reuse",
@@ -11,11 +11,11 @@
                       },
     "developer_status":  "ongoing",
     "manager_decision":  "continue",
-    "summary":  "ACCEPTED T-001_hello -> dispatching T-002_world (see data/tasks/T-001_hello/manager_review.md).",
+    "summary":  "ACCEPTED T-002_world -> dispatching T-003_files (see data/tasks/T-002_world/manager_review.md).",
     "tests":  {
                   "ran":  true,
                   "passed":  true,
-                  "notes":  "Test-Path hello.txt =\u003e True"
+                  "notes":  "Test-Path world.txt =\u003e True"
               },
-    "updated_at":  "2026-02-18T18:12:20.3190780+01:00"
+    "updated_at":  "2026-02-18T18:16:08.8012115+01:00"
 }

@@ -1,0 +1,1 @@
+data/tasks/T-002_world/manager_review.md written with decision REWORK, pipeline_state.json updated for T-002_world rework, TODO updated (T-001_hello checked), and turn marker turn-a99a0cd7a70447999274.done refreshed.

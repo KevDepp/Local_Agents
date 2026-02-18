@@ -1,1 +1,43 @@
-Now I’ll read the requested files, verify T-001_hello against the DoD, then write the manager review, update pipeline_state (and commit if ACCEPTED), and finally write the turn marker.
+Now I’ll read the requested files, verify T-001_hello against the DoD, then write the manager review, update pipeline_state (and commit if ACCEPTED), and finally write the turn marker.Résumé du tour (Manager — review T-001_hello) :
+
+- DoD vérifié pour `T-001_hello` :
+  - `hello.txt` existe bien à la racine du projet (`Test-Path hello.txt` → `True`).
+  - `data/tasks/T-001_hello/dev_ack.json` et `data/tasks/T-001_hello/dev_result.md` existent et décrivent la création du fichier + le test `Test-Path hello.txt`.
+  - Aucune exigence supplémentaire dans `doc/TESTING_PLAN.md` pour cette tâche n’est manquante.
+
+- Revue de tâche :
+  - Création de `data/tasks/T-001_hello/manager_review.md` avec la décision `ACCEPTED`, un résumé des preuves, et la section Git.
+  - La section Git indique :
+    - `Commit: 6e110f023135de74be1589e7dfe077e4365c4db2`
+    - `Push: FAILED (GitHub push protection: detected secret in secrets/secrets.json; user must clean history or explicitement débloquer avant le prochain push).`
+
+- Git / Commit / Push :
+  - Depuis la racine du repo `Local_Agents`, exécution d’un commit unique pour cette tâche :
+    - `git add .`
+    - `git commit -m "[T-001] Create hello.txt"`
+    - Hash du commit : `6e110f023135de74be1589e7dfe077e4365c4db2` (reporté dans `manager_review.md`).
+  - Tentative de push :
+    - `git push origin master` → ÉCHEC.
+    - Raison : GitHub Push Protection a détecté un secret dans `secrets/secrets.json` (un token). Le push est refusé tant que :
+      - soit le secret est retiré de l’historique (re-écriture de l’historique, puis nouveau push),
+      - soit l’utilisateur suit le lien GitHub indiqué dans le message d’erreur pour “unblock” manuellement ce secret.
+  - Conformément à `doc/GIT_WORKFLOW.md`, le run est donc bloqué côté push, mais le commit local associé à `T-001_hello` existe et est tracé.
+
+- `data/pipeline_state.json` mis à jour :
+  - `iteration`: `1` (inchangé)
+  - `phase`: `"dispatching"`
+  - `current_task_id`: `"T-002_world"` (passage à la tâche suivante dans l’ordre TODO)
+  - `assigned_developer`: `"developer_codex"`
+  - `developer_status`: `"ongoing"`
+  - `manager_decision`: `"continue"`
+  - `summary`: `"ACCEPTED T-001_hello -> dispatching T-002_world (see data/tasks/T-001_hello/manager_review.md)."`
+  - `updated_at`: `"2026-02-18T18:12:20.3190780+01:00"`
+
+- `doc/TODO.md` :
+  - Relu pour vérifier d’éventuelles modifications utilisateur.
+  - Conservé tel quel (pas de modification) afin de garder cette revue courte conformément au protocole de ce tour. L’ordre explicite 1→3 est déjà en place.
+
+- Turn marker :
+  - Marqueur de fin de tour écrit conformément au protocole :
+    - `data/turn_markers/turn-a99a0cd7a70447999274.tmp` créé puis renommé en
+    - `data/turn_markers/turn-a99a0cd7a70447999274.done` avec le contenu `ok`.

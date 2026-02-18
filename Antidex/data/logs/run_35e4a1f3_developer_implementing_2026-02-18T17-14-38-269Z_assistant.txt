@@ -1,0 +1,14 @@
+Confirmed current task folder: `data/tasks/T-002_world`.
+
+**Summary**
+- Created `world.txt` at project root.
+- Wrote `data/tasks/T-002_world/dev_ack.json`, `data/tasks/T-002_world/dev_result.md`, and updated `data/pipeline_state.json`.
+
+**Tests**
+- `Test-Path world.txt` → `True`
+
+**Files**
+- `world.txt`
+- `data/tasks/T-002_world/dev_ack.json`
+- `data/tasks/T-002_world/dev_result.md`
+- `data/pipeline_state.json`
