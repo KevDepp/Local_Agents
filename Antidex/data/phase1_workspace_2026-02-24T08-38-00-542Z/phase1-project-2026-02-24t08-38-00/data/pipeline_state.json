@@ -1,0 +1,27 @@
+{
+    "run_id":  "e8c9f0ef-e3aa-49d1-8a50-2af8c6a83e51",
+    "iteration":  1,
+    "phase":  "dispatching",
+    "current_task_id":  "T-001_hello",
+    "assigned_developer":  "developer_codex",
+    "thread_policy":  {
+                          "manager":  "reuse",
+                          "developer_codex":  "reuse",
+                          "developer_antigravity":  "reuse"
+                      },
+    "ag_conversation":  {
+                            "started":  false,
+                            "started_at":  null,
+                            "last_used_at":  null,
+                            "last_reset_at":  null
+                        },
+    "developer_status":  "ready_for_review",
+    "manager_decision":  null,
+    "summary":  "T-001 complete: created hello.txt; Test-Path passed.",
+    "tests":  {
+                  "ran":  true,
+                  "passed":  true,
+                  "notes":  "Test-Path .\\hello.txt =\u003e True"
+              },
+    "updated_at":  "2026-02-24T09:42:45.4124462+01:00"
+}
