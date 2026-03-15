@@ -1,0 +1,1 @@
+Je vais d’abord lire les fichiers de rôle et de documentation demandés, puis je préparerai SPEC/TODO/TESTING_PLAN/DECISIONS, créerai les tâches dans `data/tasks/`, mettrai à jour `data/pipeline_state.json`, et terminerai en écrivant le marqueur de tour requis.

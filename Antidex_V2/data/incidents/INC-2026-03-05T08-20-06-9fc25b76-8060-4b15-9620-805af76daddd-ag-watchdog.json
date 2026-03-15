@@ -1,0 +1,54 @@
+{
+  "where": "ag/watchdog",
+  "signature": "ag/watchdog:T-012_rework_board_ui_v2",
+  "run_id": "9fc25b76-8060-4b15-9620-805af76daddd",
+  "project_cwd": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\odyssee-web",
+  "task_id": "T-012_rework_board_ui_v2",
+  "context": "auto-run stall/block",
+  "expected": "Pipeline to advance smoothly",
+  "observed": "AG stalled (2/3) for T-012_rework_board_ui_v2 (see data/tasks/T-012_rework_board_ui_v2/questions/Q-watchdog-2026-03-05T08-20-06.md)",
+  "last_error": {
+    "message": "AG stalled (2/3) for T-012_rework_board_ui_v2 (see data/tasks/T-012_rework_board_ui_v2/questions/Q-watchdog-2026-03-05T08-20-06.md)",
+    "at": "2026-03-05T08:20:06.617Z",
+    "where": "ag/watchdog"
+  },
+  "evidence_paths": [
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\pipeline_state.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\odyssee-web\\data\\pipeline_state.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\odyssee-web\\data\\recovery_log.jsonl",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\odyssee-web\\data\\tasks\\T-012_rework_board_ui_v2",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_retry1_2026-03-04T15-23-22-006Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_retry1_2026-03-04T15-23-22-006Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_retry2_2026-03-04T15-25-17-644Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_retry2_2026-03-04T15-25-17-643Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_answering_2026-03-04T15-26-31-757Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_answering_2026-03-04T15-26-31-757Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_developer_antigravity_2026-03-04T15-28-31-283Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_user_command_2026-03-05T08-14-19-738Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_user_command_2026-03-05T08-14-19-738Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_developer_antigravity_2026-03-05T08-16-15-575Z_assistant.txt"
+  ],
+  "corrector_docs": {
+    "runbook_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\CORRECTOR_RUNBOOK.md",
+    "fix_patterns_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\CORRECTOR_FIX_PATTERNS.md",
+    "spec_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\SPEC.md",
+    "error_handling_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\ERROR_HANDLING.md",
+    "robustness_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\ROBUSTNESS_IMPROVEMENTS.md",
+    "decisions_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\DECISIONS.md",
+    "index_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\INDEX.md"
+  },
+  "run_timeline_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\runs\\9fc25b76-8060-4b15-9620-805af76daddd\\timeline.jsonl",
+  "run_summary_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\runs\\9fc25b76-8060-4b15-9620-805af76daddd\\summary.md",
+  "recent_incident_paths": [
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-04T14-58-38-9fc25b76-8060-4b15-9620-805af76daddd-guardrail-review-loo.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-04T14-58-38-9fc25b76-8060-4b15-9620-805af76daddd-guardrail-review-loo_bundle.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-04T14-58-38-9fc25b76-8060-4b15-9620-805af76daddd-guardrail-review-loo_result.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-04T15-54-43-9fc25b76-8060-4b15-9620-805af76daddd-ag-watchdog.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-04T15-54-43-9fc25b76-8060-4b15-9620-805af76daddd-ag-watchdog_bundle.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-04T15-54-43-9fc25b76-8060-4b15-9620-805af76daddd-ag-watchdog_result.json"
+  ],
+  "attempts": 9,
+  "corrector_enabled": true,
+  "would_trigger_corrector": true,
+  "bundle_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T08-20-06-9fc25b76-8060-4b15-9620-805af76daddd-ag-watchdog_bundle.json"
+}

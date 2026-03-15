@@ -1,0 +1,5 @@
+Je vais charger les fichiers de T-002 et de pipeline/doc, décider ACCEPTED ou REWORK, mettre à jour `manager_review.md`, `data/pipeline_state.json`, `doc/TODO.md`, faire le commit si ACCEPTED, puis écrire le marqueur de tour.- T-002_core_gameplay_loop est ACCEPTÉ, avec review dans `data/tasks/T-002_core_gameplay_loop/manager_review.md` (DoD atteint; collisions, score, vies, boucle de jeu et tests automatisés en place; commit `85d28f4e7ca606dbba0c42102c936b1c53fd17a5` référencé).
+- `doc/TODO.md` est à jour: T-001 et T-002 sont cochées, T-003_artifacts_system reste le prochain P0.
+- `data/pipeline_state.json` est mis à jour: `iteration`=3, `phase`="dispatching", `current_task_id`="T-003_artifacts_system", `assigned_developer`="developer_codex", `developer_status`="ongoing", `manager_decision`="continue", `summary` pointe vers le manager_review de T-002.
+- Un commit Git a été créé pour T-002: `[T-002_core_gameplay_loop] Implement core Arkanoid gameplay loop`.
+- Le marqueur de tour `data/turn_markers/turn-c4b10c863a3e445b8098.done` a été écrit avec le contenu `ok`.

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Antidex — TODO editor</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        max-width: 1100px;
+        margin: 16px auto;
+      }
+      textarea {
+        width: 100%;
+        min-height: 60vh;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+      .topline {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .status {
+        white-space: pre-wrap;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #1f2a44;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>TODO editor</h1>
+      <div class="topline">
+        <div>runId: <code id="runIdOut">(none)</code></div>
+        <div>path: <code id="pathOut">-</code></div>
+        <div>mtime: <code id="mtimeOut">-</code></div>
+        <div>size: <code id="sizeOut">-</code></div>
+      </div>
+    </header>
+
+    <main>
+      <div class="row buttons" style="margin: 12px 0">
+        <button id="refresh" type="button">Refresh</button>
+        <button id="save" type="button">Save</button>
+        <button id="continue" type="button">Continue with update</button>
+        <button id="close" type="button">Close</button>
+      </div>
+      <textarea id="todoText" spellcheck="false"></textarea>
+      <div id="status" class="status" style="margin-top: 10px"></div>
+    </main>
+
+    <script src="todo_edit.js"></script>
+  </body>
+</html>
+

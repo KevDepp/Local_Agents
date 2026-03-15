@@ -1,0 +1,3 @@
+- Reviewed `T-006b_strength_gate`: tie-break + Strength Gate reports exist at SPEC sample sizes, but candidate `mcts` fails required thresholds (see `data/tasks/T-006b_strength_gate/manager_review.md`).
+- Updated `data/pipeline_state.json` to reflect **REWORK** and point to `data/tasks/T-006b_strength_gate/manager_review.md` (iteration 50, updated timestamp).
+- Wrote turn marker `data/turn_markers/turn-b6c10cc7fe7b4f3a8716.done`.

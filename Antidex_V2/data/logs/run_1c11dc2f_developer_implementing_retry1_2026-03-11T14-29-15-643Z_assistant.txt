@@ -1,0 +1,1 @@
+Waiting for the full 200‑game sanity rerun (order‑invariant MEDIUM fix) to complete and refresh both sanity reports.

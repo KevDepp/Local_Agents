@@ -1,0 +1,10 @@
+**Summary**
+- Reordered AG dispatch to short-circuit on 3+ watchdog stalls before the generic `dispatch_loop` guard, so the Manager gets the intended “AG disabled” decision point. (`server/pipelineManager.js`)
+- Updated docs to record the guardrail precedence and test coverage, plus refreshed indexes/dates. (`doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`, `doc/INDEX.md`)
+
+**Tests**
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`
+
+**Next Steps**
+1. Resume the pipeline for `T-012_rework_board_ui_v2` and verify it now blocks with the “AG disabled after 3 stalls” question instead of `dispatch_loop`.
+2. Add a unit/integration test for the AG stall -> AG disabled precedence (per `doc/TESTING_PLAN.md`).

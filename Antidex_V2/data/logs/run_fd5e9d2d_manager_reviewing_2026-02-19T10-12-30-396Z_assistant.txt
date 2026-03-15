@@ -1,0 +1,1 @@
+Decision for T-002_world: ACCEPTED, with commit `77bcd2a0b2b143629eadf438f5523deff941f9ee` recorded in `data/tasks/T-002_world/manager_review.md`, `doc/TODO.md` updated (T-001 and T-002 checked, T-003 pending), `data/pipeline_state.json` advanced to `T-003_files` (developer_codex, ongoing), and the turn marker `data/turn_markers/turn-2ed3b69454dc47e7af05.done` written with `ok`.

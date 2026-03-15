@@ -1,0 +1,1 @@
+Updated `data/tasks/T-006b_strength_gate/dev_ack.json`, `data/tasks/T-006b_strength_gate/dev_result.md`, and `data/pipeline_state.json` after consuming the latest quick run and queueing the MAXN A/B rerun. Turn marker written at `data/turn_markers/turn-ad8a2b64db424134aedc.done`.

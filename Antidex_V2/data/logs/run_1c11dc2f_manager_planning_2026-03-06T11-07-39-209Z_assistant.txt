@@ -1,0 +1,5 @@
+- Docs cadrées pour l’amélioration IA sans toucher UI/règles: `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, et `doc/INDEX.md`.
+- Backlog créé + ordonné (P0→P2) avec DoD et alternance Codex/AG: `doc/TODO.md`.
+- Tâches créées avec `task.md` + `manager_instruction.md`: `data/tasks/T-001_ai_lab_runner_cli/` … `data/tasks/T-009_value_function_light/`.
+- Dispatch lancé sur `T-001_ai_lab_runner_cli` (dev: `developer_codex`): `data/pipeline_state.json`.
+- Marqueur de fin de tour écrit: `data/turn_markers/turn-3d4e3edcaeb24b7d85ad.done`.

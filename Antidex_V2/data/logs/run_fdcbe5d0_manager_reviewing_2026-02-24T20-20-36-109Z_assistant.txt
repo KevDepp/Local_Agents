@@ -1,0 +1,1 @@
+T-014_protective_wall_bonus remains ACCEPTED (iteration 18); I’ve reconfirmed DoD and AG proofs, updated `manager_review.md` and `data/pipeline_state.json` (developer_status=ongoing, manager_decision=continue, summary pointing to the review), and ensured the turn marker `turn-61b2942fb8684956b3c4.done` is in place.

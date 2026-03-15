@@ -1,0 +1,6 @@
+**Summary**
+- Reset `taskDispatchCounts` after a successful Manager review so `dispatch_loop` doesn’t pre-empt legitimate REWORK cycles (same task, already reviewed).
+- Updated docs to reflect the dispatch-loop reset rule and tests: `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`

@@ -1,0 +1,9 @@
+**Summary**
+- Tracked `commandExecution` activity on active turns and suspended the inactivity timeout while a command is running, relying on hard-timeout (with optional override) to prevent false `turn/inactivity` during long runs. Updated `server/pipelineManager.js`.
+- Documented the turn-safety behavior and added a test note for long command executions in `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, and `doc/CORRECTOR_FIX_PATTERNS.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`
+
+**Why this fixes the incident**
+The `turn/inactivity` fired while a long `commandExecution` had no output. The orchestrator now treats a running command as expected silence and suspends the inactivity timer, preventing this false timeout while keeping the hard-timeout as the safety backstop.

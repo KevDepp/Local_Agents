@@ -1,0 +1,8 @@
+Summary:
+- Updated MEDIUM evaluation to penalize max-opponent score and added margin diagnostic (`..\ai_lab\src\bots\medium.ts`, `..\ai_lab\scripts\diagnose_medium_margins.ts`).
+- Quick 50-game sanity still 50/0 (bias persists), so no 200-game rerun started; diagnostics show high tie rate (0.775).
+
+Tests:
+- `pushd ..\ai_lab; node .\node_modules\tsx\dist\cli.mjs scripts\validate_medium_order.ts; popd`
+- `pushd ..\ai_lab; node .\node_modules\tsx\dist\cli.mjs scripts\diagnose_medium_margins.ts; popd`
+- `pushd ..\ai_lab; node .\node_modules\tsx\dist\cli.mjs src\runner.ts --players 2 --games 50 --seed 1 --policy medium --max-turns 200 --tie-break --output .\reports\medium_vs_medium_sanity_quick.json; popd`

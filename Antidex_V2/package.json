@@ -1,0 +1,26 @@
+{
+  "name": "antidex",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Antidex orchestrator (Manager + Dev Codex + Dev Antigravity)",
+  "scripts": {
+    "preflight": "node scripts/preflight.js",
+    "start": "node scripts/supervisor.js",
+    "start:guardian": "node scripts/guardian.js",
+    "start:direct": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test:api": "node scripts/api-smoke-test.js",
+    "test:logs": "node scripts/api-logs-smoke-test.js",
+    "test:corrector": "node scripts/corrector-smoke-test.js",
+    "test:corrector:e2e": "node scripts/corrector-e2e-supervised.js",
+    "test:phase1": "node scripts/phase1-e2e.js",
+    "test:phase2": "node scripts/phase2-e2e.js",
+    "test:rebase": "node scripts/rebase-manager-review-smoke-test.js",
+    "test:outcome-rework": "node scripts/outcome-rework-evidence-smoke-test.js",
+    "test:longjobs": "node scripts/long-job-smoke-test.js",
+    "test:pw": "node scripts/run-playwright.js test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

@@ -1,0 +1,3 @@
+[meta] task=T-011_levels_batch cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\arcano-d
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-011_levels_batch-d274b9054382456c
+[done] task=T-011_levels_batch

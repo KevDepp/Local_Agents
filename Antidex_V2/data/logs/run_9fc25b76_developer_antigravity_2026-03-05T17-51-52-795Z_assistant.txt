@@ -1,0 +1,3 @@
+[meta] task=T-017_ui_exit_indicator_colors_layout_v3 cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\odyssee-grenouilles\odyssee-web
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-017_ui_exit_indicator_colors_layout_v3-9dd45fcc8fe440dd
+[done] task=T-017_ui_exit_indicator_colors_layout_v3

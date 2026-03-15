@@ -1,0 +1,3 @@
+- Re-reviewed `T-006c_medium_baseline_fix`: latest long-job (`data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T14-31-15/result.json`) still shows `MEDIUM vs MEDIUM` = `wins_by_seat {0:200,1:0}` → **REWORK**.
+- Updated `data/tasks/T-006c_medium_baseline_fix/manager_review.md` (nonce `turn-ce727ac9e4764df58f41`) and pivoted `data/tasks/T-006c_medium_baseline_fix/manager_instruction.md` toward **evaluation/feature changes** (tie-break/symmetry no longer sufficient).
+- Set `data/pipeline_state.json` to `developer_status=ongoing`, `manager_decision=continue`, with an updated summary.

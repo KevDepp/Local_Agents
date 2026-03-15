@@ -1,0 +1,24 @@
+I'll review T-001_hello results and docs, then write a concise manager_review, update pipeline_state/TODO (and perform a git commit if ACCEPTED), and finally write the turn marker files.Now that I've confirmed hello.txt and the dev proofs, I'll record an ACCEPTED review, update pipeline_state/TODO, perform the git commit for T-001_hello, and then write the turn marker.The patch failed due to exact text mismatch (likely encoding/whitespace); I'll reopen doc/TODO.md and apply a more targeted change to mark T-001_hello as done while preserving ordering.I’ll update TODO and pipeline_state with a simpler patch and then write the turn marker.**Review outcome**
+
+- T-001_hello is **ACCEPTED**.
+- `hello.txt` exists at the project root with content `hello` followed by a newline; tests (`Get-Content` and `Format-Hex`) confirm the expected bytes.
+- ACK and dev_result are present and consistent with the Definition of Done.
+
+**Artifacts updated**
+
+- `data/tasks/T-001_hello/manager_review.md`: recorded ACCEPTED decision, checks performed, and git commit hash `b60fa647f783975e63a32c5448b9a2a67a903899`.
+- Git:
+  - Initialized repo (if needed), configured identity, ran `git add -A`, and committed with message `[T-001_hello] Create hello.txt`.
+- `doc/TODO.md`: marked `T-001_hello` as done (`[x]`), kept `T-002_world` and `T-003_files` as next steps with order 2 then 3.
+- `data/pipeline_state.json`: set
+  - `phase`: `"dispatching"`
+  - `current_task_id`: `"T-002_world"`
+  - `assigned_developer`: `"developer_codex"`
+  - `developer_status`: `"ongoing"`
+  - `manager_decision`: `"continue"`
+  - `summary`: `"ACCEPTED T-001_hello -> next T-002_world (see data/tasks/T-001_hello/manager_review.md)"`
+  - preserved test notes from T-001_hello and updated `updated_at`.
+
+**Turn marker**
+
+- Wrote `data/turn_markers/turn-2333be5cfc5a4272ab09.tmp` with `ok` and atomically renamed it to `data/turn_markers/turn-2333be5cfc5a4272ab09.done` as the final step.

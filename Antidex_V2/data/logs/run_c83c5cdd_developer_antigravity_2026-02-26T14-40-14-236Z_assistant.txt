@@ -1,0 +1,3 @@
+[meta] task=M-005_final-validation cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\puissance4
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-M-005_final-validation-9747ee7d9b5e404e
+[done] task=M-005_final-validation

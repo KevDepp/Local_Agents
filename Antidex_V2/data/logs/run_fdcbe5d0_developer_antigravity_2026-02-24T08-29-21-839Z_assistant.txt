@@ -1,0 +1,2 @@
+[meta] task=T-010_branching_paths cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\arcano-d
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-010_branching_paths-1e1ffc0eab734e66

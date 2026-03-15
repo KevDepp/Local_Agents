@@ -1,0 +1,8 @@
+**Summary**
+- Added a developer postcondition auto-heal that promotes `developer_status` from `ongoing`/missing to `ready_for_review` or `waiting_job` based on long‑job evidence, and logs the correction. (`server/pipelineManager.js`)
+- Documented the new handshake robustness rule, test coverage, decision record, and corrector pattern; updated the docs index dates. (`doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`, `doc/INDEX.md`)
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`
+
+If you want, I can also add a small unit test around the auto‑promotion path.

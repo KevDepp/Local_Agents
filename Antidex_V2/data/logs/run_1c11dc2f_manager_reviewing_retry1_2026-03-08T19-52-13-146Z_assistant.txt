@@ -1,0 +1,1 @@
+Updated `data/tasks/T-006c_medium_baseline_fix/manager_review.md` (refreshed `Reviewed_at` + added `Reviewed_turn_nonce`) and `data/pipeline_state.json` (`updated_at=2026-03-08T19:52:22.993Z`), then wrote turn marker `data/turn_markers/turn-e5f25e5a88f64d019c4c.done`.

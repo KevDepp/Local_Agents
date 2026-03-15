@@ -1,0 +1,6 @@
+Summary
+- Added a safety path for Corrector runs when `ANTIDEX_SUPERVISOR` is not enabled: after a successful fix, the run is set to `stopped` with a “restart required” message and project summary updated, preventing the infinite incident/corrector loop. (`server/pipelineManager.js`)
+- Updated docs to reflect the restart-required behavior and test coverage. (`doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`)
+
+Tests
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`

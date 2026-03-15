@@ -1,0 +1,11 @@
+**Summary**
+- Added TODO-rebase missing-spec handling with clearer Q instructions, `managerDecision` reset, and a `lastError.source=todo_rebase` marker in `server/pipelineManager.js`.
+- Skipped Corrector triggering for missing specs coming from TODO rebase while still writing an incident and timeline entry in `server/pipelineManager.js`.
+- Updated docs in `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`, and `doc/INDEX.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`
+
+**Next Steps**
+1. Run a quick manual scenario: edit `doc/TODO.md` to add a new task without specs, trigger `user_command`, and confirm the pipeline blocks with `Q-missing-task-spec` and no Corrector trigger.
+2. Add/extend a lightweight regression test around `_forceRebaseToTodo` if you want this codified.

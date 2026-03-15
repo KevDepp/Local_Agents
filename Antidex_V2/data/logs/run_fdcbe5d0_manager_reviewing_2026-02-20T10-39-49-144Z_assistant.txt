@@ -1,0 +1,8 @@
+Je vais relire les fichiers de contexte (manager, TODO, TESTING_PLAN, T-001, pipeline_state), décider ACCEPTED/REWORK pour T-001, mettre à jour manager_review + pipeline_state (et TODO si besoin), faire le commit git si ACCEPTED, puis écrire le marqueur de tour.Résumé manager:
+
+- T-001_stack_and_skeleton est ACCEPTÉ: le choix Python 3.10+ / pygame-ce / pytest est documenté dans `doc/DECISIONS.md` et `doc/SPEC.md`, le squelette pygame est exécutable, et des tests smoke via pytest sont en place, avec commandes détaillées dans `dev_result.md`.
+- La review est consignée dans `data/tasks/T-001_stack_and_skeleton/manager_review.md` (incluant le hash de commit `e86c04513a90c4be66d14e5e687e85a57531eaf5`).
+- `doc/TODO.md` est mis à jour: T-001 est coché, T-002_core_gameplay_loop reste le prochain P0.
+- `data/pipeline_state.json` est mis à jour: `iteration`=2, `phase`="dispatching", `current_task_id`="T-002_core_gameplay_loop", `assigned_developer`="developer_codex", `developer_status`="ongoing", `manager_decision`="continue", `summary` pointe vers le manager_review de T-001.
+- Le dépôt Git local est initialisé et un commit unique a été créé pour T-001 avec le message `[T-001_stack_and_skeleton] Choose stack and create pygame skeleton`.
+- Le marqueur de tour `data/turn_markers/turn-56665bf36dda468db6c7.done` a été écrit avec le contenu `ok`.

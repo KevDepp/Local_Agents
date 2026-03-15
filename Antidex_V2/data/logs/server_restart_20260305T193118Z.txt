@@ -1,0 +1,6 @@
+
+> antidex@0.0.0 start:direct
+> node server/index.js
+
+[antidex] listening on http://127.0.0.1:3220/ (pid=25252)
+[antidex] dataDir=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Local_Agents\Antidex\data

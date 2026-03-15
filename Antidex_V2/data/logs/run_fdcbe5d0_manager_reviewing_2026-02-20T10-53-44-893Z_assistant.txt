@@ -1,0 +1,5 @@
+- T-003_artifacts_system est ACCEPTÉ, avec review dans `data/tasks/T-003_artifacts_system/manager_review.md` (3 power-ups + 1 malus, drops configurables, effets temporisés, tests automatisés OK; commit `e056142b718a57d9432ae25c03fc0ac9014957c2` consigné).
+- `doc/TODO.md` est à jour: T-001, T-002 et T-003 sont cochées; prochaine tâche en file est T-004_levels_and_layouts.
+- `data/pipeline_state.json` est mis à jour: `iteration`=4, `phase`="dispatching", `current_task_id`="T-004_levels_and_layouts", `assigned_developer`="developer_codex", `developer_status`="ongoing", `manager_decision`="continue`, `summary` pointe vers le manager_review de T-003.
+- Un commit Git a été créé pour T-003: `[T-003_artifacts_system] Implement artifacts and power-ups`.
+- Le marqueur de tour `data/turn_markers/turn-d88a52db62e74dab9eab.done` a été écrit avec le contenu `ok`.

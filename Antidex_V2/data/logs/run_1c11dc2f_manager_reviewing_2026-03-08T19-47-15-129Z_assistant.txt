@@ -1,0 +1,4 @@
+- Wrote **REWORK** review (with required blocks) to `data/tasks/T-006c_medium_baseline_fix/manager_review.md`.
+- Updated retry instructions to bypass broken long-job protocol in `data/tasks/T-006c_medium_baseline_fix/manager_instruction.md`.
+- Updated `data/pipeline_state.json` to `developer_status="ongoing"` and `manager_decision="continue"` with summary pointing to the review.
+- Wrote turn marker `data/turn_markers/turn-66bf7a9e375d4621bde7.done`.

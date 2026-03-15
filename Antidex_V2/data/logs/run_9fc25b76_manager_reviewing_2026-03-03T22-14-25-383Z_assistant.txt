@@ -1,0 +1,5 @@
+- T-003 (`T-003_rules_engine`) review: **ACCEPTED** → `data/tasks/T-003_rules_engine/manager_review.md` (commit `e1e1c9c`)
+- Pipeline advanced to **T-004_board_ui** (assigned `developer_antigravity`) → `data/pipeline_state.json`
+- TODO updated (T-003 checked) → `doc/TODO.md`
+- Next task spec created → `data/tasks/T-004_board_ui/task.md`, `data/tasks/T-004_board_ui/manager_instruction.md`
+- Turn marker written → `data/turn_markers/turn-6b5250c67b3c4381b915.done`

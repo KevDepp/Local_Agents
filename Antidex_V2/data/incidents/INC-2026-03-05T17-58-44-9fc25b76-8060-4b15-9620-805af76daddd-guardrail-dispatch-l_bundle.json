@@ -1,0 +1,39 @@
+{
+  "at": "2026-03-05T17:58:44.147Z",
+  "run_id": "9fc25b76-8060-4b15-9620-805af76daddd",
+  "incident_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T17-58-44-9fc25b76-8060-4b15-9620-805af76daddd-guardrail-dispatch-l.json",
+  "corrector_docs": {
+    "runbook_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\CORRECTOR_RUNBOOK.md",
+    "fix_patterns_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\CORRECTOR_FIX_PATTERNS.md",
+    "spec_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\SPEC.md",
+    "error_handling_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\ERROR_HANDLING.md",
+    "robustness_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\ROBUSTNESS_IMPROVEMENTS.md",
+    "decisions_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\DECISIONS.md",
+    "index_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\doc\\INDEX.md"
+  },
+  "run_timeline_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\runs\\9fc25b76-8060-4b15-9620-805af76daddd\\timeline.jsonl",
+  "run_summary_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\runs\\9fc25b76-8060-4b15-9620-805af76daddd\\summary.md",
+  "recent_incident_paths": [
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T13-11-59-9fc25b76-8060-4b15-9620-805af76daddd-guardrail-dispatch-l.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T13-11-59-9fc25b76-8060-4b15-9620-805af76daddd-guardrail-dispatch-l_bundle.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T13-16-42-9fc25b76-8060-4b15-9620-805af76daddd-auto.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T13-16-42-9fc25b76-8060-4b15-9620-805af76daddd-auto_bundle.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T14-24-19-9fc25b76-8060-4b15-9620-805af76daddd-auto.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\incidents\\INC-2026-03-05T14-24-19-9fc25b76-8060-4b15-9620-805af76daddd-auto_bundle.json"
+  ],
+  "evidence_paths": [
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\pipeline_state.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\odyssee-web\\data\\pipeline_state.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\odyssee-web\\data\\recovery_log.jsonl",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\odyssee-web\\data\\tasks\\T-017_ui_exit_indicator_colors_layout_v3",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_developer_antigravity_2026-03-05T17-02-43-912Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_2026-03-05T17-46-30-583Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_2026-03-05T17-46-30-583Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_developer_antigravity_2026-03-05T17-51-52-795Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_2026-03-05T17-54-29-135Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_2026-03-05T17-54-29-135Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_developer_antigravity_2026-03-05T17-55-39-673Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_2026-03-05T17-57-58-765Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex\\data\\logs\\run_9fc25b76_manager_reviewing_2026-03-05T17-57-58-765Z_rpc.log"
+  ]
+}

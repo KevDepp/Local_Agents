@@ -1,0 +1,2 @@
+[meta] task=T-012_level_exit_bonus cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\arcano-d
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-012_level_exit_bonus-9529edf775e74db0

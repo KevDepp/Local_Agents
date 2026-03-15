@@ -1,0 +1,3 @@
+[meta] task=T-001_ag-preflight cwd=C:\Users\kdeplus\AppData\Local\Temp\antidex-phase2-BAvhth
+[sending] baseUrl=http://127.0.0.1:17394 agRunId=ag-T-001_ag-preflight-cc122688bb294ba1
+[done] task=T-001_ag-preflight

@@ -1,0 +1,3 @@
+[meta] task=T-002_doc_review_ia_lab cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\odyssee-grenouilles\ai-lab
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-002_doc_review_ia_lab-c7fdc725ce914002
+[done] task=T-002_doc_review_ia_lab

@@ -1,0 +1,1 @@
+Created missing `dev_result.json` pointers for `T-015_integrate_rules_summary_v1_into_spec` and `T-012_rework_board_ui_v2`, and updated `data/pipeline_state.json.updated_at`. Turn marker written (`data/turn_markers/turn-2643f363c8aa49399e38.done`).

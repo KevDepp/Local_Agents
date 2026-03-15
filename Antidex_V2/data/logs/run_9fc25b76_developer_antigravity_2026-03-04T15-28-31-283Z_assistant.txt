@@ -1,0 +1,2 @@
+[meta] task=T-012_rework_board_ui_v2 cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\odyssee-grenouilles\odyssee-web
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-012_rework_board_ui_v2-ed0a799485274ef8

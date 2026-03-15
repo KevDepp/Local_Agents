@@ -1,0 +1,9 @@
+{
+  "at": "2026-03-06T13:42:54.091Z",
+  "runId": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+  "where": "guardrail/missing_task_spec",
+  "sig": "guardrail/missing_task_spec:T-xxx_slug",
+  "incidentPath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T13-42-54-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-guardrail-missing-ta.json",
+  "bundlePath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T13-42-54-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-guardrail-missing-ta_bundle.json",
+  "context": "auto-run stall/block"
+}

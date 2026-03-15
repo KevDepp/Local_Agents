@@ -1,0 +1,4 @@
+- T-005_menus_and_hud est ACCEPTÉ, avec review dans `data/tasks/T-005_menus_and_hud/manager_review.md` (menus/pause/HUD validés; commit `902b364c93dd092c2d7909973582324dac297dfa` enregistré).
+- `doc/TODO.md` est déjà cohérent (T-005 coché).
+- `data/pipeline_state.json` est mis à jour: `iteration`=6, `phase`="dispatching", `current_task_id`="T-006_high_scores", `developer_status`="ongoing", `manager_decision`="continue", `summary` pointe vers le manager_review de T-005.
+- Le marqueur de tour `data/turn_markers/turn-3888719f1b4a4d6c8bdb.done` a été écrit avec le contenu `ok`.

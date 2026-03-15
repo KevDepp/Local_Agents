@@ -1,0 +1,3 @@
+[meta] task=T-004_search_maxn_paranoid cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\odyssee-grenouilles\ai-lab
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-004_search_maxn_paranoid-709c2658995d4142
+[done] task=T-004_search_maxn_paranoid

@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "context": {
+    "request_label": "UI Test Prompt",
+    "notes": [
+      "Les exigences fonctionnelles exactes ne sont pas précisées.",
+      "Cette TODO est un guide pour un agent développeur, à adapter après inspection du code existant et clarification avec le demandeur."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "clarify-requirements",
+      "title": "Clarifier la portée de « UI Test Prompt »",
+      "description": "Discuter avec le demandeur pour préciser quelles parties de l’UI doivent être testées, le type de tests (end-to-end, composants, snapshots, etc.) et les priorités.",
+      "assignee": "developer_agent",
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [],
+      "outputs": [
+        "Liste des écrans ou fonctionnalités à couvrir en priorité",
+        "Type de tests souhaités et contraintes éventuelles"
+      ],
+      "notes": "No stakeholder input; assumptions documented in README.md."
+    },
+    {
+      "id": "analyze-existing-ui",
+      "title": "Analyser l’UI et les tests existants",
+      "description": "Explorer le code du projet pour identifier les vues principales, composants critiques et éventuelles suites de tests UI déjà en place.",
+      "assignee": "developer_agent",
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "clarify-requirements"
+      ],
+      "outputs": [
+        "Courte note décrivant les écrans principaux",
+        "Inventaire des tests UI existants (s’il y en a)"
+      ],
+      "notes": "Created a single-page UI under public/."
+    },
+    {
+      "id": "select-test-stack",
+      "title": "Choisir ou confirmer la stack de tests UI",
+      "description": "Sur la base du projet et des préférences du demandeur, sélectionner le framework de tests UI (par exemple Playwright, Cypress, Selenium, Testing Library...) ou confirmer celui déjà en place.",
+      "assignee": "developer_agent",
+      "status": "completed",
+      "priority": "medium",
+      "dependencies": [
+        "analyze-existing-ui"
+      ],
+      "outputs": [
+        "Décision documentée sur le framework de tests UI",
+        "Liste des dépendances et prérequis d’installation"
+      ],
+      "notes": "Selected Playwright for UI tests; see package.json."
+    },
+    {
+      "id": "define-ui-test-scenarios",
+      "title": "Définir 1 à 3 scénarios de tests UI",
+      "description": "Proposer et documenter 1 à 3 scénarios de tests UI représentatifs, basés sur la demande et l’analyse du projet (parcours principal, cas d’erreur, cas accessibilité si pertinent).",
+      "assignee": "developer_agent",
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "clarify-requirements",
+        "analyze-existing-ui"
+      ],
+      "outputs": [
+        "Description textuelle (prompt) de chaque scénario",
+        "Critères d’acceptation pour chaque scénario"
+      ],
+      "notes": "Defined happy path, error, and accessibility scenarios in tests/ui.spec.js."
+    },
+    {
+      "id": "implement-ui-tests",
+      "title": "Implémenter les scénarios de tests UI",
+      "description": "Écrire les tests automatisés pour les scénarios définis en respectant la stack choisie et les bonnes pratiques (sélecteurs robustes, faible fragilité temporelle, assertions claires).",
+      "assignee": "developer_agent",
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [
+        "select-test-stack",
+        "define-ui-test-scenarios"
+      ],
+      "outputs": [
+        "Fichiers de tests UI fonctionnels",
+        "Scripts ou commandes pour lancer les tests"
+      ],
+      "notes": "Playwright tests implemented in tests/ui.spec.js."
+    },
+    {
+      "id": "make-tests-repeatable",
+      "title": "Rendre l’exécution des tests UI reproductible",
+      "description": "S’assurer que les tests UI sont facilement exécutables en local et en CI (si applicable), avec une documentation minimale sur les prérequis et les commandes à exécuter.",
+      "assignee": "developer_agent",
+      "status": "completed",
+      "priority": "medium",
+      "dependencies": [
+        "implement-ui-tests"
+      ],
+      "outputs": [
+        "Instructions dans la documentation du projet pour exécuter les tests",
+        "Configuration éventuelle pour la CI"
+      ],
+      "notes": "Documented commands in README.md."
+    },
+    {
+      "id": "document-limitations",
+      "title": "Documenter les limites et pistes d’amélioration",
+      "description": "Lister les limites connues de la suite de tests UI (scénarios non couverts, temps d’exécution, fragilité éventuelle) et proposer des améliorations pour une itération future.",
+      "assignee": "developer_agent",
+      "status": "completed",
+      "priority": "low",
+      "dependencies": [
+        "implement-ui-tests"
+      ],
+      "outputs": [
+        "Liste des limitations et dettes techniques",
+        "Backlog de pistes d’amélioration"
+      ],
+      "notes": "Listed known limitations in README.md."
+    }
+  ]
+}

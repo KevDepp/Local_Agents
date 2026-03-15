@@ -1,0 +1,7 @@
+Summary
+- Reconciled stale `guardrail/dispatch_loop` for AG into the “AG disabled” guardrail when stalls already hit 3, and reset the task dispatch counter so a Manager decision can proceed cleanly. (`server/pipelineManager.js`)
+- Skipped Corrector auto-fix for the “AG disabled” guardrail since it’s a Manager action, avoiding repeat incident loops. (`server/pipelineManager.js`)
+- Recorded the process change in docs. (`doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`)
+
+Tests
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`

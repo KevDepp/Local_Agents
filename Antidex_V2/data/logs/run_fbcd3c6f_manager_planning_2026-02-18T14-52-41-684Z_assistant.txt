@@ -1,0 +1,46 @@
+I'll first read the manager/doc files and pipeline_state, then draft and apply updates to SPEC/TODO/TESTING_PLAN/DECISIONS/INDEX plus create the three task folders and update pipeline_state.json.Updating SPEC/TODO/TESTING_PLAN/DECISIONS now to reflect the three sequential tasks and their testing/priority structure.Creating the three task folders’ `task.md` and `manager_instruction.md` with clear DoD and developer instructions.Voici ce qui est en place côté Manager, sans implémenter de code ni créer les fichiers métier eux‑mêmes (hello/world/files) :
+
+- `doc/SPEC.md`: décrit maintenant le mini-projet comme un workflow en 3 tâches (`T-001_hello`, `T-002_world`, `T-003_files`) pour créer `hello.txt`, `world.txt` puis `files.md` qui les liste, avec exigences fonctionnelles et critères d’acceptation globaux.
+- `doc/TODO.md`: contient trois entrées explicites avec priorités P0/P1/P2 et ordre d’exécution 1,2,3:
+  - 1) P0 (Dev Codex) `T-001_hello` — créer `hello.txt`
+  - 2) P1 (Dev Codex) `T-002_world` — créer `world.txt` après T-001
+  - 3) P2 (Dev Codex) `T-003_files` — créer `files.md` listant `hello.txt` et `world.txt`
+- `doc/TESTING_PLAN.md`: détaille les vérifications par tâche:
+  - T-001: existence de `hello.txt` à la racine.
+  - T-002: existence de `world.txt` + présence continue de `hello.txt`.
+  - T-003: existence de `files.md` + présence de `hello.txt` et `world.txt` dans son contenu (idéalement liste à puces).
+- `doc/DECISIONS.md`: nouvelle entrée datée `2026-02-18` consignant le choix du workflow en trois tâches séquentielles avec priorités P0/P1/P2 et ordre 1→3, toutes assignées à `developer_codex`.
+- `doc/INDEX.md`: inchangé (il listait déjà SPEC/TODO/TESTING_PLAN/DECISIONS et `data/tasks/`), donc toujours cohérent.
+
+Tâches créées (planning uniquement, pas d’implémentation) :
+
+- `data/tasks/T-001_hello/task.md`: décrit la tâche “Create `hello.txt`” (contexte, objectif, détails, Definition of Done, preuves attendues) avec assignation à `developer_codex`.
+- `data/tasks/T-001_hello/manager_instruction.md`: instructions au développeur Codex:
+  - Lire `agents/developer_codex.md` (version 1) + DOCS/SPEC/TODO/TESTING_PLAN/DECISIONS + `task.md`.
+  - Écrire `dev_ack.json` (ACK minimal avec `task_id`, `agent`, `status: "ack"`, `started_at`).
+  - Créer seulement `hello.txt` à la racine.
+  - Suivre les tests de T-001, produire `dev_result.md`, mettre à jour `developer_status` (`ongoing` puis `ready_for_review`) dans `data/pipeline_state.json`, aucun commit git.
+- `data/tasks/T-002_world/task.md`: tâche “Create `world.txt`” dépendant de T-001, avec DoD: `world.txt` présent, `hello.txt` encore là, pas d’autres modifications non nécessaires.
+- `data/tasks/T-002_world/manager_instruction.md`: mêmes protocoles qu’en T-001, adaptés:
+  - Pré-requis: T-001 terminée / `hello.txt` existant.
+  - Créer `world.txt`, ne pas créer `files.md`, préserver `hello.txt`.
+- `data/tasks/T-003_files/task.md`: tâche “Create `files.md` listing `hello.txt` and `world.txt`” avec DoD: `files.md` à la racine mentionne clairement les deux fichiers (idéalement `- hello.txt`, `- world.txt`), sans modifier `hello.txt` ou `world.txt`.
+- `data/tasks/T-003_files/manager_instruction.md`: instructions au développeur Codex:
+  - Pré-requis: T-001 et T-002 terminées / fichiers présents.
+  - Créer `files.md` à la racine avec les deux noms de fichiers, tests selon TESTING_PLAN, `dev_ack.json` + `dev_result.md`, pipeline et git comme pour les autres tâches.
+
+État du pipeline (préparation au dispatch de la première tâche) dans `data/pipeline_state.json`:
+
+- `run_id`: conservé (`fbcd3c6f-6ffc-429d-a67a-dd9f28727039`)
+- `iteration`: `1`
+- `phase`: `"dispatching"`
+- `current_task_id`: `"T-001_hello"`
+- `assigned_developer`: `"developer_codex"`
+- `thread_policy`: inchangé (tous `"reuse"`)
+- `developer_status`: `"ongoing"`
+- `manager_decision`: `null`
+- `summary`: `"dispatching T-001_hello to developer_codex"`
+- `tests`: inchangé (pas encore exécutés)
+- `updated_at`: mis à jour (`2026-02-18T15:54:30.000Z`)
+
+Aucune création de `hello.txt`, `world.txt` ou `files.md` n’a été faite par le Manager: tout est prêt pour que `developer_codex` exécute, dans l’ordre, T-001, puis T-002, puis T-003.

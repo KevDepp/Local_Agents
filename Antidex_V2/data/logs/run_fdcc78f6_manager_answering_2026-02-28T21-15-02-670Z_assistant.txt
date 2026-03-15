@@ -1,0 +1,5 @@
+- Réponse resync écrite: `data/tasks/T-008_ui_e2e_manual/answers/A-003_user_todo_resync.md`
+- Nouvelle tâche P0-12 créée: `data/tasks/T-012_ui_e2e_browser_real/task.md` + `data/tasks/T-012_ui_e2e_browser_real/manager_instruction.md`
+- `doc/DECISIONS.md` mis à jour (gating “vrai navigateur” + artefact `.out.docx`)
+- `data/pipeline_state.json` resynchronisé sur `T-012_ui_e2e_browser_real` (`developer_status=ongoing`, `manager_decision=continue`)
+- Turn marker écrit: `data/turn_markers/turn-f00bc08de1fa4fde997a.done`

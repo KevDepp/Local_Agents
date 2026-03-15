@@ -1,0 +1,6 @@
+Summary  
+- Added `ANTIDEX_AG_STALL_RESULT_MS` and applied a longer stall threshold during `waiting_result` to reduce false AG stalls after ACK on long tasks.  
+- Updated docs (`doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`, `doc/INDEX.md`) to reflect the new watchdog behavior and pattern.
+
+Tests  
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`

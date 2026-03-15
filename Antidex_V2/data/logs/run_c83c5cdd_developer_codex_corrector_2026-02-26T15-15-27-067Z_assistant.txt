@@ -1,0 +1,7 @@
+Restored the missing task spec and unblocked dispatch.
+
+- Rewrote `data/tasks/T-006_fix_ai_not_playing/task.md` and created `data/tasks/T-006_fix_ai_not_playing/manager_instruction.md`.
+- Answered the guardrail question in `data/tasks/T-006_fix_ai_not_playing/answers/A-missing-sp-2026-02-26T15-15-26.md`.
+- Updated `data/pipeline_state.json` to `developer_status: ongoing`.
+
+No tests were run.

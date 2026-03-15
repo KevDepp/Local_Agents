@@ -1,0 +1,9 @@
+{
+  "at": "2026-03-06T21:14:15.296Z",
+  "runId": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+  "where": "guardrail/review_loop",
+  "sig": "guardrail/review_loop:T-006b_strength_gate",
+  "incidentPath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T21-14-15-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-guardrail-review-loo.json",
+  "bundlePath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T21-14-15-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-guardrail-review-loo_bundle.json",
+  "context": "auto-run stall/block"
+}

@@ -1,0 +1,9 @@
+Blocked on long-strength-gate runtime. I added segmented strength gate support (`--matchups`, `--sizes`, `--resume`) so we can split the SPEC-sized runs and resume results, but the full run keeps timing out. Please answer Q-001 so I can proceed.
+
+Summary:
+- Added segmented strength gate options in `../ai_lab/src/strength_gate.ts`.
+- Updated CLI help in `../ai_lab/src/runner.ts`.
+- Wrote question `data/tasks/T-006b_strength_gate/questions/Q-001.md` and set `developer_status=blocked` in `data/pipeline_state.json`.
+
+What I need from you:
+- Choose Option 1/2/3 in `data/tasks/T-006b_strength_gate/questions/Q-001.md`.

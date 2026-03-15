@@ -1,0 +1,1 @@
+Now I’ll reload the manager/docs/task files and current pipeline state, re-verify T-007 vs DoD, then update manager_review, pipeline_state, and the new turn marker.

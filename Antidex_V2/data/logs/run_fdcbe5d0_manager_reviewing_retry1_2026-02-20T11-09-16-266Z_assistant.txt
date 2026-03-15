@@ -1,0 +1,1 @@
+`data/tasks/T-007_audio_effects/manager_review.md` has been created (Decision: REWORK, missing `dev_ack.json` and `dev_result.md`).

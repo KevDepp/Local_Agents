@@ -1,0 +1,2 @@
+[meta] task=T-005_web_ui_local cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\file-translator
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-005_web_ui_local-11fb94091b624324

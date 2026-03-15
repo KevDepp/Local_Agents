@@ -1,0 +1,6 @@
+T-007 **ACCEPTED**.
+
+- `data/tasks/T-007_add_dutch_language/manager_review.md` written (Commit: `9490fb3241ab80231c50bf2513d46f5359e05bd4`).
+- `doc/TODO.md` updated: item 7 checked, item 8 checkbox fixed.
+- `data/pipeline_state.json` updated: next `T-008_ui_e2e_manual` set and marked `blocked` (task spec folder missing).
+- Turn marker written: `data/turn_markers/turn-7032dc3837bf441187ae.done`.

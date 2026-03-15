@@ -1,0 +1,2 @@
+- Updated `data/pipeline_state.json` to reflect **REWORK** state: `developer_status="ongoing"`, `manager_decision="continue"`, summary points to `data/tasks/T-006c_medium_baseline_fix/manager_review.md`, `updated_at="2026-03-08T19:51:55.347Z"`.
+- Wrote turn marker `data/turn_markers/turn-e5f25e5a88f64d019c4c.done`.

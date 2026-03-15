@@ -1,0 +1,14 @@
+Summary of work completed for `T-006_high_scores`:
+
+- Implemented high score persistence and display:
+  - Added `src/arcano_d/high_scores.py` with load/save/update helpers (JSON format).
+  - Integrated into menu and game over/win screens in `src/arcano_d/main.py`.
+  - Added `tests/test_high_scores.py` for persistence and corruption handling.
+- Updated manual testing checklist in `doc/TESTING_PLAN.md`.
+- Marked task complete in `doc/TODO.md`.
+
+Tests run:
+- `python -m pytest`
+- `python -m arcano_d --headless --seconds 0.5`
+
+All task artifacts and pipeline state have been updated accordingly, and the turn marker has been written.

@@ -1,0 +1,7 @@
+**Summary**
+- Long-job crash handling: added a single auto-restart attempt, then block the Manager with `Q-job-crash` + `developer_status=blocked` and a clear recovery path (inspect logs, restart/adjust), while preserving an incident record.
+- Prevented Corrector from triggering on `job/crash` incidents (Manager action, similar to AG watchdog).
+- Updated docs to reflect the new long‑job crash policy: `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`, `doc/ERROR_HANDLING.md`, `doc/INDEX.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`

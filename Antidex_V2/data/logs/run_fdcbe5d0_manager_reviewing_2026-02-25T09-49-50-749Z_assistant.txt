@@ -1,0 +1,1 @@
+Now I'll record the acceptance in git with a single commit, then write the required turn completion marker file.

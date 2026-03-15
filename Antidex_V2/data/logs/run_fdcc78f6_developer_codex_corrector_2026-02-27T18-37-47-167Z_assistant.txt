@@ -1,0 +1,5 @@
+**Summary**
+Updated the developer prompt to include `manager_review.md` when it exists and explicitly call out REWORK feedback, so re-dispatches see the Manager’s corrections instead of looping. Docs were updated accordingly (`doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/INDEX.md`).
+
+**Tests**
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`

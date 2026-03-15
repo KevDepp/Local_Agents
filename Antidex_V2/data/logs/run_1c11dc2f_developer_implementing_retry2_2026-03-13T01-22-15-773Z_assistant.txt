@@ -1,0 +1,1 @@
+Updated `data/tasks/T-006c_medium_baseline_fix/dev_ack.json`, `data/tasks/T-006c_medium_baseline_fix/dev_result.md`, and `data/pipeline_state.json` to reflect that the task is scoped to 3p artifacts and the DoD is satisfied. Turn marker written at `data/turn_markers/turn-4877e4579306411b867f.done`.

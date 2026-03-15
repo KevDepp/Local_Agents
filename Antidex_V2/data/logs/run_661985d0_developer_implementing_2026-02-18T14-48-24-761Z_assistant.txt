@@ -1,0 +1,6 @@
+Confirmed: current task folder is `data/tasks/T-001_hello`.
+
+This task is already completed and `data/pipeline_state.json` is `ready_for_review`. Please specify next action:
+1. Re-run checks + refresh `dev_result.md`
+2. Reset and redo T-001
+3. Proceed to `T-002_world`

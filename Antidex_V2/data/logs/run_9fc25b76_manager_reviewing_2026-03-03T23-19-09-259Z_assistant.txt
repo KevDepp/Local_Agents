@@ -1,0 +1,5 @@
+- **ACCEPTED** `T-006_art_and_polish` (commit `d09ce6c`) → `data/tasks/T-006_art_and_polish/manager_review.md`
+- Pipeline avancé vers `T-007_manual_test_pass` (`developer_antigravity`, `developer_status=ongoing`) → `data/pipeline_state.json`
+- TODO mis à jour (T-006 coché) → `doc/TODO.md`
+- Spéc + instructions créées pour `T-007_manual_test_pass` → `data/tasks/T-007_manual_test_pass/task.md`, `data/tasks/T-007_manual_test_pass/manager_instruction.md`
+- Turn marker écrit → `data/turn_markers/turn-1e4c6afccc204295a256.done`

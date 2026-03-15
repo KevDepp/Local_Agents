@@ -1,0 +1,1 @@
+ACCEPTED `T-012_rework_board_ui_v2` (tests OK: `npm test`, commit `99577e0`). Next task set to `T-013_manual_test_pass_v2` in `data/pipeline_state.json`. Turn marker written (`data/turn_markers/turn-bf9ca0354a2c4f409eda.done`).

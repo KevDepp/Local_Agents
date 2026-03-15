@@ -1,0 +1,2 @@
+[meta] task=T-014_protective_wall_bonus cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\arcano-d
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-014_protective_wall_bonus-1ea38a8078384d6d

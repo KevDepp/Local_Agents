@@ -1,0 +1,5 @@
+Je vais relire l’état de T-004 (TODO, TESTING_PLAN, pipeline_state, dev_result), décider ACCEPTED ou REWORK, mettre à jour `manager_review.md`, `data/pipeline_state.json`, `doc/TODO.md`, faire le commit si ACCEPTED, puis écrire le marqueur de tour.- T-004_levels_and_layouts est ACCEPTÉ, avec review dans `data/tasks/T-004_levels_and_layouts/manager_review.md` (3 niveaux en séquence, format `LevelSpec`, progression + état de victoire testés; commit `f0d846a2d93bc5c29233178baf53e807d218d041` enregistré).
+- `doc/TODO.md` est déjà à jour (T-004 coché par le développeur, conservé tel quel).
+- `data/pipeline_state.json` est mis à jour: `iteration`=5, `phase`="dispatching", `current_task_id`="T-005_menus_and_hud", `assigned_developer`="developer_codex", `developer_status`="ongoing", `manager_decision`="continue", `summary` pointe vers le manager_review de T-004.
+- Un commit Git a été créé pour T-004: `[T-004_levels_and_layouts] Add multi-level layouts and progression`.
+- Le marqueur de tour `data/turn_markers/turn-2f876cffa08448c0b84f.done` a été écrit avec le contenu `ok`.

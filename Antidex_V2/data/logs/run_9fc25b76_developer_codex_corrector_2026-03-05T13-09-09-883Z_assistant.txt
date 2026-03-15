@@ -1,0 +1,13 @@
+Summary
+- Added a hard guard: when `ANTIDEX_SUPERVISOR` is not enabled, Corrector is skipped, the run is set to `stopped`, and a “restart under supervisor” message is written to both Antidex state and project `pipeline_state.json`. This prevents endless dispatch-loop incidents without an auto-restart path. (`server/pipelineManager.js`)
+- Updated docs to reflect the supervisor-required behavior. (`doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`)
+
+Tests
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`
+
+Important
+- The running Antidex process needs a restart to load this fix. If you’re not using the supervisor, restart Antidex under supervisor so Corrector can actually apply fixes and resume safely.
+
+Next steps
+1. Restart Antidex using `node scripts/supervisor.js` (or `start-ui.cmd` if that uses the supervisor).
+2. Click Continue pipeline for run `9fc25b76-8060-4b15-9620-805af76daddd`.

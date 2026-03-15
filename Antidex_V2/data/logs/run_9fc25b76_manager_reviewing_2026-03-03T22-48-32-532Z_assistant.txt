@@ -1,0 +1,4 @@
+- **ACCEPTED** `T-004_board_ui` (commit `2075606`) → `data/tasks/T-004_board_ui/manager_review.md`
+- Pipeline advanced to `T-005_ai_levels` (`developer_codex`, `developer_status=ongoing`) → `data/pipeline_state.json`
+- TODO updated (T-004 checked) → `doc/TODO.md`
+- Turn marker written → `data/turn_markers/turn-a35fd5c3c8a8490d8b57.done`

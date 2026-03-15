@@ -1,0 +1,4 @@
+- `data/tasks/T-016_engine_exit_pike_expert_v3/manager_review.md`: **ACCEPTED** (tests `npm test` OK), commit recorded as `6d70f66`.
+- `doc/TODO.md`: `T-016_engine_exit_pike_expert_v3` coché; prochain task = `T-017_ui_exit_indicator_colors_layout_v3`.
+- `data/pipeline_state.json`: dispatch sur `T-017_ui_exit_indicator_colors_layout_v3`, `developer_status="ongoing"`, `manager_decision="continue"`.
+- Turn marker écrit: `data/turn_markers/turn-2f76555795aa4c6d8bd4.done`.

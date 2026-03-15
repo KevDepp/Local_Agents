@@ -1,0 +1,2 @@
+[meta] task=T-009_rules_research_v2_board_and_setup cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\odyssee-grenouilles\odyssee-web
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-009_rules_research_v2_board_and_setup-a8628922472b472a

@@ -1,0 +1,4 @@
+- `data/tasks/T-019_spec_integration_confirm_v1_rules_embed_v3/manager_review.md`: **ACCEPTED** (commit `f2506ce`).
+- `doc/TODO.md`: `T-019_spec_integration_confirm_v1_rules_embed_v3` coché; prochain task = `T-017_ui_exit_indicator_colors_layout_v3`.
+- `data/pipeline_state.json`: `current_task_id` -> `T-017_ui_exit_indicator_colors_layout_v3`, `developer_status="ongoing"`, `manager_decision="continue"`.
+- Turn marker écrit: `data/turn_markers/turn-da771e251d6a41f88a18.done`.

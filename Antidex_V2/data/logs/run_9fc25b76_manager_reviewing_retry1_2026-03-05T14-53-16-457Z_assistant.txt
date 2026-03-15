@@ -1,0 +1,3 @@
+- `data/pipeline_state.json` corrected to reflect the guardrail is cleared (v1 rules embedded in `doc/SPEC.md` §5.1; `T-015` ACCEPTED, commit `7bef96b`) and NEXT task remains `T-013_manual_test_pass_v2` (`developer_status=ongoing`, `manager_decision=continue`).
+- Answer written: `data/tasks/T-015_integrate_rules_summary_v1_into_spec/answers/A-2026-03-05T14-48-39Z.md`.
+- Turn marker written: `data/turn_markers/turn-2643f363c8aa49399e38.done`.

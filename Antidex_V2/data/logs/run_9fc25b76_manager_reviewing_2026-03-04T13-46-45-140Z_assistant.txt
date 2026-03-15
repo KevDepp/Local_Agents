@@ -1,0 +1,4 @@
+- `T-010_integrate_rules_v2_into_spec` **ACCEPTED** via `data/tasks/T-010_integrate_rules_v2_into_spec/manager_review.md`.
+- TODO mis à jour: `doc/TODO.md` coche `T-010`; pipeline sur `T-011_rework_rules_engine_v2` dans `data/pipeline_state.json`.
+- Commit réalisé: `a2c02ad` (référencé dans `data/tasks/T-010_integrate_rules_v2_into_spec/manager_review.md`).
+- Turn marker écrit: `data/turn_markers/turn-9158a78ca5b2464ba1d7.done`.

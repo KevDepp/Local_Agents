@@ -1,0 +1,5 @@
+- **ACCEPTED** `T-005_ai_levels` (commit `df6d223`) → `data/tasks/T-005_ai_levels/manager_review.md`
+- Pipeline avancé vers `T-006_art_and_polish` (assigné `developer_antigravity`, `developer_status=ongoing`) → `data/pipeline_state.json`
+- TODO mis à jour (T-005 coché) → `doc/TODO.md`
+- Spéc + instructions créées pour la prochaine tâche → `data/tasks/T-006_art_and_polish/task.md`, `data/tasks/T-006_art_and_polish/manager_instruction.md`
+- Turn marker écrit → `data/turn_markers/turn-903e846083cc4bd1bbf6.done`

@@ -1,0 +1,3 @@
+[meta] task=T-010_integrate_rules_v2_into_spec cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\odyssee-grenouilles\odyssee-web
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-010_integrate_rules_v2_into_spec-36a4b527df5e485d
+[done] task=T-010_integrate_rules_v2_into_spec

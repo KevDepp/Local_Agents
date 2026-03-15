@@ -1,0 +1,9 @@
+{
+  "at": "2026-03-06T13:38:48.910Z",
+  "runId": "06aceccc-1d07-4c57-90fb-15b53899cbf1",
+  "where": "auto",
+  "sig": "auto:Run stopped",
+  "incidentPath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T13-38-48-06aceccc-1d07-4c57-90fb-15b53899cbf1-auto.json",
+  "bundlePath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T13-38-48-06aceccc-1d07-4c57-90fb-15b53899cbf1-auto_bundle.json",
+  "context": "auto-run exception"
+}

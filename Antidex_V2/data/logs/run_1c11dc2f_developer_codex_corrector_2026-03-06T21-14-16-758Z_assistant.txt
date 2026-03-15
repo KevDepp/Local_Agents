@@ -1,0 +1,8 @@
+**Summary**
+- Fixed review-loop recovery by resetting `taskReviewCounts` after Manager answers a `Q-review-loop`, and by requiring new result evidence (`dev_result.*` or AG `result.json`) instead of `dev_ack.json` for auto-resume/promote after REWORK. This prevents immediate re-triggering of the review-loop guard.
+- Updated docs to reflect the guardrail behavior and testing expectations: `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`
+
+If you want, I can add a tiny unit-test harness for the review-loop guard behavior next.

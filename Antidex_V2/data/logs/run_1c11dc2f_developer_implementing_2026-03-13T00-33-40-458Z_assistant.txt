@@ -1,0 +1,1 @@
+Updated `data/tasks/T-006c_medium_baseline_fix/dev_ack.json`, `data/tasks/T-006c_medium_baseline_fix/dev_result.md`, `data/pipeline_state.json`, and added a new question in `data/tasks/T-006c_medium_baseline_fix/questions/` about the long‑job vs foreground conflict after the EPERM failure. Turn marker written at `data/turn_markers/turn-f7e5f9cc544944349096.done`.

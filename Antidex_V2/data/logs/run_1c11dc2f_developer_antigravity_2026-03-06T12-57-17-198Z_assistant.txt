@@ -1,0 +1,2 @@
+[meta] task=T-006_eval_features_tuning cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\odyssee-grenouilles\ai-lab
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-006_eval_features_tuning-35eb05c6589b4f92

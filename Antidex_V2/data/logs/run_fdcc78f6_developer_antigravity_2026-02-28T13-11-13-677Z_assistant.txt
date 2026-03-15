@@ -1,0 +1,2 @@
+[meta] task=T-011_e2e_happy_path cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\file-translator
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-011_e2e_happy_path-8b318be75f1a4cd9

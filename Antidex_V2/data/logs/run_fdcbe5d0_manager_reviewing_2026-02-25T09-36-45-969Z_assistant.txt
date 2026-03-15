@@ -1,0 +1,5 @@
+Answered and resynced.
+
+- Created `data/tasks/T-015_slide_paddle_bonus/answers/A-resync-todo.md` with a brief response confirming TODO/DECISIONS/task folders are consistent, no scope change, and that T-015/T-016 remain P1 tasks for `developer_antigravity`.
+- Updated `data/pipeline_state.json` to `iteration: 91`, kept `current_task_id: "T-015_slide_paddle_bonus"`, `assigned_developer: "developer_antigravity"`, `developer_status: "ready_for_review"`, and set `summary` to reference the new answer file.
+- Wrote the turn completion marker `data/turn_markers/turn-0ea2313e01394742aebd.done` (via the required `.tmp` file) with content `ok`.

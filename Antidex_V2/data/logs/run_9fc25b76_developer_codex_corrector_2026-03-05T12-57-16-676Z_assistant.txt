@@ -1,0 +1,6 @@
+Summary
+- Centralized the “AG disabled after 3 stalls” guardrail in `_bumpDispatchCountOrBlock`, so it always takes precedence over `dispatch_loop` regardless of call path, and reused it in AG dispatch. (`server/pipelineManager.js`)
+- Recorded the implementation detail in decisions. (`doc/DECISIONS.md`)
+
+Tests
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`

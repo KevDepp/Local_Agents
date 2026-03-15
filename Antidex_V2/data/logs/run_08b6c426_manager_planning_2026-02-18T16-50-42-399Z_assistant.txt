@@ -1,0 +1,24 @@
+Je commence par lire les fichiers demandés pour comprendre les règles de doc et le pipeline avant de planifier les tâches.Je vais maintenant mettre à jour SPEC, TODO, TESTING_PLAN, DECISIONS et enrichir l’INDEX pour décrire ce mini-pipeline de 3 tâches avant de créer les dossiers de tâches.Les documents SPEC, TODO, TESTING_PLAN, DECISIONS et l’INDEX sont mis à jour; je passe à la création des dossiers/fichiers de tâches T-001/2/3.Les trois dossiers de tâches T-001/002/003 et leurs `task.md` + `manager_instruction.md` sont créés; je mets maintenant à jour `data/pipeline_state.json`.Le renommage du turn marker a échoué car le fichier `.tmp` n'était pas encore visible; je vais le recréer puis le renommer en deux étapes séquentielles.Résumé des actions du Manager (sans coder) :
+
+- `doc/SPEC.md`: complété pour décrire la séquence de trois tâches (`T-001_hello`, `T-002_world`, `T-003_files`) et les critères d’acceptation (existence de `hello.txt`, `world.txt`, `files.md` listant les deux fichiers, avec preuves dans les dossiers de tâches).
+- `doc/TODO.md`: rempli avec trois entrées P0 pour `developer_codex`, chacune avec un `Order` explicite 1, 2, 3 correspondant respectivement à `T-001_hello`, `T-002_world`, `T-003_files`.
+- `doc/TESTING_PLAN.md`: détaillé pour préciser les vérifications attendues après chaque tâche (présence des fichiers, commandes de test type `Test-Path`, `ls/dir`, `Select-String` sur `files.md`, inclusion des preuves dans `dev_result`).
+- `doc/DECISIONS.md`: nouvelle entrée datée du `2026-02-18` consignant le découpage de la demande utilisateur en trois tâches séquentielles assignées à `developer_codex`.
+- `doc/INDEX.md`: enrichi avec des entrées spécifiques pour `data/tasks/T-001_hello/`, `T-002_world/`, `T-003_files/` afin de référencer les nouveaux dossiers de tâches.
+
+- Dossiers et fichiers de tâches:
+  - `data/tasks/T-001_hello/task.md` et `manager_instruction.md`: définissent la tâche « créer hello.txt », le périmètre, la Definition of Done, les preuves attendues et les chemins pour ACK/RESULT/Q-A.
+  - `data/tasks/T-002_world/task.md` et `manager_instruction.md`: idem pour « créer world.txt », en exigeant que `hello.txt` reste présent.
+  - `data/tasks/T-003_files/task.md` et `manager_instruction.md`: idem pour « créer files.md » qui liste au moins `hello.txt` et `world.txt`, sans toucher destructivement aux deux fichiers.
+
+- `data/pipeline_state.json`: mis à jour pour refléter le début de la phase de dispatch:
+  - `"iteration": 1`
+  - `"phase": "dispatching"`
+  - `"current_task_id": "T-001_hello"`
+  - `"assigned_developer": "developer_codex"`
+  - `"developer_status": "ongoing"`
+  - `"manager_decision": null`
+  - `"thread_policy"` conservé, `"summary": "dispatching T-001_hello to developer_codex"`, `"updated_at": "2026-02-18T16:50:42.399Z"`.
+
+- Turn marker (protocole de fin de tour):
+  - Création de `data/turn_markers/turn-f396be3c111748e98466.tmp` avec le contenu `ok`, puis renommage en `data/turn_markers/turn-f396be3c111748e98466.done` (dernière opération du tour).

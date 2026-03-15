@@ -1,0 +1,8 @@
+Queued the MEDIUM quick 3p long job and documented the EASY 3p control results plus the single MEDIUM tweak. `data/pipeline_state.json` is now `waiting_job`.
+
+Key artifacts and where to look:
+- Job request: `data/jobs/requests/REQ-2026-03-12T08-07-29-1c11dc2f-a9d-T-006c_medium_baseline_fix.json`
+- Monitor logs: `data/jobs/<job_id>/stdout.log`, `data/jobs/<job_id>/stderr.log`, `data/jobs/<job_id>/monitor_reports/latest.md`
+- Pending output: `..\\ai_lab\\reports\\medium_vs_medium_sanity_quick_3p.json`
+
+If you want me to proceed once the job finishes, I’ll parse the new report and decide whether to run the 200-game MEDIUM 3p report.

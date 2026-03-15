@@ -1,0 +1,2 @@
+[meta] task=T-001_ag-smoke cwd=C:\Users\kdeplus\AppData\Local\Temp\antidex-pw2-CAcNvO
+[sending] baseUrl=http://127.0.0.1:17562 agRunId=ag-T-001_ag-smoke-c91fd4e60a954838

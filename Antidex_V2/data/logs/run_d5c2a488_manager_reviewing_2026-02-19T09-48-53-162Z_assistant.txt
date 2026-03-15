@@ -1,0 +1,1 @@
+I’ll first re-read the manager docs and T-001 artifacts, then decide ACCEPTED vs REWORK, update pipeline_state and TODO, optionally commit, and finally write the turn marker.I’ve accepted T-001 in TODO and created manager_review; next I’ll update pipeline_state, handle git commit with the T-001 changes, then write the turn marker.

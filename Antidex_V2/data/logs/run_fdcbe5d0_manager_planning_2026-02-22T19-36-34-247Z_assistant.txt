@@ -1,0 +1,16 @@
+Here’s the current planning state after this turn:
+
+- `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, and `doc/INDEX.md` are all consistent with the new P1 features (mitraillettes, destructive ball, indestructible bricks, branching exits) and list tasks T-008..T-010 explicitly.
+- Tasks T-008, T-009, and T-010 each have:
+  - A dedicated folder under `data/tasks/` with `task.md` and `manager_instruction.md`.
+  - Clear context, scope, out-of-scope, a concrete Definition of Done, and `developer_antigravity` assigned.
+- `data/pipeline_state.json` is already set for dispatching:
+  - `current_task_id`: `T-008_weapon_and_destroyer_powerups`
+  - `assigned_developer`: `developer_antigravity`
+  - `developer_status`: `ongoing`
+  - `manager_decision`: `null`
+  - `phase`: `dispatching`
+  - `thread_policy.developer_antigravity`: `reuse`
+- No additional changes to planning docs or pipeline_state were required in this recovery step.
+- TURN MARKER for this planning turn is written atomically:
+  - `data/turn_markers/turn-ce0290040a5c4a45a726.done` with content `ok`.

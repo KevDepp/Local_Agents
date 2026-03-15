@@ -1,0 +1,13 @@
+{
+  "marker": "antidex_project",
+  "marker_version": 1,
+  "project_id": "dbbe08dd-6655-4f32-ae9c-1cb41fe3432d",
+  "project_name": "phase1-project-2026-02-19t09-55-16",
+  "layout_version": 1,
+  "created_at": "2026-02-19T09:55:17.343Z",
+  "updated_at": "2026-02-19T09:55:17.343Z",
+  "antidex_orchestrator": {
+    "name": "Antidex",
+    "version": "0.0.0"
+  }
+}

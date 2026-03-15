@@ -1,0 +1,1 @@
+Updated `data/tasks/T-006b_strength_gate/dev_ack.json`, `data/tasks/T-006b_strength_gate/dev_result.md`, `data/pipeline_state.json`, and added the guidance question in `data/tasks/T-006b_strength_gate/questions/`. Turn marker written at `data/turn_markers/turn-19a011ec11b04c44bcd5.done`.

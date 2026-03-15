@@ -1,0 +1,4 @@
+Je vais lire l’état de T-006 (TODO, TESTING_PLAN, pipeline_state, dev_result), décider ACCEPTED ou REWORK, mettre à jour `manager_review.md`, `data/pipeline_state.json`, `doc/TODO.md`, faire le commit si ACCEPTED, puis écrire le marqueur de tour demandé.- T-006_high_scores est ACCEPTÉ, avec review dans `data/tasks/T-006_high_scores/manager_review.md` (JSON `data/high_scores.json`, intégration UI, tests `tests/test_high_scores.py`; commit `f528af497cffc20350586e0af035cda3b1c87955` consigné).
+- `doc/TODO.md` est à jour: T-006 est cochée, seul T-007_audio_effects reste ouvert.
+- `data/pipeline_state.json` est mis à jour: `iteration`=7, `phase`="dispatching", `current_task_id`="T-007_audio_effects", `developer_status`="ongoing", `manager_decision`="continue", `summary` pointe vers le manager_review de T-006.
+- Le marqueur de tour `data/turn_markers/turn-50610166c0bf4413a93b.done` a été écrit avec le contenu `ok`.

@@ -1,0 +1,28 @@
+Confirmed task folder: `data/tasks/T-012_rework_board_ui_v2`.
+
+**Summary**
+- Aligned engine + UI board topology to `render_board_v3.py` (row/col layout, adjacency) and updated UI rendering to the new layout.
+- Added external start zones in the UI and repositioned START reserves based on v2 zone mapping by player count.
+- Updated adjacency math in rules/AI and refreshed tests to the new node ids; recorded the start-entry mapping decision.
+
+**Tests**
+- `npm test`
+
+**Files Modified**
+- `src/engine/boards/froggit.ts`
+- `src/engine/rules.ts`
+- `src/ai/evaluate.ts`
+- `src/ui/hexMath.ts`
+- `src/pages/Board.tsx`
+- `src/engine/__tests__/rules.test.ts`
+- `src/ai/__tests__/ai.test.ts`
+- `doc/DECISIONS.md`
+- `data/tasks/T-012_rework_board_ui_v2/dev_ack.json`
+- `data/tasks/T-012_rework_board_ui_v2/dev_result.md`
+- `data/pipeline_state.json`
+
+**Notes**
+- Manual UI pass not run here.
+
+**Next Steps**
+1. Run `T-013_manual_test_pass_v2` on the updated UI (per TESTING_PLAN).

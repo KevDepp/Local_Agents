@@ -1,0 +1,2 @@
+[meta] task=T-008_weapon_and_destroyer_powerups cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\arcano-d
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-008_weapon_and_destroyer_powerups-26d8e9496521429e

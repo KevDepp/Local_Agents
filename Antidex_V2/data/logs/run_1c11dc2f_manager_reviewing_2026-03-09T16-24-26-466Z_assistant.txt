@@ -1,0 +1,6 @@
+Processed the latest state for `T-006c_medium_baseline_fix` as an outcome-driven review.
+
+- `data/tasks/T-006c_medium_baseline_fix/manager_review.md`: **REWORK** — sanity artifacts still missing; latest structured long-job `data/jobs/job-T-006c_medium_baseline_fix-2026-03-09T13-29-37` crashed with empty logs and no `result.json`.
+- `data/tasks/T-006c_medium_baseline_fix/manager_instruction.md`: updated to require env-var echo + fail-fast when `ANTIDEX_JOB_RESULT_PATH` is missing, and explicitly allows a manager-approved foreground fallback to produce the two JSON artifacts.
+- `data/pipeline_state.json`: set `developer_status=ongoing`, `manager_decision=continue`, summary points to the review.
+- Turn marker written: `data/turn_markers/turn-2c42084022b44af48f12.done`.

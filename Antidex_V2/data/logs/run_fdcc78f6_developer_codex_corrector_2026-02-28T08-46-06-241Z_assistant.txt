@@ -1,0 +1,5 @@
+Summary  
+Updated the AG prompt to include absolute paths and an explicit ACK JSON example, and made the AG watchdog tolerate a missing ACK when a valid RESULT is already present. This reduces false stalls when AG skips the ACK or has cwd ambiguity, while keeping the watchdog guardrails intact.
+
+Tests  
+- `node -e "require('./server/pipelineManager.js'); console.log('ok')"`

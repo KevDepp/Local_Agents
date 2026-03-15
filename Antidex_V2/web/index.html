@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Antidex</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Antidex (Manager + Dev Codex + Dev Antigravity)</h1>
+    <div id="meta"></div>
+    <div id="runSummary" class="run-summary">
+      <div class="summary-row">
+        <span class="badge" id="badgeStatus">status: -</span>
+        <span class="badge" id="badgePhase">phase: -</span>
+        <span class="badge" id="badgeIteration">iteration: -</span>
+        <span class="badge badge-agent" id="badgeActiveAgent">active: -</span>
+        <span class="badge" id="badgeActiveStep">step: -</span>
+      </div>
+      <div class="summary-row">
+        <div class="progress">
+          <div class="progress-bar" id="todoProgressBar" style="width:0%"></div>
+        </div>
+        <span class="progress-text" id="todoProgressText">TODO: -</span>
+        <span class="progress-text" id="currentTaskText">task: -</span>
+      </div>
+    </div>
+    <div class="row">
+      <button id="openLogs" type="button">Logs browser</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="config">
+      <h2>Configuration</h2>
+      <label>
+        Workspace (dossier parent) / CWD
+        <div class="row">
+          <input id="cwd" type="text" size="60" />
+          <button id="browseCwd" type="button">Browse…</button>
+        </div>
+      </label>
+
+      <div class="row">
+        <label>
+          <input id="createProjectDir" type="checkbox" checked />
+          Nouveau projet : créer un sous-dossier projet dans ce workspace
+        </label>
+        <label>
+          Nom du projet (optionnel)
+          <input id="projectDirName" type="text" placeholder="auto (Manager choisit)" />
+        </label>
+      </div>
+
+      <div class="row">
+        <label>
+          Manager model
+          <input id="managerModel" type="text" value="gpt-5.4" />
+        </label>
+        <label>
+          Developer model
+          <input id="developerModel" type="text" value="gpt-5.4" />
+        </label>
+      </div>
+
+      <details>
+        <summary>Options (prompt dynamiques)</summary>
+        <div class="row">
+          <label title="Si coché: le Manager est autorisé à demander à l’agent AG de consulter ChatGPT (quand nécessaire) selon le protocole files (data/chatgpt_consults/*). Si décoché: ne pas utiliser ChatGPT sauf demande explicite.">
+            <input id="useChatGPT" type="checkbox" />
+            useChatGPT (autoriser ChatGPT via AG)
+          </label>
+          <label title="Si coché: le Manager doit s’assurer que le projet est sur GitHub. Si aucun repo/remote n’existe, il doit demander à l’agent AG de créer le repo GitHub (browser) puis push (voir doc/GIT_WORKFLOW.md).">
+            <input id="useGitHub" type="checkbox" />
+            useGitHub (créer/publier sur GitHub)
+          </label>
+          <label title="Si coché: le Manager est autorisé à demander à l’agent AG d’utiliser Lovable (SPEC §14.4) pour générer un mock/squelette UI via browser, avec commit/push sur GitHub. Nécessite un repo GitHub; si absent, AG doit le créer.">
+            <input id="useLovable" type="checkbox" />
+            useLovable (mock UI via Lovable)
+          </label>
+        </div>
+        <div class="row">
+          <label title="Politique par défaut (recommandée): quand les 2 développeurs sont viables, utiliser AG par défaut. Si le quota AG (data/AG_current_quota/current_quota.json) est <= 40%, alors réduire AG: ~1 tâche sur 2 (alterner AG/Codex) jusqu'à récupération du quota. Les tâches qui nécessitent le browser restent forcées sur AG.">
+            <input id="agCodexRatioDefault" type="checkbox" checked />
+            Ratio AG/Codex par défaut (quota-aware)
+          </label>
+        </div>
+        <label title="Texte libre. Indique au Manager la proportion globale attendue entre AG et Dev Codex (heuristique, pas une contrainte rigide). Exemple: “3x plus d’AG que de Codex” ou “AG seulement sauf code/tests”.">
+          agCodexRatio (optionnel)
+          <input id="agCodexRatio" type="text" placeholder="ex: 3x plus d’AG que de Codex" />
+        </label>
+      </details>
+
+      <details>
+        <summary>Thread policies (Phase 3)</summary>
+        <div class="row">
+          <label>
+            Dev Codex default
+            <select id="threadPolicyCodex">
+              <option value="reuse" selected>reuse</option>
+              <option value="new_per_task">new_per_task</option>
+            </select>
+          </label>
+          <label>
+            Dev AG default
+            <select id="threadPolicyAg">
+              <option value="reuse" selected>reuse</option>
+              <option value="new_per_task">new_per_task</option>
+            </select>
+          </label>
+          <label title="Continue en forçant une nouvelle session Codex (nouveaux threads manager/dev) + recontextualisation via fichiers">
+            <input id="continueNewSession" type="checkbox" />
+            Continue: new session
+          </label>
+        </div>
+      </details>
+
+      <details>
+        <summary>Antigravity connector (Phase 2)</summary>
+        <div class="row">
+          <label>
+            Connector base URL
+            <input id="connectorBaseUrl" type="text" value="http://127.0.0.1:17375" />
+          </label>
+          <button id="checkConnector" type="button">Check</button>
+        </div>
+        <div class="row">
+          <label title="Toast notification on Antigravity side (if supported)">
+            <input id="connectorNotify" type="checkbox" />
+            notify
+          </label>
+          <label title="Return debug fields from /send (if supported)">
+            <input id="connectorDebug" type="checkbox" />
+            debug
+          </label>
+        </div>
+        <pre id="connectorStatus"></pre>
+      </details>
+
+      <div class="row">
+        <label title="Enable Corrector (auto-fix) for this run">
+          <input id="enableCorrector" type="checkbox" checked />
+          <strong>Correcteur</strong> : auto-fix Antidex incidents (restart + reprise automatique)
+        </label>
+      </div>
+
+      <label>
+        Pré-prompt Manager
+        <textarea id="managerPre" rows="5"></textarea>
+      </label>
+
+      <details>
+        <summary>Pré-prompt Developer (optionnel)</summary>
+        <textarea id="developerPre" rows="4"></textarea>
+      </details>
+    </section>
+
+    <section class="prompt">
+      <h2>Prompt utilisateur (pour le Manager)</h2>
+      <textarea id="userPrompt" rows="6"></textarea>
+      <div class="row buttons">
+        <button id="start" type="button" title="Démarre un nouveau run (le pipeline s’exécute ensuite jusqu’à completion, blocage, stop ou cancel).">Start pipeline</button>
+        <button id="continue" type="button" title="Continue (Stop/Continue): reprend un run stoppé/failed/completed, ou continue après une étape bloquée.">Continue pipeline</button>
+        <button id="sendToManager" type="button" title="Envoie un message prioritaire au Manager (override) et relance le run. Le Manager doit réconcilier ce message avec doc/TODO.md, puis Antidex repart du 1er item non coché.">Send to manager</button>
+        <button id="resume" type="button" style="display:none" title="Resume (Pause/Resume): reprend immédiatement un run en pause, sans changer de session.">Resume</button>
+        <button id="pause" type="button" title="Pause: suspend temporairement le run (reprenable via Resume).">Pause</button>
+        <button id="editTodo" type="button" title="Ouvre TODO.md dans une nouvelle fenêtre (pour ce run)">Edit
+          TODO</button>
+        <button id="stop" type="button" title="Stop: arrête le run (reprenable via Continue). Utile si tu veux modifier le projet puis reprendre.">Stop pipeline</button>
+        <button id="cancel" type="button" title="Annule définitivement ce run (non-reprenable)">Cancel</button>
+        <button id="unlock" type="button"
+          title="Débloque le verrou 'Another pipeline is already running' si aucun tour n'est actif">Force
+          unlock</button>
+        <span>runId : <span id="runIdOut">(none)</span></span>
+      </div>
+      <div class="hint">
+        Astuce: pre-remplir via URL ?prompt=... ou ?prompt_b64=... et ?autostart=1.
+      </div>
+    </section>
+
+    <section class="todoPanel">
+      <h2>TODO (éditable)</h2>
+      <div class="row">
+        <button id="todoReload" type="button" title="Recharge doc/TODO.md depuis le disque dans l’éditeur.">Reload TODO</button>
+        <button id="todoSave" type="button" title="Sauve le contenu de l’éditeur dans doc/TODO.md (sans relancer le pipeline).">Save</button>
+        <button id="todoSaveContinue" type="button" title="Sauve TODO puis Continue with update">Save + Continue</button>
+        <span id="todoMeta" class="muted"></span>
+      </div>
+      <textarea id="todoEditor" rows="10" spellcheck="false"></textarea>
+      <details>
+        <summary>Diff (dernière version chargée ↔ version actuelle)</summary>
+        <pre id="todoDiff" class="diff"></pre>
+      </details>
+      <details>
+        <summary>Diff (dernière version chargée ↔ version sur disque)</summary>
+        <pre id="todoDiffDisk" class="diff"></pre>
+      </details>
+    </section>
+
+    <section class="tasksPanel">
+      <h2>Tâches</h2>
+      <div class="row">
+        <button id="tasksReload" type="button" title="Rescan data/tasks/* et rafraîchit la liste des tâches.">Reload tasks</button>
+        <span id="tasksMeta" class="muted"></span>
+      </div>
+      <div id="tasksList" class="tasksList"></div>
+    </section>
+
+    <section class="jobsPanel">
+      <h2>Long job (background compute)</h2>
+      <p class="muted"><code>Stop pipeline</code> et <code>Stop long job</code> sont distincts. Le pipeline peut etre arrete tandis que le calcul continue en arriere-plan.</p>
+      <div class="row">
+        <span id="jobMeta" class="muted">No active job</span>
+        <button id="jobRefresh" type="button">Refresh</button>
+        <button id="jobMonitorNow" type="button" title="Force a monitor report now (LLM) and apply its decision.">Monitor now</button>
+        <button id="jobTailStdout" type="button">Tail stdout</button>
+        <button id="jobTailStderr" type="button">Tail stderr</button>
+        <button id="jobRestart" type="button" title="Restart the current long job (kills + relaunches the command).">Restart</button>
+        <button id="jobStop" type="button" title="Stop the current long job only. If the pipeline is already stopped/paused, it stays stopped/paused.">Stop long job</button>
+      </div>
+      <details open>
+        <summary>Latest monitor report</summary>
+        <pre id="jobMonitorMd" class="artifact"></pre>
+      </details>
+      <details>
+        <summary>Log tail</summary>
+        <pre id="jobLogTail" class="artifact"></pre>
+      </details>
+    </section>
+
+    <section class="status">
+      <h2>État du pipeline</h2>
+      <div class="row">
+        <select id="runSelect"></select>
+        <button id="refreshRuns" type="button" title="Recharge la liste des runs connus par Antidex (store interne).">Reload runs</button>
+        <button id="loadRun" type="button" title="Charge le run sélectionné (logs + TODO + tâches), sans le relancer.">Load selected</button>
+        <button id="modifyTodo" type="button"
+          title="Ouvre un éditeur TODO.md pour ce run, puis permet de continuer">Modify TODO</button>
+      </div>
+      <div id="status"></div>
+    </section>
+
+    <section class="logs">
+      <div class="log-panel">
+        <h3>Manager</h3>
+        <pre id="logManager"></pre>
+      </div>
+      <div class="log-panel">
+        <h3>Developer</h3>
+        <pre id="logDeveloper"></pre>
+      </div>
+      <div class="log-panel">
+        <h3>Dev AG</h3>
+        <pre id="logAg"></pre>
+      </div>
+    </section>
+
+    <section class="artifacts">
+      <h2>Artifacts (read-only)</h2>
+      <div class="row">
+        <button id="loadSpec" type="button">doc/SPEC.md</button>
+        <button id="loadTodo" type="button">doc/TODO.md</button>
+        <button id="loadTesting" type="button">doc/TESTING_PLAN.md</button>
+        <button id="loadProjectState" type="button">pipeline_state.json</button>
+      </div>
+      <div class="row">
+        <button id="loadTask" type="button">task.md (current)</button>
+        <button id="loadTaskResult" type="button">dev_result.* (current)</button>
+        <button id="loadTaskReview" type="button">manager_review.md (current)</button>
+        <button id="loadAgResult" type="button">AG result.json (current)</button>
+        <button id="loadAgAck" type="button">AG ack.json (current)</button>
+      </div>
+      <pre id="artifactContent"></pre>
+    </section>
+  </main>
+
+  <dialog id="cwdDialog">
+    <form method="dialog" class="cwdDialogInner">
+      <header>
+        <h2>Choisir un dossier</h2>
+      </header>
+      <div class="cwdBody">
+        <div class="cwdSidebar" id="cwdList"></div>
+        <div class="cwdMain">
+          <input id="cwdPath" type="text" readonly />
+          <div class="row">
+            <button type="button" id="cwdUp">Up</button>
+          </div>
+        </div>
+      </div>
+      <footer class="row">
+        <button type="button" id="cwdCancel">Cancel</button>
+        <button type="button" id="cwdSelect">Select</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

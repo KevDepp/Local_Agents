@@ -1,0 +1,14 @@
+Confirmed current task folder: `data/tasks/T-001_hello`.
+
+**Summary**
+- Created `hello.txt` at project root.
+- Wrote `data/tasks/T-001_hello/dev_ack.json`, `data/tasks/T-001_hello/dev_result.md`, and updated `data/pipeline_state.json`.
+
+**Tests**
+- `Test-Path hello.txt` → `True`
+
+**Files**
+- `hello.txt`
+- `data/tasks/T-001_hello/dev_ack.json`
+- `data/tasks/T-001_hello/dev_result.md`
+- `data/pipeline_state.json`

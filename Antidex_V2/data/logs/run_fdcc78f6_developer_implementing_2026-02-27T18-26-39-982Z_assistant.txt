@@ -1,0 +1,8 @@
+T-005 completed and ready for review.
+
+Summary:
+- UI added at `frontend/index.html`, served by FastAPI.
+- Uses `/api/translate`, shows status, download link, tokens and cost.
+- Tests passed: `python -m unittest discover -s tests`.
+
+If you want, I can walk you through a quick manual UI smoke test.

@@ -1,0 +1,6 @@
+- `T-003_mvp-gameplay` est **ACCEPTED** : gameplay MVP jouable implémenté (joueur, tirs, grille d’ennemis, collisions, score, vies statiques, game over si un ennemi atteint le bas, restart), tests automatiques (`compileall`, `unittest`) et smoke run headless OK.
+- `data/tasks/T-003_mvp-gameplay/manager_review.md` mis à jour avec Decision=ACCEPTED, résumé des preuves, vérifications et commit Git consigné : `f4fa8e6a75e4044ebd8d1454a12a790d0ce79a2f`.
+- `data/pipeline_state.json` mis à jour : `current_task_id` = `T-004_hud-title-level`, `phase` = `dispatching`, `developer_status` = `ongoing`, `manager_decision` = `continue`, `summary` = `"ACCEPTED T-003_mvp-gameplay -> next T-004_hud-title-level (see data/tasks/T-003_mvp-gameplay/manager_review.md)"`, tests `ran=true`, `passed=true`, notes alignées avec `dev_result`.
+- Commit Git effectué :  
+  `git commit --no-gpg-sign -m "[T-003_mvp-gameplay] Implement MVP gameplay (player, enemies, collisions, score)"` → `f4fa8e6a75e4044ebd8d1454a12a790d0ce79a2f`.
+- Marqueur de fin de tour écrit : `data/turn_markers/turn-8905c463789f41b5a50d.done` avec contenu `ok` (créé via `.tmp` puis renommé).

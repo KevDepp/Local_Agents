@@ -1,0 +1,17 @@
+{
+  "run_id": "fake",
+  "iteration": 1,
+  "phase": "dispatching",
+  "current_task_id": "T-001_hello",
+  "assigned_developer": "developer_codex",
+  "developer_status": "ready_for_review",
+  "manager_decision": "continue",
+  "summary": "fake accepted T-001_ -> next T-001_hello\nAuto-reconcile: detected existing data\\tasks\\T-001_hello\\dev_result.* -> developer_status=ready_for_review (evidence_detected).",
+  "updated_at": "2026-02-24T09:07:17.524Z",
+  "_fake_task_order": [
+    "T-001_hello",
+    "T-002_world",
+    "T-003_files",
+    "T-001_"
+  ]
+}

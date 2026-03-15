@@ -1,0 +1,2 @@
+[meta] task=T-003_ui-ux-review-ag cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\puissance4
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-003_ui-ux-review-ag-366a7dde8efd486a

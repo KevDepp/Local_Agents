@@ -1,0 +1,6 @@
+**Summary**
+- Skipped Corrector for `ag/watchdog` incidents so AG stalls remain a Manager-action guardrail (Q-watchdog) instead of auto-fix, preventing unnecessary Corrector runs.
+- Updated docs to reflect the AG watchdog policy and testing expectations: `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`

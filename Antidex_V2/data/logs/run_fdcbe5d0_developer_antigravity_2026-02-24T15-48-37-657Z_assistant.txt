@@ -1,0 +1,2 @@
+[meta] task=T-013_ball_speed_and_slow_bonus cwd=C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Games\arcano-d
+[sending] baseUrl=http://127.0.0.1:17375 agRunId=ag-T-013_ball_speed_and_slow_bonus-3e155b77a607412c

@@ -1,0 +1,62 @@
+﻿{
+    "ok":  true,
+    "pipeline":  {
+                     "status":  "stopped",
+                     "developerStatus":  "ongoing",
+                     "activeTurnRole":  null
+                 },
+    "active":  null,
+    "latest":  {
+                   "jobId":  "job-T-006c_medium_baseline_fix-2026-03-11T09-47-05",
+                   "status":  "running",
+                   "pid":  38256,
+                   "pidAlive":  false,
+                   "startedAt":  "2026-03-11T09:47:05.152Z",
+                   "updatedAt":  "2026-03-11T09:47:05.177Z",
+                   "stoppedAt":  null,
+                   "jobDirRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05",
+                   "jobJsonRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/job.json",
+                   "stdoutRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/stdout.log",
+                   "stderrRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/stderr.log",
+                   "heartbeatRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/heartbeat.json",
+                   "progressRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/progress.json",
+                   "resultRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/result.json",
+                   "latestMonitorJsonRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/monitor_reports/latest.json",
+                   "latestMonitorMdRel":  "data/jobs/job-T-006c_medium_baseline_fix-2026-03-11T09-47-05/monitor_reports/latest.md",
+                   "lastMonitorAtIso":  null,
+                   "lastMonitorDecision":  null,
+                   "lastMonitorStatus":  null,
+                   "lastMonitorSummary":  null,
+                   "active":  false
+               },
+    "job":  {
+                "schema":  "antidex.long_job.v1",
+                "job_id":  "job-T-006c_medium_baseline_fix-2026-03-11T09-47-05",
+                "run_id":  "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+                "task_id":  "T-006c_medium_baseline_fix",
+                "created_at":  "2026-03-11T09:46:02.789Z",
+                "started_at":  "2026-03-11T09:47:05.152Z",
+                "status":  "running",
+                "pid":  38256,
+                "command":  "cmd.exe /d /c .\\scripts\\medium_sanity_job.cmd",
+                "command_argv":  [
+                                     "cmd.exe",
+                                     "/d",
+                                     "/c",
+                                     ".\\scripts\\medium_sanity_job.cmd"
+                                 ],
+                "expected_minutes":  20,
+                "monitor_every_minutes":  null,
+                "monitor_grace_minutes":  null,
+                "stdout_log":  "stdout.log",
+                "stderr_log":  "stderr.log",
+                "request_path":  "request.json",
+                "heartbeat_path":  "heartbeat.json",
+                "progress_path":  "progress.json",
+                "result_path":  "result.json",
+                "restart_count":  0,
+                "updated_at":  "2026-03-11T09:47:05.177Z"
+            },
+    "monitor":  null,
+    "monitor_md":  null
+}

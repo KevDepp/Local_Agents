@@ -1,0 +1,26 @@
+# Antidex resume packet — index
+
+- run_id: b55ecb4c-1282-47b1-861b-2d752e9c3488
+- reason: thread_start_developer
+- generated_at: 2026-03-10T11:41:31.591Z
+- cwd: C:\Users\kdeplus\OneDrive - Université Libre de Bruxelles\Bureau\code\Local_Agents\Antidex_V2\data\phase1_workspace_2026-03-10T11-41-29-894Z\phase1-project-2026-03-10t11-41-29
+- status: implementing
+- phase: 
+- iteration: 1
+- current_task_id: T-001_hello
+- assigned_developer: developer_codex
+- developer_status: ongoing
+
+Role packets (read the one matching your role):
+- manager: data/resume_packets/b55ecb4c-1282-47b1-861b-2d752e9c3488/latest_manager.md
+- developer_codex: data/resume_packets/b55ecb4c-1282-47b1-861b-2d752e9c3488/latest_developer_codex.md
+- developer_antigravity: data/resume_packets/b55ecb4c-1282-47b1-861b-2d752e9c3488/latest_developer_antigravity.md
+
+Read these files first:
+- doc/SPEC.md
+- doc/TODO.md
+- doc/TESTING_PLAN.md
+- doc/DECISIONS.md
+- data/pipeline_state.json
+
+This index exists so the orchestrator can inject a stable path, but role packets contain the actionable notes.

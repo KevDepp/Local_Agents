@@ -1,0 +1,9 @@
+**Summary**
+- Reset the per-task review loop counter after a successful Manager review so legitimate rework cycles don’t accumulate into a `guardrail/review_loop` block. Updated `server/pipelineManager.js`.
+- Documented the review-loop reset rule and test coverage in `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, and `doc/CORRECTOR_FIX_PATTERNS.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`
+
+**Why this fixes the incident**
+The guardrail was triggered after multiple legitimate reviews on the same task. By resetting the review counter once a review passes postconditions and advances state, we avoid false review-loop guardrails while keeping the guard active for true no-progress loops.

@@ -1,0 +1,6 @@
+**Summary**
+- Treated `"Run stopped"` as a user stop unconditionally in `_handleIncident`, so Corrector never triggers for stop/pause cases even when `lastError.where=manager/user_command` or `auto`.
+- Updated docs to capture the new stop-handling invariant and test coverage: `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/CORRECTOR_FIX_PATTERNS.md`, `doc/INDEX.md`.
+
+**Tests**
+- `node -e "require('./server/pipelineManager')"`

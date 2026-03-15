@@ -1,0 +1,4 @@
+- Réponse écrite : `data/tasks/T-007_add_dutch_language/answers/A-001.md` (décision : ajouter **Nederlands (`nl`) comme 11e langue**, sans remplacer le top-10).
+- Docs mises à jour : `doc/DECISIONS.md` (décision actée), `doc/TODO.md` (T-007 clarifiée).
+- Pipeline mis à jour : `data/pipeline_state.json` → `developer_status="ongoing"`, `manager_decision="continue"`, résumé pointant vers `A-001.md`.
+- Marqueur de fin de tour : `data/turn_markers/turn-c20152b151b04d36b22e.done` (ok).

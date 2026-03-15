@@ -1,0 +1,28 @@
+﻿{
+  "run_id": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+  "iteration": 188,
+  "phase": "dispatching",
+  "current_task_id": "T-006c_medium_baseline_fix",
+  "assigned_developer": "developer_codex",
+  "thread_policy": {
+    "manager": "reuse",
+    "developer_codex": "reuse",
+    "developer_antigravity": "reuse"
+  },
+  "ag_conversation": {
+    "started": true,
+    "started_at": "2026-03-06T11:40:03.016Z",
+    "last_used_at": "2026-03-06T12:34:28.047Z",
+    "last_reset_at": "2026-03-06T11:40:03.016Z"
+  },
+  "developer_status": "idle",
+  "manager_decision": null,
+  "summary": "Corrector applied fix; restart Antidex to continue.",
+  "tests": {
+    "ran": false,
+    "passed": false,
+    "notes": "Waiting for medium_vs_medium_sanity.json refresh."
+  },
+  "updated_at": "2026-03-11T10:21:11.554Z"
+}
+

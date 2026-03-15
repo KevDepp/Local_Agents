@@ -1,0 +1,8 @@
+- Question lue: `data/tasks/M-005_final-validation/questions/Q-user-todo--2026-02-26T09-11-36.md`
+- Réponse écrite: `data/tasks/M-005_final-validation/answers/A-002_todo-resync-undo.md` (nouveau P0 “Undo 3 coups”)
+- Resync effectué:
+  - Nouvelle tâche créée: `data/tasks/T-005_undo-3-moves/task.md` + `data/tasks/T-005_undo-3-moves/manager_instruction.md`
+  - `doc/TODO.md` mis à jour (P0(5) -> `T-005_undo-3-moves`, validation finale devient P0(6))
+  - `doc/DECISIONS.md` mis à jour (ajout décision Undo)
+  - `data/pipeline_state.json` mis à jour: `current_task_id="T-005_undo-3-moves"`, `assigned_developer="developer_antigravity"`, `developer_status="ongoing"`, avec pointeur vers la réponse
+- Turn marker écrit: `data/turn_markers/turn-cf21c1c6c28c4681bce4.done`

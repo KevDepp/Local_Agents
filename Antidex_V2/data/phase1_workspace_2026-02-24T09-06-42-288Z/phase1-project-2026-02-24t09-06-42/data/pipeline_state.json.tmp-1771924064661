@@ -1,0 +1,17 @@
+{
+  "run_id": "fake",
+  "iteration": 1,
+  "phase": "dispatching",
+  "current_task_id": "T-002_world",
+  "assigned_developer": "developer_codex",
+  "developer_status": "ongoing",
+  "manager_decision": "continue",
+  "summary": "fake accepted T-001_hello -> next T-002_world",
+  "updated_at": "2026-02-24T09:07:44.661Z",
+  "_fake_task_order": [
+    "T-001_hello",
+    "T-002_world",
+    "T-003_files",
+    "T-001_"
+  ]
+}

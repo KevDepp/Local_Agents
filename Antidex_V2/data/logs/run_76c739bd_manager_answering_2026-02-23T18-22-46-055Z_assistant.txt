@@ -1,0 +1,1 @@
+Now I'll read the manager instructions and core docs to understand the workflow and task context before inspecting the specific UI smoke task question.I’ve confirmed the core docs available, inspected the pipeline state, and read both UI smoke task question files; next I’ll focus on interpreting the empty `doc/TODO.md` and formulating the manager answer.

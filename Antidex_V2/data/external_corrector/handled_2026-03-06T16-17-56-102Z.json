@@ -1,0 +1,9 @@
+{
+  "at": "2026-03-06T16:17:55.472Z",
+  "runId": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+  "where": "auto",
+  "sig": "auto:T-006b_strength_gate:turn completion wait timed out after marker",
+  "incidentPath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T16-17-55-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-auto.json",
+  "bundlePath": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-06T16-17-55-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-auto_bundle.json",
+  "context": "auto-run exception"
+}
