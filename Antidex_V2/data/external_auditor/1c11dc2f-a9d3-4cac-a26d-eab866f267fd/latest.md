@@ -1,0 +1,19 @@
+# External audit - 1c11dc2f-a9d3-4cac-a26d-eab866f267fd
+
+- generated_at: 2026-03-19T22:51:58.922Z
+- mode: enforcing
+- conclusion: suspicious
+- confidence: medium
+- recommended_action: observe
+- run_status: waiting_job
+- developer_status: waiting_job
+- current_task_id: T-006b_strength_gate
+- summary: Run is in waiting_job with recovery_cleared; no active alerts. Prior job-monitor-missed incidents exist; current long job should remain under observation.
+
+## Findings
+- [report-only] monitor/job-monitor-missed-history: Multiple recent job-monitor-missed incidents recorded for this run.
+- [report-only] encoding/path-mojibake: Mojibake/encoding artifacts appear in paths/excerpts (e.g., UniversitÃ©; BOM ï»¿).
+- [report-only] state/long-job-waiting: Active job is running/queued and pipeline is waiting_job; no alerts raised in this tick.
+
+- json_report: c:/Users/kdeplus/OneDrive - Université Libre de Bruxelles/Bureau/code/Local_Agents/Antidex_V2/data/external_auditor/1c11dc2f-a9d3-4cac-a26d-eab866f267fd/latest.json
+- md_report: c:/Users/kdeplus/OneDrive - Université Libre de Bruxelles/Bureau/code/Local_Agents/Antidex_V2/data/external_auditor/1c11dc2f-a9d3-4cac-a26d-eab866f267fd/latest.md

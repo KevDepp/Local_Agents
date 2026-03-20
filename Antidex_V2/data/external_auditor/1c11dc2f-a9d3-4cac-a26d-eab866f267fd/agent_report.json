@@ -1,0 +1,71 @@
+﻿{
+    "schema":  "antidex.external_auditor.agent_report.v1",
+    "generated_at":  "2026-03-19T22:51:50.7832024Z",
+    "run_id":  "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+    "conclusion":  "healthy",
+    "confidence":  "medium",
+    "summary":  "Run is in waiting_job with recovery_cleared; no active alerts. Prior job-monitor-missed incidents exist; current long job should remain under observation.",
+    "recommended_action":  "observe",
+    "suggested_incident_where":  null,
+    "suggested_incident_message":  null,
+    "recommendation":  null,
+    "findings":  [
+                     {
+                         "code":  "monitor/job-monitor-missed-history",
+                         "severity":  "warn",
+                         "summary":  "Multiple recent job-monitor-missed incidents recorded for this run.",
+                         "evidence":  [
+                                          "context.last_events[1..3].type=recent_incident",
+                                          "context.last_events[1..3].name=INC-2026-03-15T16-05-0{4,9,14}-...-job-monitor-missed.json"
+                                      ],
+                         "why_it_matters":  "If monitoring continues to miss jobs, long-running tasks may stall without timely detection.",
+                         "confidence":  "medium"
+                     },
+                     {
+                         "code":  "encoding/path-mojibake",
+                         "severity":  "warn",
+                         "summary":  "Mojibake/encoding artifacts appear in paths/excerpts (e.g., UniversitÃ©; BOM ï»¿).",
+                         "evidence":  [
+                                          "context.last_events[*].path contains UniversitÃ© rendered as UniversitÃ©/UniversitÃ© (mojibake in JSON output)",
+                                          "context.run_projection.audit_context.task_artifacts.dev_result.md_excerpt starts with ï»¿"
+                                      ],
+                         "why_it_matters":  "Encoding issues can break path resolution, diffs, and downstream tooling that expects normalized UTF-8/UTF-16.",
+                         "confidence":  "medium"
+                     },
+                     {
+                         "code":  "state/long-job-waiting",
+                         "severity":  "info",
+                         "summary":  "Active job is running/queued and pipeline is waiting_job; no alerts raised in this tick.",
+                         "evidence":  [
+                                          "context.summary.run_status=waiting_job",
+                                          "context.summary.active_job_id=job-T-006b_strength_gate-2026-03-19T18-16-23",
+                                          "context.alerts is empty",
+                                          "context.summary.recovery_status=recovery_cleared"
+                                      ],
+                         "why_it_matters":  "This appears nominal for a long job, but warrants periodic checks given prior monitoring misses.",
+                         "confidence":  "high"
+                     }
+                 ],
+    "memory_updates":  [
+                           {
+                               "transition":  "observed",
+                               "scope":  "antidex",
+                               "canonical_class":  "monitor/job-monitor-missed-history",
+                               "summary":  "Run has multiple recorded job-monitor-missed incidents (2026-03-15), while a new long job is active.",
+                               "evidence":  [
+                                                "last_events:recent_incident x3",
+                                                "summary.active_job_id"
+                                            ]
+                           },
+                           {
+                               "transition":  "observed",
+                               "scope":  "antidex_plus_project",
+                               "canonical_class":  "encoding/path-mojibake",
+                               "summary":  "Context packet shows mojibake in file paths and BOM in dev_result excerpt.",
+                               "evidence":  [
+                                                "evidence_paths contains UniversitÃ©",
+                                                "dev_result.md_excerpt leading ï»¿"
+                                            ]
+                           }
+                       ]
+}

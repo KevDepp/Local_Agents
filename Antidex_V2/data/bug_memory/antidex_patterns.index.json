@@ -1,0 +1,2137 @@
+{
+  "schema": "antidex.bug_memory.index.v1",
+  "scope": "antidex",
+  "updated_at": "2026-03-19T22:51:59.036Z",
+  "entries_by_key": {
+    "antidex:monitor/job-monitor-missed-recurrence": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job-monitor-missed-recurrence",
+      "scope": "antidex",
+      "canonical_class": "monitor/job-monitor-missed-recurrence",
+      "code": "monitor/job-monitor-missed-recurrence",
+      "signature": "monitor/job-monitor-missed-recurrence",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T18:31:52.907Z",
+      "last_observed_at": "2026-03-19T21:31:30.048Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 2,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Observed recurrence of job-monitor-missed incidents in last_events for run 1c11dc2f-a9d3-4cac-a26d-eab866f267fd.",
+      "evidence": [
+        "last_events:recent_incident x3 (2026-03-15)",
+        "field:last_events"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-31-30.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T21:31:30.048Z"
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:31:30.048Z",
+      "recent_event_keys": [
+        "observed:monitor/job-monitor-missed-recurrence:2026-03-19T18:31:52.907Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-31-52.json",
+        "observed:monitor/job-monitor-missed-recurrence:2026-03-19T21:31:30.048Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-31-30.json"
+      ],
+      "updated_at": "2026-03-19T21:31:30.048Z"
+    },
+    "antidex:encoding/path-mojibake": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:encoding/path-mojibake",
+      "scope": "antidex",
+      "canonical_class": "encoding/path-mojibake",
+      "code": "encoding/path-mojibake",
+      "signature": "encoding/path-mojibake",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T18:31:52.907Z",
+      "last_observed_at": "2026-03-19T22:51:58.922Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 2,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Context packet shows mojibake in file paths and BOM in dev_result excerpt.",
+      "evidence": [
+        "evidence_paths / last_events.path strings",
+        "evidence_paths contains UniversitÃ©",
+        "dev_result.md_excerpt leading ï»¿"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-51-58.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T22:51:58.922Z"
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:51:58.922Z",
+      "recent_event_keys": [
+        "observed:encoding/path-mojibake:2026-03-19T18:31:52.907Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-31-52.json",
+        "observed:encoding/path-mojibake:2026-03-19T22:51:58.922Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-51-58.json"
+      ],
+      "updated_at": "2026-03-19T22:51:58.922Z"
+    },
+    "antidex:monitor/job-monitor-missed.recurrence": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job-monitor-missed.recurrence",
+      "scope": "antidex",
+      "canonical_class": "monitor/job-monitor-missed.recurrence",
+      "code": "monitor/job-monitor-missed.recurrence",
+      "signature": "monitor/job-monitor-missed.recurrence",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T18:43:08.491Z",
+      "last_observed_at": "2026-03-19T18:43:08.491Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Run has multiple job-monitor-missed incidents recorded on 2026-03-15; watch for recurrence during current long job.",
+      "evidence": [
+        "last_events:recent_incident x3"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-43-08.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T18:43:08.491Z",
+      "recent_event_keys": [
+        "observed:monitor/job-monitor-missed.recurrence:2026-03-19T18:43:08.491Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-43-08.json"
+      ],
+      "updated_at": "2026-03-19T18:43:08.491Z"
+    },
+    "antidex:job/monitor_report_stale": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:job/monitor_report_stale",
+      "scope": "antidex",
+      "canonical_class": "job/monitor_report_stale",
+      "code": "job/monitor_report_stale",
+      "signature": "job/monitor_report_stale",
+      "lifecycle_status": "validated",
+      "first_observed_at": "2026-03-19T18:50:11.473Z",
+      "last_observed_at": "2026-03-19T18:50:11.473Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": "2026-03-19T18:58:21.206Z",
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 1,
+      "last_summary": "Validated: active job monitor report latest.md has not been updated since 2026-03-19T18:17:26Z while pipeline remains waiting_job.",
+      "evidence": [
+        "monitor_reports/latest.md LastWriteTimeUtc=2026-03-19T18:17:26Z",
+        "context.generated_at=2026-03-19T18:48:12.194Z",
+        "data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md:LastWriteTimeUtc",
+        "data/pipeline_state.json:developer_status=waiting_job"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-58-21.json",
+        "last_incident_path": null,
+        "last_source": "auditor",
+        "last_recovery_status": null
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T18:58:21.206Z"
+      },
+      "last_transition": "validated",
+      "last_transition_at": "2026-03-19T18:58:21.206Z",
+      "recent_event_keys": [
+        "observed:job/monitor_report_stale:2026-03-19T18:50:11.473Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-50-11.json",
+        "validated:job/monitor_report_stale:2026-03-19T18:58:21.206Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-58-21.json"
+      ],
+      "updated_at": "2026-03-19T18:58:21.206Z"
+    },
+    "antidex:io/path-encoding.mojibake": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:io/path-encoding.mojibake",
+      "scope": "antidex",
+      "canonical_class": "io/path-encoding.mojibake",
+      "code": "io/path-encoding.mojibake",
+      "signature": "io/path-encoding.mojibake",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T18:58:21.206Z",
+      "last_observed_at": "2026-03-19T18:58:21.206Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Observed: mojibake (UniversitÃ©) appears in context evidence paths; potential encoding mismatch in projections.",
+      "evidence": [
+        "agent_context.json:evidence_paths"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-58-21.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T18:58:21.206Z",
+      "recent_event_keys": [
+        "observed:io/path-encoding.mojibake:2026-03-19T18:58:21.206Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T18-58-21.json"
+      ],
+      "updated_at": "2026-03-19T18:58:21.206Z"
+    },
+    "antidex:encoding/mojibake_paths": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:encoding/mojibake_paths",
+      "scope": "antidex",
+      "canonical_class": "encoding/mojibake_paths",
+      "code": "encoding/mojibake_paths",
+      "signature": "encoding/mojibake_paths",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T19:07:28.100Z",
+      "last_observed_at": "2026-03-19T22:03:34.243Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 6,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Context packet contains mojibake in Windows paths (UniversitÃ©) which may indicate encoding inconsistencies.",
+      "evidence": [
+        "agent_context.json:last_events[].path",
+        "agent_context.json:evidence_paths[]",
+        "context.evidence_paths",
+        "agent_context.json:last_events[recent_incident].path",
+        "context.summary.last_events",
+        "context.run_projection.audit_context.manager_review.excerpt",
+        "context.run_projection.audit_context.dev_result.md_excerpt",
+        "evidence_paths[]",
+        "last_events[].path"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-03-34.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T19:21:21.752Z"
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:03:34.243Z",
+      "recent_event_keys": [
+        "observed:encoding/mojibake_paths:2026-03-19T19:07:28.100Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-07-28.json",
+        "observed:encoding/mojibake_paths:2026-03-19T19:21:21.752Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-21-21.json",
+        "observed:encoding/mojibake_paths:2026-03-19T19:27:47.690Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-27-47.json",
+        "observed:encoding/mojibake_paths:2026-03-19T21:04:26.447Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-04-26.json",
+        "observed:encoding/mojibake_paths:2026-03-19T21:50:26.411Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-50-26.json",
+        "observed:encoding/mojibake_paths:2026-03-19T22:03:34.243Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-03-34.json"
+      ],
+      "updated_at": "2026-03-19T22:03:34.243Z"
+    },
+    "antidex:monitoring/recent_job_monitor_missed": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitoring/recent_job_monitor_missed",
+      "scope": "antidex",
+      "canonical_class": "monitoring/recent_job_monitor_missed",
+      "code": "monitoring/recent_job_monitor_missed",
+      "signature": "monitoring/recent_job_monitor_missed",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T19:07:28.100Z",
+      "last_observed_at": "2026-03-19T21:50:26.411Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 2,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Observed multiple job-monitor-missed incidents for this run on 2026-03-15.",
+      "evidence": [
+        "agent_context.json:last_events[type=recent_incident]",
+        "context.last_events[recent_incident]"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-50-26.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T21:50:26.411Z"
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:50:26.411Z",
+      "recent_event_keys": [
+        "observed:monitoring/recent_job_monitor_missed:2026-03-19T19:07:28.100Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-07-28.json",
+        "observed:monitoring/recent_job_monitor_missed:2026-03-19T21:50:26.411Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-50-26.json"
+      ],
+      "updated_at": "2026-03-19T21:50:26.411Z"
+    },
+    "antidex:job_monitoring/stale_latest_report": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:job_monitoring/stale_latest_report",
+      "scope": "antidex",
+      "canonical_class": "job_monitoring/stale_latest_report",
+      "code": "job_monitoring/stale_latest_report",
+      "signature": "job_monitoring/stale_latest_report",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T19:14:22.322Z",
+      "last_observed_at": "2026-03-19T19:14:22.322Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Monitor 'latest.md' for active job not updated since start; content still indicates warmup/0 minutes despite ~55 minutes elapsed by context generation time.",
+      "evidence": [
+        "data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md LastWriteTimeUtc=2026-03-19T18:17:26Z",
+        "agent_context.json generated_at=2026-03-19T19:12:33.035Z"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-14-22.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T19:14:22.322Z",
+      "recent_event_keys": [
+        "observed:job_monitoring/stale_latest_report:2026-03-19T19:14:22.322Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-14-22.json"
+      ],
+      "updated_at": "2026-03-19T19:14:22.322Z"
+    },
+    "antidex:encoding/mojibake_paths_and_bom": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:encoding/mojibake_paths_and_bom",
+      "scope": "antidex",
+      "canonical_class": "encoding/mojibake_paths_and_bom",
+      "code": "encoding/mojibake_paths_and_bom",
+      "signature": "encoding/mojibake_paths_and_bom",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T19:14:22.322Z",
+      "last_observed_at": "2026-03-19T19:14:22.322Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Context packet contains mojibake ('UniversitÃ©') and BOM-rendered header ('ï»¿#') indicating possible UTF-8 decoding inconsistencies.",
+      "evidence": [
+        "agent_context.json last_events.path mojibake",
+        "agent_context.json dev_result.md_excerpt BOM"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-14-22.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T19:14:22.322Z",
+      "recent_event_keys": [
+        "observed:encoding/mojibake_paths_and_bom:2026-03-19T19:14:22.322Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-14-22.json"
+      ],
+      "updated_at": "2026-03-19T19:14:22.322Z"
+    },
+    "antidex:artifact/bom_in_markdown": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:artifact/bom_in_markdown",
+      "scope": "antidex",
+      "canonical_class": "artifact/bom_in_markdown",
+      "code": "artifact/bom_in_markdown",
+      "signature": "artifact/bom_in_markdown",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T19:21:21.752Z",
+      "last_observed_at": "2026-03-19T19:21:21.752Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "UTF-8 BOM visible at start of dev_result.md excerpt.",
+      "evidence": [
+        "agent_context.json:run_projection.audit_context.task_materials.dev_result.md_excerpt"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-21-21.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T19:21:21.752Z",
+      "recent_event_keys": [
+        "observed:artifact/bom_in_markdown:2026-03-19T19:21:21.752Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-21-21.json"
+      ],
+      "updated_at": "2026-03-19T19:21:21.752Z"
+    },
+    "antidex:history/job_monitor_missed_repeat": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:history/job_monitor_missed_repeat",
+      "scope": "antidex",
+      "canonical_class": "history/job_monitor_missed_repeat",
+      "code": "history/job_monitor_missed_repeat",
+      "signature": "history/job_monitor_missed_repeat",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T19:27:47.690Z",
+      "last_observed_at": "2026-03-19T19:27:47.690Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "This run_id has multiple prior job-monitor-missed incidents (2026-03-15); current job monitor is healthy but pattern warrants periodic watch on long jobs.",
+      "evidence": [
+        "context.last_events includes 3 job-monitor-missed incidents",
+        "data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md indicates healthy heartbeat"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-27-47.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T19:27:47.690Z",
+      "recent_event_keys": [
+        "observed:history/job_monitor_missed_repeat:2026-03-19T19:27:47.690Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T19-27-47.json"
+      ],
+      "updated_at": "2026-03-19T19:27:47.690Z"
+    },
+    "antidex:encoding/mojibake": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:encoding/mojibake",
+      "scope": "antidex",
+      "canonical_class": "encoding/mojibake",
+      "code": "encoding/mojibake",
+      "signature": "encoding/mojibake",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T20:45:44.814Z",
+      "last_observed_at": "2026-03-19T20:45:44.814Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Context packet shows consistent mojibake/BOM artifacts in paths and markdown excerpts; monitor for parsing/operator impact.",
+      "evidence": [
+        "agent_context.json:run_projection.audit_context.task_state.dev_result.md_excerpt",
+        "agent_context.json:last_events[*].path"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-45-44.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T20:45:44.814Z",
+      "recent_event_keys": [
+        "observed:encoding/mojibake:2026-03-19T20:45:44.814Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-45-44.json"
+      ],
+      "updated_at": "2026-03-19T20:45:44.814Z"
+    },
+    "antidex:io/encoding.mojibake": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:io/encoding.mojibake",
+      "scope": "antidex",
+      "canonical_class": "io/encoding.mojibake",
+      "code": "io/encoding.mojibake",
+      "signature": "io/encoding.mojibake",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T20:52:03.899Z",
+      "last_observed_at": "2026-03-19T20:52:03.899Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Observed UTF-8 mojibake/BOM artifacts in incident paths and task excerpts for this run_id.",
+      "evidence": [
+        "field:last_events[*].path",
+        "field:audit_context.task.dev_result.md_excerpt",
+        "field:audit_context.task.manager_review.excerpt"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-52-03.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T20:52:03.899Z",
+      "recent_event_keys": [
+        "observed:io/encoding.mojibake:2026-03-19T20:52:03.899Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-52-03.json"
+      ],
+      "updated_at": "2026-03-19T20:52:03.899Z"
+    },
+    "antidex:monitor/job-monitor-missed.repeat": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job-monitor-missed.repeat",
+      "scope": "antidex",
+      "canonical_class": "monitor/job-monitor-missed.repeat",
+      "code": "monitor/job-monitor-missed.repeat",
+      "signature": "monitor/job-monitor-missed.repeat",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T20:52:03.899Z",
+      "last_observed_at": "2026-03-19T20:52:03.899Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Observed repeated job-monitor-missed incidents clustered on 2026-03-15 for this run_id.",
+      "evidence": [
+        "field:last_events[1..3]"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-52-03.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T20:52:03.899Z",
+      "recent_event_keys": [
+        "observed:monitor/job-monitor-missed.repeat:2026-03-19T20:52:03.899Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-52-03.json"
+      ],
+      "updated_at": "2026-03-19T20:52:03.899Z"
+    },
+    "antidex:job/long_running_waiting_job": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:job/long_running_waiting_job",
+      "scope": "antidex",
+      "canonical_class": "job/long_running_waiting_job",
+      "code": "job/long_running_waiting_job",
+      "signature": "job/long_running_waiting_job",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T20:58:05.563Z",
+      "last_observed_at": "2026-03-19T20:58:05.563Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "When run_status=waiting_job for an active job over hours, confirm monitor is advancing and outputs are being emitted.",
+      "evidence": [
+        "summary.last_summary",
+        "summary.active_job_id",
+        "pipeline.status"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-58-05.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T20:58:05.563Z",
+      "recent_event_keys": [
+        "observed:job/long_running_waiting_job:2026-03-19T20:58:05.563Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-58-05.json"
+      ],
+      "updated_at": "2026-03-19T20:58:05.563Z"
+    },
+    "antidex:job/monitor_missed_history": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:job/monitor_missed_history",
+      "scope": "antidex",
+      "canonical_class": "job/monitor_missed_history",
+      "code": "job/monitor_missed_history",
+      "signature": "job/monitor_missed_history",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T20:58:05.563Z",
+      "last_observed_at": "2026-03-19T20:58:05.563Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Multiple job-monitor-missed incidents occurred on 2026-03-15 for this run_id; treat as elevated monitoring risk.",
+      "evidence": [
+        "last_events[1..3].path"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-58-05.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T20:58:05.563Z",
+      "recent_event_keys": [
+        "observed:job/monitor_missed_history:2026-03-19T20:58:05.563Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T20-58-05.json"
+      ],
+      "updated_at": "2026-03-19T20:58:05.563Z"
+    },
+    "antidex:jobs/over_expected_elapsed": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:jobs/over_expected_elapsed",
+      "scope": "antidex",
+      "canonical_class": "jobs/over_expected_elapsed",
+      "code": "jobs/over_expected_elapsed",
+      "signature": "jobs/over_expected_elapsed",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:04:26.447Z",
+      "last_observed_at": "2026-03-19T21:04:26.447Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Job monitor reports fresh heartbeat but elapsed time beyond expected window; result not produced yet.",
+      "evidence": [
+        "data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-04-26.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:04:26.447Z",
+      "recent_event_keys": [
+        "observed:jobs/over_expected_elapsed:2026-03-19T21:04:26.447Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-04-26.json"
+      ],
+      "updated_at": "2026-03-19T21:04:26.447Z"
+    },
+    "antidex:job/elapsed_exceeds_expected_but_alive": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:job/elapsed_exceeds_expected_but_alive",
+      "scope": "antidex",
+      "canonical_class": "job/elapsed_exceeds_expected_but_alive",
+      "code": "job/elapsed_exceeds_expected_but_alive",
+      "signature": "job/elapsed_exceeds_expected_but_alive",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:10:46.306Z",
+      "last_observed_at": "2026-03-19T21:10:46.306Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Active job job-T-006b_strength_gate-2026-03-19T18-16-23 continues with fresh heartbeat despite exceeding expected window; monitor recommends continue.",
+      "evidence": [
+        "data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-10-46.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:10:46.306Z",
+      "recent_event_keys": [
+        "observed:job/elapsed_exceeds_expected_but_alive:2026-03-19T21:10:46.306Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-10-46.json"
+      ],
+      "updated_at": "2026-03-19T21:10:46.306Z"
+    },
+    "antidex:encoding/path_mojibake_in_packet": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:encoding/path_mojibake_in_packet",
+      "scope": "antidex",
+      "canonical_class": "encoding/path_mojibake_in_packet",
+      "code": "encoding/path_mojibake_in_packet",
+      "signature": "encoding/path_mojibake_in_packet",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:10:46.306Z",
+      "last_observed_at": "2026-03-19T21:10:46.306Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Some paths in context packet render Université as UniversitÃ© (likely UTF-8/CP1252 mojibake).",
+      "evidence": [
+        "agent_context.json:last_events[].path",
+        "agent_context.json:evidence_paths[]"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-10-46.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:10:46.306Z",
+      "recent_event_keys": [
+        "observed:encoding/path_mojibake_in_packet:2026-03-19T21:10:46.306Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-10-46.json"
+      ],
+      "updated_at": "2026-03-19T21:10:46.306Z"
+    },
+    "antidex:encoding/mojibake_in_paths_and_excerpts": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:encoding/mojibake_in_paths_and_excerpts",
+      "scope": "antidex",
+      "canonical_class": "encoding/mojibake_in_paths_and_excerpts",
+      "code": "encoding/mojibake_in_paths_and_excerpts",
+      "signature": "encoding/mojibake_in_paths_and_excerpts",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:17:03.604Z",
+      "last_observed_at": "2026-03-19T21:17:03.604Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Mojibake/encoding artifacts appear in incident paths and task excerpts ('UniversitÃ©', 'â€œrunningâ€', BOM 'ï»¿').",
+      "evidence": [
+        "agent_context:last_events[].path",
+        "agent_context:run_projection.audit_context.task_context.manager_review.excerpt",
+        "agent_context:run_projection.audit_context.task_context.dev_result.md_excerpt"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-17-03.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:17:03.604Z",
+      "recent_event_keys": [
+        "observed:encoding/mojibake_in_paths_and_excerpts:2026-03-19T21:17:03.604Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-17-03.json"
+      ],
+      "updated_at": "2026-03-19T21:17:03.604Z"
+    },
+    "antidex:monitoring/repeated_job_monitor_missed": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitoring/repeated_job_monitor_missed",
+      "scope": "antidex",
+      "canonical_class": "monitoring/repeated_job_monitor_missed",
+      "code": "monitoring/repeated_job_monitor_missed",
+      "signature": "monitoring/repeated_job_monitor_missed",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:17:03.604Z",
+      "last_observed_at": "2026-03-19T21:17:03.604Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Multiple job-monitor-missed incidents exist for this run_id (2026-03-15), suggesting monitoring fragility.",
+      "evidence": [
+        "agent_context:last_events[1..].name",
+        "agent_context:evidence_paths includes INC-2026-03-15T16-05-*-job-monitor-missed.json"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-17-03.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:17:03.604Z",
+      "recent_event_keys": [
+        "observed:monitoring/repeated_job_monitor_missed:2026-03-19T21:17:03.604Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-17-03.json"
+      ],
+      "updated_at": "2026-03-19T21:17:03.604Z"
+    },
+    "antidex:monitor/job-monitor-missed-history": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job-monitor-missed-history",
+      "scope": "antidex",
+      "canonical_class": "monitor/job-monitor-missed-history",
+      "code": "monitor/job-monitor-missed-history",
+      "signature": "monitor/job-monitor-missed-history",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:23:19.585Z",
+      "last_observed_at": "2026-03-19T22:51:58.922Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 2,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Run has multiple recorded job-monitor-missed incidents (2026-03-15), while a new long job is active.",
+      "evidence": [
+        "last_events includes three recent_incident entries for job-monitor-missed",
+        "last_events:recent_incident x3",
+        "summary.active_job_id"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-51-58.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T22:51:58.922Z"
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:51:58.922Z",
+      "recent_event_keys": [
+        "observed:monitor/job-monitor-missed-history:2026-03-19T21:23:19.585Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-23-19.json",
+        "observed:monitor/job-monitor-missed-history:2026-03-19T22:51:58.922Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-51-58.json"
+      ],
+      "updated_at": "2026-03-19T22:51:58.922Z"
+    },
+    "antidex:encoding/mojibake-paths": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:encoding/mojibake-paths",
+      "scope": "antidex",
+      "canonical_class": "encoding/mojibake-paths",
+      "code": "encoding/mojibake-paths",
+      "signature": "encoding/mojibake-paths",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:23:19.585Z",
+      "last_observed_at": "2026-03-19T21:23:19.585Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Mojibake/BOM artifacts appear in context packet renderings (paths and excerpts); may indicate encoding handling issue.",
+      "evidence": [
+        "context.last_events.path",
+        "context.run_projection.task_context.*.excerpt"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-23-19.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:23:19.585Z",
+      "recent_event_keys": [
+        "observed:encoding/mojibake-paths:2026-03-19T21:23:19.585Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-23-19.json"
+      ],
+      "updated_at": "2026-03-19T21:23:19.585Z"
+    },
+    "antidex:jobs/elapsed_exceeds_expected": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:jobs/elapsed_exceeds_expected",
+      "scope": "antidex",
+      "canonical_class": "jobs/elapsed_exceeds_expected",
+      "code": "jobs/elapsed_exceeds_expected",
+      "signature": "jobs/elapsed_exceeds_expected",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:37:48.825Z",
+      "last_observed_at": "2026-03-19T21:37:48.825Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Long-running strength-gate job exceeds expected window but still shows fresh heartbeat; continue monitoring before incident.",
+      "evidence": [
+        "monitor_reports/latest.md summary mentions elapsed exceeds expected window"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-37-48.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:37:48.825Z",
+      "recent_event_keys": [
+        "observed:jobs/elapsed_exceeds_expected:2026-03-19T21:37:48.825Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-37-48.json"
+      ],
+      "updated_at": "2026-03-19T21:37:48.825Z"
+    },
+    "antidex:io/encoding_artifacts": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:io/encoding_artifacts",
+      "scope": "antidex",
+      "canonical_class": "io/encoding_artifacts",
+      "code": "io/encoding_artifacts",
+      "signature": "io/encoding_artifacts",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:37:48.825Z",
+      "last_observed_at": "2026-03-19T21:37:48.825Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Mojibake/BOM artifacts present in incident paths and doc excerpts.",
+      "evidence": [
+        "agent_context.last_events paths; dev_result.md_excerpt BOM"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-37-48.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:37:48.825Z",
+      "recent_event_keys": [
+        "observed:io/encoding_artifacts:2026-03-19T21:37:48.825Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-37-48.json"
+      ],
+      "updated_at": "2026-03-19T21:37:48.825Z"
+    },
+    "antidex:job/elapsed_exceeds_expected": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:job/elapsed_exceeds_expected",
+      "scope": "antidex",
+      "canonical_class": "job/elapsed_exceeds_expected",
+      "code": "job/elapsed_exceeds_expected",
+      "signature": "job/elapsed_exceeds_expected",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:44:17.567Z",
+      "last_observed_at": "2026-03-19T21:44:17.567Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Long job running beyond expected window but heartbeat remains fresh.",
+      "evidence": [
+        "monitor_reports/latest.md: elapsed exceeds expected; heartbeat fresh"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-44-17.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:44:17.567Z",
+      "recent_event_keys": [
+        "observed:job/elapsed_exceeds_expected:2026-03-19T21:44:17.567Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-44-17.json"
+      ],
+      "updated_at": "2026-03-19T21:44:17.567Z"
+    },
+    "antidex:state/pipeline_state_stale_timestamp": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:state/pipeline_state_stale_timestamp",
+      "scope": "antidex",
+      "canonical_class": "state/pipeline_state_stale_timestamp",
+      "code": "state/pipeline_state_stale_timestamp",
+      "signature": "state/pipeline_state_stale_timestamp",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:44:17.567Z",
+      "last_observed_at": "2026-03-19T21:44:17.567Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "pipeline_state updated_at not refreshed during running job; may mask progress.",
+      "evidence": [
+        "data/pipeline_state.json: updated_at=2026-03-19T18:16:23.951Z"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-44-17.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:44:17.567Z",
+      "recent_event_keys": [
+        "observed:state/pipeline_state_stale_timestamp:2026-03-19T21:44:17.567Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-44-17.json"
+      ],
+      "updated_at": "2026-03-19T21:44:17.567Z"
+    },
+    "antidex:incidents/job_monitor_missed_fix_failures": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:incidents/job_monitor_missed_fix_failures",
+      "scope": "antidex",
+      "canonical_class": "incidents/job_monitor_missed_fix_failures",
+      "code": "incidents/job_monitor_missed_fix_failures",
+      "signature": "incidents/job_monitor_missed_fix_failures",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:44:17.567Z",
+      "last_observed_at": "2026-03-19T21:44:17.567Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "job-monitor-missed incident fixes failing with bundles pending; monitor reliability risk.",
+      "evidence": [
+        "runs/.../summary.md: multiple fix_status=failed; *_bundle.json pending"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-44-17.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:44:17.567Z",
+      "recent_event_keys": [
+        "observed:incidents/job_monitor_missed_fix_failures:2026-03-19T21:44:17.567Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-44-17.json"
+      ],
+      "updated_at": "2026-03-19T21:44:17.567Z"
+    },
+    "antidex:monitor/repeated_missed": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/repeated_missed",
+      "scope": "antidex",
+      "canonical_class": "monitor/repeated_missed",
+      "code": "monitor/repeated_missed",
+      "signature": "monitor/repeated_missed",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T21:56:47.811Z",
+      "last_observed_at": "2026-03-19T21:56:47.811Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Run has repeated job-monitor-missed incidents; treat monitor reliability as degraded until revalidated.",
+      "evidence": [
+        "agent_context.last_events recent_incident *job-monitor-missed*"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-56-47.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T21:56:47.811Z",
+      "recent_event_keys": [
+        "observed:monitor/repeated_missed:2026-03-19T21:56:47.811Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T21-56-47.json"
+      ],
+      "updated_at": "2026-03-19T21:56:47.811Z"
+    },
+    "antidex:monitor/job_monitor_missed_history": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job_monitor_missed_history",
+      "scope": "antidex",
+      "canonical_class": "monitor/job_monitor_missed_history",
+      "code": "monitor/job_monitor_missed_history",
+      "signature": "monitor/job_monitor_missed_history",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:03:34.243Z",
+      "last_observed_at": "2026-03-19T22:45:26.004Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 2,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Run history shows multiple job-monitor-missed incidents; keep under observation during long jobs.",
+      "evidence": [
+        "last_events includes 3 recent_incident entries job-monitor-missed",
+        "summary.active_job_id=job-T-006b_strength_gate-2026-03-19T18-16-23",
+        "context:last_events includes 3 recent_incident entries (2026-03-15)"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-45-26.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T22:45:26.004Z"
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:45:26.004Z",
+      "recent_event_keys": [
+        "observed:monitor/job_monitor_missed_history:2026-03-19T22:03:34.243Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-03-34.json",
+        "observed:monitor/job_monitor_missed_history:2026-03-19T22:45:26.004Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-45-26.json"
+      ],
+      "updated_at": "2026-03-19T22:45:26.004Z"
+    },
+    "antidex:monitor/job_monitor_missed_recurrence": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job_monitor_missed_recurrence",
+      "scope": "antidex",
+      "canonical_class": "monitor/job_monitor_missed_recurrence",
+      "code": "monitor/job_monitor_missed_recurrence",
+      "signature": "monitor/job_monitor_missed_recurrence",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:10:05.304Z",
+      "last_observed_at": "2026-03-19T22:10:05.304Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Run has repeated job-monitor-missed incidents clustered on 2026-03-15.",
+      "evidence": [
+        "context.last_events recent_incident x3"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-10-05.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:10:05.304Z",
+      "recent_event_keys": [
+        "observed:monitor/job_monitor_missed_recurrence:2026-03-19T22:10:05.304Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-10-05.json"
+      ],
+      "updated_at": "2026-03-19T22:10:05.304Z"
+    },
+    "antidex:io/path_encoding_mojibake": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:io/path_encoding_mojibake",
+      "scope": "antidex",
+      "canonical_class": "io/path_encoding_mojibake",
+      "code": "io/path_encoding_mojibake",
+      "signature": "io/path_encoding_mojibake",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:10:05.304Z",
+      "last_observed_at": "2026-03-19T22:37:39.563Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 2,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Evidence/incident paths contain mojibake 'UniversitÃ©', suggesting encoding normalization issues in path rendering.",
+      "evidence": [
+        "context.last_events[].path",
+        "context.evidence_paths[]",
+        "context.last_events[*].path",
+        "context.evidence_paths[*]"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-37-39.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "pattern_confirmed",
+        "promoted_at": "2026-03-19T22:37:39.563Z"
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:37:39.563Z",
+      "recent_event_keys": [
+        "observed:io/path_encoding_mojibake:2026-03-19T22:10:05.304Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-10-05.json",
+        "observed:io/path_encoding_mojibake:2026-03-19T22:37:39.563Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-37-39.json"
+      ],
+      "updated_at": "2026-03-19T22:37:39.563Z"
+    },
+    "antidex:monitor/job-monitor-missed_history": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job-monitor-missed_history",
+      "scope": "antidex",
+      "canonical_class": "monitor/job-monitor-missed_history",
+      "code": "monitor/job-monitor-missed_history",
+      "signature": "monitor/job-monitor-missed_history",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:16:36.710Z",
+      "last_observed_at": "2026-03-19T22:16:36.710Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Observed repeated job-monitor-missed incidents in recent history for this run id.",
+      "evidence": [
+        "context.last_events recent_incident x3 (2026-03-15)"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-16-36.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:16:36.710Z",
+      "recent_event_keys": [
+        "observed:monitor/job-monitor-missed_history:2026-03-19T22:16:36.710Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-16-36.json"
+      ],
+      "updated_at": "2026-03-19T22:16:36.710Z"
+    },
+    "antidex:io/encoding_mojibake_bom": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:io/encoding_mojibake_bom",
+      "scope": "antidex",
+      "canonical_class": "io/encoding_mojibake_bom",
+      "code": "io/encoding_mojibake_bom",
+      "signature": "io/encoding_mojibake_bom",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:16:36.710Z",
+      "last_observed_at": "2026-03-19T22:16:36.710Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Observed mojibake (UniversitÃ©) and BOM prefix (ï»¿) in stored excerpts/paths.",
+      "evidence": [
+        "context.last_events[*].path",
+        "context.run_projection.audit_context.task_artifacts.dev_result.md_excerpt"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-16-36.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:16:36.710Z",
+      "recent_event_keys": [
+        "observed:io/encoding_mojibake_bom:2026-03-19T22:16:36.710Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-16-36.json"
+      ],
+      "updated_at": "2026-03-19T22:16:36.710Z"
+    },
+    "antidex:monitor/job-monitor-missed_recurring": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/job-monitor-missed_recurring",
+      "scope": "antidex",
+      "canonical_class": "monitor/job-monitor-missed_recurring",
+      "code": "monitor/job-monitor-missed_recurring",
+      "signature": "monitor/job-monitor-missed_recurring",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:22:52.626Z",
+      "last_observed_at": "2026-03-19T22:22:52.626Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Run has multiple job-monitor-missed incidents in close succession (2026-03-15).",
+      "evidence": [
+        "agent_context.json:last_events recent_incident job-monitor-missed x3"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-22-52.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:22:52.626Z",
+      "recent_event_keys": [
+        "observed:monitor/job-monitor-missed_recurring:2026-03-19T22:22:52.626Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-22-52.json"
+      ],
+      "updated_at": "2026-03-19T22:22:52.626Z"
+    },
+    "antidex:state/encoding_mojibake": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:state/encoding_mojibake",
+      "scope": "antidex",
+      "canonical_class": "state/encoding_mojibake",
+      "code": "state/encoding_mojibake",
+      "signature": "state/encoding_mojibake",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:22:52.626Z",
+      "last_observed_at": "2026-03-19T22:22:52.626Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Mojibake/BOM visible in stored paths and task excerpts; may affect readability/parsing.",
+      "evidence": [
+        "agent_context.json: last_events.path; run_projection.audit_context.project.tasks.*.excerpt"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-22-52.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:22:52.626Z",
+      "recent_event_keys": [
+        "observed:state/encoding_mojibake:2026-03-19T22:22:52.626Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-22-52.json"
+      ],
+      "updated_at": "2026-03-19T22:22:52.626Z"
+    },
+    "antidex:pipeline/job_long_running": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:pipeline/job_long_running",
+      "scope": "antidex",
+      "canonical_class": "pipeline/job_long_running",
+      "code": "pipeline/job_long_running",
+      "signature": "pipeline/job_long_running",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:31:06.368Z",
+      "last_observed_at": "2026-03-19T22:31:06.368Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Long-running strength-gate job exceeds expected window but has fresh heartbeat; monitor recommends continue.",
+      "evidence": [
+        "data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-31-06.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:31:06.368Z",
+      "recent_event_keys": [
+        "observed:pipeline/job_long_running:2026-03-19T22:31:06.368Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-31-06.json"
+      ],
+      "updated_at": "2026-03-19T22:31:06.368Z"
+    },
+    "antidex:monitoring/job_monitor_missed_history": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitoring/job_monitor_missed_history",
+      "scope": "antidex",
+      "canonical_class": "monitoring/job_monitor_missed_history",
+      "code": "monitoring/job_monitor_missed_history",
+      "signature": "monitoring/job_monitor_missed_history",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:31:06.368Z",
+      "last_observed_at": "2026-03-19T22:31:06.368Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Repeated job-monitor-missed incidents exist for this run_id on 2026-03-15; monitor reliability may be intermittent.",
+      "evidence": [
+        "context.last_events recent_incident list"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-31-06.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:31:06.368Z",
+      "recent_event_keys": [
+        "observed:monitoring/job_monitor_missed_history:2026-03-19T22:31:06.368Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-31-06.json"
+      ],
+      "updated_at": "2026-03-19T22:31:06.368Z"
+    },
+    "antidex:monitor/recent_job_monitor_missed_incidents": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:monitor/recent_job_monitor_missed_incidents",
+      "scope": "antidex",
+      "canonical_class": "monitor/recent_job_monitor_missed_incidents",
+      "code": "monitor/recent_job_monitor_missed_incidents",
+      "signature": "monitor/recent_job_monitor_missed_incidents",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:37:39.563Z",
+      "last_observed_at": "2026-03-19T22:37:39.563Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Run history contains multiple 'job-monitor-missed' incidents; keep periodic observation while current recovery is cleared.",
+      "evidence": [
+        "context.last_events: 3x recent_incident job-monitor-missed"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-37-39.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:37:39.563Z",
+      "recent_event_keys": [
+        "observed:monitor/recent_job_monitor_missed_incidents:2026-03-19T22:37:39.563Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-37-39.json"
+      ],
+      "updated_at": "2026-03-19T22:37:39.563Z"
+    },
+    "antidex:io/utf8_mojibake_in_paths_and_excerpts": {
+      "schema": "antidex.bug_memory.entry.v1",
+      "bug_key": "antidex:io/utf8_mojibake_in_paths_and_excerpts",
+      "scope": "antidex",
+      "canonical_class": "io/utf8_mojibake_in_paths_and_excerpts",
+      "code": "io/utf8_mojibake_in_paths_and_excerpts",
+      "signature": "io/utf8_mojibake_in_paths_and_excerpts",
+      "lifecycle_status": "observed",
+      "first_observed_at": "2026-03-19T22:45:26.004Z",
+      "last_observed_at": "2026-03-19T22:45:26.004Z",
+      "corrected_at": null,
+      "corrected_by": null,
+      "last_fix_status": null,
+      "validated_at": null,
+      "reopened_at": null,
+      "reopen_count": 0,
+      "observation_count": 1,
+      "correction_count": 0,
+      "validation_count": 0,
+      "last_summary": "Encoding mojibake appears in Windows paths and markdown excerpts (BOM/curly quotes), indicating potential UTF-8 handling issues.",
+      "evidence": [
+        "context:evidence_paths[*] contains 'UniversitÃ©'",
+        "context:dev_result.md_excerpt starts with 'ï»¿'"
+      ],
+      "related_runs": [
+        "1c11dc2f-a9d3-4cac-a26d-eab866f267fd"
+      ],
+      "related_tasks": [
+        "T-006b_strength_gate"
+      ],
+      "related_jobs": [
+        "job-T-006b_strength_gate-2026-03-19T18-16-23"
+      ],
+      "related_incidents": [],
+      "source_refs": {
+        "last_audit_report_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-45-26.json",
+        "last_incident_path": null,
+        "last_source": "auditor"
+      },
+      "automation": {
+        "status": "report_only",
+        "local_revalidation_status": null,
+        "last_revalidated_at": null,
+        "promotion_status": "observed_only",
+        "promoted_at": null
+      },
+      "last_transition": "observed",
+      "last_transition_at": "2026-03-19T22:45:26.004Z",
+      "recent_event_keys": [
+        "observed:io/utf8_mojibake_in_paths_and_excerpts:2026-03-19T22:45:26.004Z:c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\AUD-2026-03-19T22-45-26.json"
+      ],
+      "updated_at": "2026-03-19T22:45:26.004Z"
+    }
+  }
+}

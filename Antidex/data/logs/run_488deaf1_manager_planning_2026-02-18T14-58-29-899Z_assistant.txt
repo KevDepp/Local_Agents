@@ -1,1 +1,0 @@
-Now I’ll read the manager instructions, docs, and pipeline state to understand existing structure before drafting tasks and updates.I’ve loaded the manager instructions, doc rules, current docs, and pipeline state; next I’ll update SPEC/TODO/TESTING_PLAN/DECISIONS (and keep INDEX consistent) to reflect the three sequential tasks.

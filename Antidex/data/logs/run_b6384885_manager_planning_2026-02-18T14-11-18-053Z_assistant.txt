@@ -1,1 +1,0 @@
-Scanning repo structure and required manager/doc files next.Context loaded; now I’ll adjust planning docs and pipeline state.

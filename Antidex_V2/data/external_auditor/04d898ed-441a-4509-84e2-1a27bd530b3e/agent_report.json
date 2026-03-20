@@ -1,0 +1,75 @@
+{
+  "schema": "antidex.external_auditor.agent_report.v1",
+  "generated_at": "2026-03-15T20:04:34.236Z",
+  "run_id": "04d898ed-441a-4509-84e2-1a27bd530b3e",
+  "conclusion": "suspicious",
+  "confidence": "medium",
+  "summary": "Run is stopped by user with developer marked ongoing; project pipeline_state.json is unreadable and all project docs and task artifacts for T-001_ag-smoke are missing, suggesting an incomplete or misconfigured project context rather than an active recovery.",
+  "recommended_action": "observe",
+  "suggested_incident_where": null,
+  "suggested_incident_message": null,
+  "recommendation": null,
+  "findings": [
+    {
+      "code": "state/project_pipeline_state_unreadable",
+      "severity": "error",
+      "summary": "Project pipeline_state.json is missing or unreadable from the auditor context, preventing structural verification of the target pipeline.",
+      "evidence": [
+        "alerts[0].code",
+        "audit_context.project.pipeline_state.raw",
+        "audit_context.project.pipeline_state.summary",
+        "evidence_paths[0]"
+      ],
+      "why_it_matters": "Without a readable pipeline_state.json, Antidex and the auditor cannot validate the target project pipeline structure, task progression, or recovery hooks, which weakens guarantees about orchestration safety.",
+      "confidence": "high"
+    },
+    {
+      "code": "docs/project_core_docs_missing",
+      "severity": "warn",
+      "summary": "All referenced project docs (SPEC, TODO, TESTING_PLAN, DECISIONS) are reported as non-existent in the temporary project directory.",
+      "evidence": [
+        "audit_context.project.docs_digest.spec.exists",
+        "audit_context.project.docs_digest.todo.exists",
+        "audit_context.project.docs_digest.testing_plan.exists",
+        "audit_context.project.docs_digest.decisions.exists"
+      ],
+      "why_it_matters": "Missing core project documentation limits Antidex and the auditor's ability to cross-check behavior, robustness guarantees, and testing strategy against the intended design.",
+      "confidence": "medium"
+    },
+    {
+      "code": "state/developer_ongoing_but_run_stopped_by_user",
+      "severity": "info",
+      "summary": "Run status is stopped with last_error='Stopped by user' while developer_status is still marked 'ongoing' and no recovery is active.",
+      "evidence": [
+        "summary.run_status",
+        "summary.developer_status",
+        "pipeline.status",
+        "pipeline.developer_status",
+        "pipeline.last_error",
+        "run_projection.status",
+        "run_projection.developer_status",
+        "run_projection.last_error",
+        "last_events[1]"
+      ],
+      "why_it_matters": "A stopped run with developer marked ongoing and no recovery lane suggests an interrupted or manually aborted smoke task rather than a clean completion; this may be acceptable for testing but should be noted for human review.",
+      "confidence": "medium"
+    },
+    {
+      "code": "tasks/current_task_artifacts_missing",
+      "severity": "info",
+      "summary": "For current_task_id T-001_ag-smoke, task.md, manager_instruction, manager_review, and dev_result artifacts are all reported as non-existent in the project context.",
+      "evidence": [
+        "summary.current_task_id",
+        "audit_context.project.current_task.task_id",
+        "audit_context.project.current_task.task_md.exists",
+        "audit_context.project.current_task.manager_instruction.exists",
+        "audit_context.project.current_task.manager_review.exists",
+        "audit_context.project.current_task.dev_result.md_exists",
+        "audit_context.project.current_task.dev_result.json_exists"
+      ],
+      "why_it_matters": "The absence of task and result artifacts for the current task is consistent with a smoke or scaffolding setup but means there is no traceable record of intended work or outcomes for this run.",
+      "confidence": "medium"
+    }
+  ]
+}
+

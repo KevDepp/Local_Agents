@@ -1,4 +1,0 @@
-- `data/tasks/T-003_files/manager_review.md` written with decision REWORK (no `files.md`, no `dev_ack.json` / `dev_result.md`; DoD and TESTING_PLAN not satisfied).
-- `data/pipeline_state.json` updated for `T-003_files` rework (same `current_task_id`, `manager_decision="continue"`, summary pointing to `manager_review.md`, `updated_at` refreshed).
-- `doc/TODO.md` left unchanged (T-003_files still pending), `doc/INDEX.md` unchanged.
-- Turn marker `data/turn_markers/turn-5d6a535dd6ab4e99bb96.done` written atomically via `.tmp` with content `ok`.

@@ -1,0 +1,497 @@
+{
+  "schema": "antidex.external_auditor.context.v1",
+  "generated_at": "2026-03-19T22:50:47.419Z",
+  "run_id": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+  "auditor_mode": "enforcing",
+  "automation_policy": {
+    "observer_role": "generalist_agent",
+    "auto_incident_requires_local_revalidation": true,
+    "auto_recovery_closure_requires_local_revalidation": true,
+    "note": "The auditor agent may report anomalies outside any whitelist. Guardian/backend only use whitelists to decide what can be actioned automatically."
+  },
+  "summary": {
+    "run_status": "waiting_job",
+    "developer_status": "waiting_job",
+    "current_task_id": "T-006b_strength_gate",
+    "active_job_id": "job-T-006b_strength_gate-2026-03-19T18-16-23",
+    "last_job_id": "job-T-006b_strength_gate-2026-03-15T18-45-08",
+    "active_turn": null,
+    "recovery_status": "recovery_cleared",
+    "recovery_lane": "auto_resume_safe",
+    "last_summary": "Long job started (job-T-006b_strength_gate-2026-03-19T18-16-23). Monitor: data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md."
+  },
+  "alerts": [],
+  "recovery": null,
+  "pipeline": {
+    "status": "waiting_job",
+    "developer_status": "waiting_job",
+    "manager_decision": null,
+    "current_task_id": "T-006b_strength_gate",
+    "active_turn": null,
+    "active_job_id": "job-T-006b_strength_gate-2026-03-19T18-16-23",
+    "last_job_id": "job-T-006b_strength_gate-2026-03-15T18-45-08",
+    "last_error": null
+  },
+  "last_events": [
+    {
+      "type": "run_summary",
+      "summary": "Long job started (job-T-006b_strength_gate-2026-03-19T18-16-23). Monitor: data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md.",
+      "at": "2026-03-19T22:50:47.364Z"
+    },
+    {
+      "type": "recent_incident",
+      "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-04-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+      "name": "INC-2026-03-15T16-05-04-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json"
+    },
+    {
+      "type": "recent_incident",
+      "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-09-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+      "name": "INC-2026-03-15T16-05-09-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json"
+    },
+    {
+      "type": "recent_incident",
+      "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-14-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+      "name": "INC-2026-03-15T16-05-14-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json"
+    }
+  ],
+  "evidence_paths": [
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\pipeline_state.json",
+    "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\runs\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\summary.md",
+    "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\runs\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\timeline.jsonl",
+    "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-04-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+    "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-09-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+    "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-14-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json"
+  ],
+  "guidance": {
+    "primary_fields": [
+      "summary",
+      "alerts",
+      "recovery",
+      "pipeline",
+      "last_events",
+      "audit_context"
+    ],
+    "note": "Prefer these top-level fields before drilling into nested audit_context."
+  },
+  "run_projection": {
+    "status": "waiting_job",
+    "developer_status": "waiting_job",
+    "manager_decision": null,
+    "current_task_id": "T-006b_strength_gate",
+    "active_turn": null,
+    "active_job_id": "job-T-006b_strength_gate-2026-03-19T18-16-23",
+    "last_job_id": "job-T-006b_strength_gate-2026-03-15T18-45-08",
+    "last_error": null,
+    "recovery": {
+      "active": false,
+      "status": "recovery_cleared",
+      "lane": "auto_resume_safe",
+      "incidentPath": null,
+      "incidentSignature": null,
+      "incidentWhere": null,
+      "fixStatus": null,
+      "baseline": null,
+      "progress": null,
+      "correctorPreflight": null,
+      "resumePreflight": null,
+      "lastEvaluation": {
+        "evaluated_at": "2026-03-19T22:45:26.020Z",
+        "status": "recovery_cleared",
+        "lane": "auto_resume_safe",
+        "fix_status": null,
+        "healing": {
+          "cleared": true,
+          "reasons": [
+            "original_signature_absent"
+          ]
+        },
+        "progress": {
+          "observed": true,
+          "reasons": [
+            "project_state_updated",
+            "turn_marker_written",
+            "task_artifact_updated"
+          ],
+          "metrics": {
+            "iteration": 221,
+            "current_task_id": "T-006b_strength_gate",
+            "developer_status": "waiting_job",
+            "manager_decision": null,
+            "project_state_mtime_ms": 1773859469597.5046,
+            "turn_markers_mtime_ms": 1773862795294.4697,
+            "task_evidence_mtime_ms": 1773862706592.8662,
+            "baseline_source": "incident_time_floor"
+          }
+        }
+      }
+    }
+  },
+  "audit_context": {
+    "antidex": {
+      "orchestrator_version": "0.0.0",
+      "cwd": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2",
+      "docs": {
+        "spec": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\SPEC.md",
+        "decisions": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\DECISIONS.md",
+        "todo": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\TODO.md",
+        "testing_plan": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\TESTING_PLAN.md",
+        "error_handling": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\ERROR_HANDLING.md",
+        "corrector_runbook": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\CORRECTOR_RUNBOOK.md",
+        "corrector_fix_patterns": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\CORRECTOR_FIX_PATTERNS.md",
+        "index": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\INDEX.md"
+      },
+      "docs_digest": {
+        "spec": {
+          "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\SPEC.md",
+          "exists": true,
+          "excerpt": "﻿# SPEC â€” Antidex (Manager + Dev Codex + Dev Antigravity)\n\n## 0) Contexte et objectif\n\nCe sous-projet (dans `Local_Agents/Antidex_V2/`) vise a **combiner**:\n- `Local_Agents/Local_Codex_dual_pipeline/` (orchestration de 2 threads Codex: manager + developer),\n- `Local_Agents/Antigravity_POC/` (envoi de prompts a Antigravity via `antigravity-connector` + protocole de sortie par fichiers),\net a s'appuyer sur les briques de `Local_Agents/Local_Codex_appserver/` (client `codex app-server` + UI/browser POC) comme reference.\n\nLe produit final attendu est une **interface web locale** dans laquelle l'utilisateur saisit un prompt (cahier des charges) pour un **agent Manager**. Le Manager:\n- fait le plan de travail,\n- decoupe en taches (la \"taille\" cible sera fournie plus tard),\n- choisit le bon \"developpeur\" pour chaque tache: soit **un agent Codex** (developer Codex), soit **Antigravity** (developer AG),\n- assigne les taches **une par une** (pipeline sequentiel) et ne passe a la suivante qu'apres verification,\n- verifie que c'est bien fait; sinon renvoie un message clair de rework,\n- documente ce qui est fait au fur et a mesure,\n- met en evidence les deviations/choix pris differents du plan initial,\n- gere les tests (et exige des preuves).\n\n### Source de verite\nSi ce document diverge d'anciens documents pre-POC (ex: le `.docx` fourni), **les consignes ecrites dans ta demande** priment.\n\n## 1) Roles\n\n### 1.1 Utilisateur\n- Fournit le prompt initial (cahier des charges).\n- Peut arreter/reprendre un run.\n- Observe les sorties et l'etat.\n\n### 1.2 Manager (Codex)\nRole central pour garantir que le developpement ne s'arrete pas avant d'etre termine.\n- Planification: produit/maintient SPEC/TODO/TESTING_PLAN/DECISIONS + INDEX dans le projet cible.\n- Dispatch: choisit le developpeur (Codex vs Antigravity) par tache.\n- Verification: relit, lance/valide les tests, demande des corrections si besoin.\n- TraÃ§abilite: documente les choix et deviations.\n\n### 1.3 Developer Codex\nAgent Codex dedie a l'implementation de taches de code.\n- Lit les instructions et les fichiers de planification.\n- Implemente, ajoute des tests, met a jour la doc.\n- Produit une sortie \"ready for review\" via fichi\n[...truncated]\n"
+        },
+        "decisions": {
+          "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\DECISIONS.md",
+          "exists": true,
+          "excerpt": "# Decisions — Antidex_V2\n- 2026-02-15: Cree le sous-projet `Local_Agents/Antidex_V2/` et demarre par la doc (SPEC/TODO/TESTING_PLAN + index) selon `Local_Agents/doc/DOCS_RULES.md`.\n- 2026-03-19: Memoire vivante des bugs — mode d'ecriture: la semantique de la memoire doit etre **agent-authored, backend-committed**. Direction retenue: l'**Auditeur** et le **Correcteur** doivent proposer eux-memes des `memory_updates` structures (`observed|validated|reopened` pour l'Auditeur, `corrected` pour le Correcteur). Le backend ne doit plus reconstruire librement ces transitions a partir de ses propres heuristiques; il doit surtout valider le schema, verifier les references/runId/incidents, dedupliquer, puis committer l'entree canonique de facon atomique.\n- 2026-03-19: Memoire vivante des bugs: les bugs/patterns connus ne doivent pas etre ajoutes manuellement par l'utilisateur ou par un developpeur externe comme source principale. Direction retenue: Antidex doit construire et maintenir lui-meme une **memoire des anomalies** a partir des runs reels, avec separation `scope=antidex|project`, pour capitaliser ce que l'auditeur observe et ce que le Correcteur tente/corrige.\n- 2026-03-19: Cycle de vie d'un bug/pattern: distinction explicite entre `observed`, `corrected`, `validated`, `reopened`. Direction retenue: l'**Auditeur** porte `observed`, `validated`, `reopened`; le **Correcteur** porte `corrected`. Rationale: eviter que le Correcteur soit juge et partie sur la validation reelle du fix.\n- 2026-03-19: Promotion vers l'automatisation forte: l'auditeur doit pouvoir recommander des incidents pour des anomalies nouvelles, pas seulement pour un petit catalogue de bugs connus. Direction retenue: une anomalie peut devenir auto-actionnable quand Antidex dispose (a) d'une classe canonique,\n[...truncated]\n"
+        },
+        "todo": {
+          "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\TODO.md",
+          "exists": true,
+          "excerpt": "﻿# TODO â€” Antidex (Hybrid pipeline)\r\n\r\nFormat: `- [ ] P0|P1|P2 (Owner) Task (proof: files/tests/logs)`\r\n\r\n## P0 â€” A trancher (spec/protocol)\r\n\r\n- [x] P0 (Both) Valider le nom du dossier + convention de nommage (proof: `doc/DECISIONS.md`)\r\n- [x] P0 (Both) Figer le protocole fichiers cote projet cible: `pipeline_state.json` + dossiers de taches + mailboxes + fichiers d'instructions (proof: `doc/SPEC.md`, `doc/DECISIONS.md`)\r\n- [x] P0 (Codex) Specifier le mode \"long job\" pour `developer_codex`: enveloppe reusable, etat `waiting_job`, monitor Codex horaire, watchdog job, UI et correcteurs (proof: `doc/LONG_JOBS_SPEC.md`, `doc/SPEC.md`, `doc/ERROR_HANDLING.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`)\r\n- [ ] P0 (Both) Definir \"Definition of Done\" par tache (preuves obligatoires) (proof: `doc/SPEC.md`, `doc/TESTING_PLAN.md`)\r\n\r\n## Prochaine implementation apres stabilisation\n\n- [ ] P0 (Codex) Ajouter un **auditeur externe periodique** read-only, distinct du Correcteur, avec rollout `passive` puis `enforcing` via whitelist de signatures a forte confiance. L'auditeur doit ecrire `data/external_auditor/<runId>/AUD-*.{json,md}` + `latest.*`, recommander un incident sans corriger lui-meme, et laisser au Guardian/orchestrateur la revalidation puis le handoff vers le Correcteur externe. (proof: `server/pipelineManager.js`, `scripts/guardian.js`, `server/index.js`, `web/app.js`, `doc/SPEC.md`, `doc/TESTING_PLAN.md`)\n- [ ] P0 (Codex) Recadrer l'**auditeur externe periodique** comme **agent dedie** et observateur generaliste: il doit pouvoir produire des anomalies observees hors sign\n[...truncated]\n"
+        },
+        "testing_plan": {
+          "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\TESTING_PLAN.md",
+          "exists": true,
+          "excerpt": "﻿# Testing Plan â€” Antidex (Hybrid pipeline)\r\n\r\nNote: ce document dÃ©crit les tests de l'**orchestrateur Antidex** (backend + UI Antidex).\r\nLes tests du **projet cible** (le logiciel que Antidex est en train de dÃ©velopper) doivent Ãªtre dÃ©crits et suivis dans\r\nle `doc/TESTING_PLAN.md` du projet cible (crÃ©Ã©/maintenu par le Manager dans le `cwd`).\r\n\r\n## Unit (Codex)\r\n- Protocole fichiers: generation paths + validation JSON minimal.\n- Parser/sync `data/pipeline_state.json` (developer_status, manager_decision, etc.).\n- Watchdog AG: ACK best-effort:\n  - ne pas \"inferer\" un ACK a partir de simples mtimes sous `data/antigravity_runs/<runId>/`,\n  - sur timeout ACK: tenter une re-dispatch (nouveau thread) 1x avant escalation,\n  - tolere ACK manquant si RESULT valide.\n- Watchdog AG: waiting_result applique ANTIDEX_AG_STALL_RESULT_MS (threshold plus long apres ACK).\n- Watchdog AG: override par tache via `ag_expected_silence_ms`/`ag_expected_silence_minutes` et extension du seuil en waiting_result.\n- Watchdog AG: message `Q-watchdog` inclut le seuil effectif + rappel d'override pour taches browser-only longues.\n- AG watchdog: incident `ag/watchdog` doit rester une action Manager (Q-watchdog) et **ne pas** declencher le Corrector.\n- Guardrail dispatch vs AG stalls: si agRetryCounts>=3, l'orchestrateur doit emettre \"AG disabled\" avant tout `dispatch_loop` generique.\n- Guardrail loop: answering `Q-loop` exige un changement d'etat (developer_status=ongoing/ready_for_review OU manager_decision=blocked/completed).\n- Continue recovery: apres `Stop` puis `Continue pipeline`, reset des com\n[...truncated]\n"
+        },
+        "error_handling": {
+          "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\ERROR_HANDLING.md",
+          "exists": true,
+          "excerpt": "# Gestion des Erreurs et Récupération (Error Handling & Recovery)\r\n\r\n## 0) Contexte et objectif\r\n\r\nAntidex est conçu pour des runs longs (jusqu'à **12 heures d'affilée**). Durant cette période, les agents (Antigravity et Codex) peuvent rencontrer des blocages, pannes, ou épuisement de ressources (tokens).\r\n\r\nCe document définit :\r\n- les **modes de défaillance** (failure modes) identifiés,\r\n- les **mécanismes de monitoring** (quoi surveiller, à quelle fréquence),\r\n- les **protocoles de récupération** (retry, fallback, arrêt gracieux),\r\n- les **responsabilités** (orchestrateur vs Manager).\r\n\r\nPrincipe général : **Antidex doit être résilient et ne doit pas bloquer indéfiniment sur une panne temporaire.**\r\n\r\n---\r\n\r\n## 1) Modes de défaillance — Antigravity (AG)\r\n\r\n### 1.1 Failure Mode AG-1 : Blocage / boucle infinie\r\n\r\n**Symptômes** :\r\n- AG ne termine jamais sa tâche.\r\n- Aucun fichier de sortie (`ack.json`, `result.json`) n'est produit.\r\n- L'agent tourne en boucle, ou est bloqué sur une attente (approbation utilisateur oubliée, bug dans le connector, etc.).\r\n\r\n**Difficulté** :\r\n- Le Manager ne peut pas \"voir\" directement ce qui se passe dans AG (pas d'accès au thread/conversation).\r\n- Sans retour explicite, impossible de savoir si c'est un blocage ou une tâche longue.\r\n\r\n**Mécanisme de détection** :\r\nL'orchestrateur surveille (a) le protocole run AG et (b) l'activité \"progress\" côté AG :\r\n\r\n**Note importante (connector)** :\n- Le `antigravity-connector` peut repondre `HTTP 200` tout en retournant un diagnostic du type *\"Verification failed: ...\"*.\n- Ce diagnostic n'est **pas** un\n[...truncated]\n"
+        },
+        "corrector_runbook": {
+          "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\CORRECTOR_RUNBOOK.md",
+          "exists": true,
+          "excerpt": "# Correcteur — Runbook (Normal vs Change)\n\nCe document est la **source de vérité opérationnelle** pour l’agent **Correcteur (auto-fix Antidex)**.\n\nObjectif: quand Antidex se bloque (bug/cas non prévu), le Correcteur doit **débloquer** et faire en sorte que le run **continue**, en modifiant Antidex (code + docs + process) de façon minimale et robuste.\n\n## 1) NORMAL (ne pas changer)\n\nCes invariants doivent rester vrais, même après patch:\n\n- Antidex est **file-driven**: l’orchestrateur ne progresse que sur preuves/fichiers attendus + marqueurs de tour.\n- Pipeline **séquentiel**: une tâche à la fois + review Manager avant de passer à la suivante.\n- En cas d’écart ou d’incident, Antidex ne doit pas “s’arrêter bêtement”:\n  - il doit écrire un incident exploitable,\n  - rendre la main au Manager avec une explication claire,\n  - et/ou auto-fix via Correcteur (si activé).\n- Les “loops” ne doivent pas consommer des heures:\n  - **pas de redispatch identique** sans élément nouveau vérifiable.\n- Le Correcteur doit privilégier des **fixes process** (garde-fous, invariants, instrumentation, retries) plutôt que des “fixes ad hoc” fragiles.\n\n## 2) CHANGE (autorisé)\n\nLe Correcteur **a le droit** de modifier (dans Antidex):\n\n- backend (`server/`), UI (`web/`), scripts (`scripts/`), docs (`doc/`),\n- templates d’instructions bootstrap (`doc/agent_instruction_templates/`),\n- les garde-fous (guardrails), watchdogs, politiques de retry,\n- les builders de prompts (Manager/Dev/AG/Correcteur) et leurs protocoles.\n\nLimites:\n- patch minimal et test rapide (smoke/test ciblé) après modification,\n- éviter \n[...truncated]\n"
+        },
+        "corrector_fix_patterns": {
+          "path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\CORRECTOR_FIX_PATTERNS.md",
+          "exists": true,
+          "excerpt": "﻿# Correcteur â€” Patterns (mÃ©moire opÃ©rationnelle)\r\n\r\nCe document sert de â€œmÃ©moireâ€ au Correcteur: signatures dâ€™incidents dÃ©jÃ  rencontrÃ©es + correctifs robustes typiques.\r\n\r\nLe but nâ€™est pas dâ€™Ãªtre exhaustif, mais dâ€™Ã©viter de rÃ©inventer et de rendre les corrections **rÃ©utilisables**.\r\n\r\n## Dispatch / Review loops\r\n\r\n### guardrail/dispatch_loop\n- SymptÃ´me: le pipeline redispatch la mÃªme tÃ¢che sans progrÃ¨s mesurable, jusquâ€™au guardrail.\n- Fix attendu: rendre le redispatch **conditionnel**:\n  - exiger une preuve nouvelle (fichier attendu / state change),\n  - sinon forcer une bifurcation (Q/A, clarification DoD, changement de dev, ou blocked explicite).\n- Variante robuste: reset le compteur de dispatch apres un review valide (ACCEPTED/REWORK) pour eviter un guardrail pendant des cycles de rework deja reviews.\n- Variante AG: si des stalls watchdog AG ont atteint le seuil (ex: 3), privilegier le guardrail \"AG disabled\" avant `dispatch_loop` (reorder/short-circuit) pour forcer un choix Manager (switch dev ou override explicite).\n- Variante incident: si un `dispatch_loop` AG stale est detecte en auto-run et que les stalls sont deja a 3, reconcilier vers \"AG disabled\" et **ne pas** declencher Corrector (guardrail = action Manager).\n- Ne pas â€œdÃ©sactiverâ€ le guardrail sans mitigation.\r\n\r\n### guardrail/review_loop\n- SymptÃ´me: le Manager re-review sans Ã©crire `manager_review.md` / turn marker / state update.\n- Fix attendu: postconditions strictes + retry ciblÃ© + anti-boucle (et rendre la main au Manager si persistant).\n- Variante robuste: reset le co\n[...truncated]\n"
+        }
+      },
+      "run_trace": {
+        "timeline_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\runs\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\timeline.jsonl",
+        "summary_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\runs\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\summary.md",
+        "timeline_mtime_ms": 1773960325973.2568,
+        "summary_excerpt": "# Run summary — 1c11dc2f-a9d3-4cac-a26d-eab866f267fd\n\n- project_cwd: C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\n- workspace_cwd: C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\n- status: waiting_job\n- iteration: 222\n- phase: dispatching\n- current_task_id: T-006b_strength_gate\n- assigned_developer: developer_codex\n- developer_status: waiting_job\n\n## Corrector\n- enabled: YES\n- total_fixes: 20\n- per_signature: 11\n- corrector_thread_id: 019cc363-1088-7142-8eb5-04455cb1c27f\n\n## Artifacts\n- timeline: runs/1c11dc2f-a9d3-4cac-a26d-eab866f267fd/timeline.jsonl (mtimeMs=1773955504395)\n- restarts: runs/1c11dc2f-a9d3-4cac-a26d-eab866f267fd/restarts.jsonl (mtimeMs=1772834455466)\n- incidents_dir: incidents (matching: *-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-*)\n\n## Recent incidents\n- INC-2026-03-15T16-04-29-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json — fix_status=failed\n- INC-2026-03-15T16-04-29-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json — fix_status=pending\n- INC-2026-03-15T16-04-34-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json — fix_status=failed\n- INC-2026-03-15T16-04-34-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json — fix_status=pending\n- INC-2026-03-15T16-04-39-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json — fix_status=failed\n- INC-2026-03-15T16-04-39-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json — fix_status=pending\n- INC-2026-03-15T16-04-44-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json — fix_status=failed\n- INC-2026-03-15T16-04-44-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json — fix_status=pending\n- INC-2026-03-15T16-04-49-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json — fix_status=failed\n- INC-2026-03-15T16-04-49-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json — fix_status=pending\n- INC-2\n[...truncated]\n"
+      },
+      "latest_audit": {
+        "latest_json": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\latest.json",
+        "latest_md": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\latest.md",
+        "recovery_status_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\external_auditor\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\recovery_status.json",
+        "recovery_status": null
+      },
+      "bug_memory": {
+        "scope": "antidex",
+        "jsonl_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\bug_memory\\antidex_patterns.jsonl",
+        "index_path": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\bug_memory\\antidex_patterns.index.json",
+        "total_patterns": 40,
+        "recent_patterns": [
+          {
+            "bug_key": "antidex:monitor/job_monitor_missed_history",
+            "canonical_class": "monitor/job_monitor_missed_history",
+            "lifecycle_status": "observed",
+            "summary": "Run history shows multiple job-monitor-missed incidents; keep under observation during long jobs.",
+            "last_transition_at": "2026-03-19T22:45:26.004Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "pattern_confirmed"
+          },
+          {
+            "bug_key": "antidex:io/utf8_mojibake_in_paths_and_excerpts",
+            "canonical_class": "io/utf8_mojibake_in_paths_and_excerpts",
+            "lifecycle_status": "observed",
+            "summary": "Encoding mojibake appears in Windows paths and markdown excerpts (BOM/curly quotes), indicating potential UTF-8 handling issues.",
+            "last_transition_at": "2026-03-19T22:45:26.004Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          },
+          {
+            "bug_key": "antidex:io/path_encoding_mojibake",
+            "canonical_class": "io/path_encoding_mojibake",
+            "lifecycle_status": "observed",
+            "summary": "Evidence/incident paths contain mojibake 'UniversitÃ©', suggesting encoding normalization issues in path rendering.",
+            "last_transition_at": "2026-03-19T22:37:39.563Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "pattern_confirmed"
+          },
+          {
+            "bug_key": "antidex:monitor/recent_job_monitor_missed_incidents",
+            "canonical_class": "monitor/recent_job_monitor_missed_incidents",
+            "lifecycle_status": "observed",
+            "summary": "Run history contains multiple 'job-monitor-missed' incidents; keep periodic observation while current recovery is cleared.",
+            "last_transition_at": "2026-03-19T22:37:39.563Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          },
+          {
+            "bug_key": "antidex:pipeline/job_long_running",
+            "canonical_class": "pipeline/job_long_running",
+            "lifecycle_status": "observed",
+            "summary": "Long-running strength-gate job exceeds expected window but has fresh heartbeat; monitor recommends continue.",
+            "last_transition_at": "2026-03-19T22:31:06.368Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          },
+          {
+            "bug_key": "antidex:monitoring/job_monitor_missed_history",
+            "canonical_class": "monitoring/job_monitor_missed_history",
+            "lifecycle_status": "observed",
+            "summary": "Repeated job-monitor-missed incidents exist for this run_id on 2026-03-15; monitor reliability may be intermittent.",
+            "last_transition_at": "2026-03-19T22:31:06.368Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          }
+        ]
+      },
+      "incidents": {
+        "recent_paths": [
+          "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-04-54-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+          "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-04-59-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+          "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-04-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+          "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-09-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+          "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-05-14-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json"
+        ],
+        "recent_count": 5
+      },
+      "jobs": {
+        "active_job_id": "job-T-006b_strength_gate-2026-03-19T18-16-23",
+        "last_job_id": "job-T-006b_strength_gate-2026-03-15T18-45-08",
+        "active_job_paths": {
+          "job_json": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\jobs\\job-T-006b_strength_gate-2026-03-19T18-16-23\\job.json",
+          "result_json": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\jobs\\job-T-006b_strength_gate-2026-03-19T18-16-23\\result.json",
+          "heartbeat_json": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\jobs\\job-T-006b_strength_gate-2026-03-19T18-16-23\\heartbeat.json",
+          "progress_json": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\jobs\\job-T-006b_strength_gate-2026-03-19T18-16-23\\progress.json",
+          "latest_monitor_json": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\jobs\\job-T-006b_strength_gate-2026-03-19T18-16-23\\monitor_reports\\latest.json",
+          "latest_monitor_md": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\jobs\\job-T-006b_strength_gate-2026-03-19T18-16-23\\monitor_reports\\latest.md"
+        }
+      },
+      "api_projection": {
+        "run_status": "waiting_job",
+        "developer_status": "waiting_job",
+        "manager_decision": null,
+        "current_task_id": "T-006b_strength_gate",
+        "active_turn": null,
+        "last_error": null,
+        "recovery": {
+          "active": false,
+          "status": "recovery_cleared",
+          "lane": "auto_resume_safe",
+          "incidentPath": null,
+          "incidentSignature": null,
+          "incidentWhere": null,
+          "fixStatus": null,
+          "baseline": null,
+          "progress": null,
+          "correctorPreflight": null,
+          "resumePreflight": null,
+          "lastEvaluation": {
+            "evaluated_at": "2026-03-19T22:45:26.020Z",
+            "status": "recovery_cleared",
+            "lane": "auto_resume_safe",
+            "fix_status": null,
+            "healing": {
+              "cleared": true,
+              "reasons": [
+                "original_signature_absent"
+              ]
+            },
+            "progress": {
+              "observed": true,
+              "reasons": [
+                "project_state_updated",
+                "turn_marker_written",
+                "task_artifact_updated"
+              ],
+              "metrics": {
+                "iteration": 221,
+                "current_task_id": "T-006b_strength_gate",
+                "developer_status": "waiting_job",
+                "manager_decision": null,
+                "project_state_mtime_ms": 1773859469597.5046,
+                "turn_markers_mtime_ms": 1773862795294.4697,
+                "task_evidence_mtime_ms": 1773862706592.8662,
+                "baseline_source": "incident_time_floor"
+              }
+            }
+          }
+        }
+      }
+    },
+    "project": {
+      "cwd": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab",
+      "docs": {
+        "spec": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\SPEC.md",
+        "todo": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\TODO.md",
+        "testing_plan": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\TESTING_PLAN.md",
+        "decisions": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\DECISIONS.md"
+      },
+      "docs_digest": {
+        "spec": {
+          "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\SPEC.md",
+          "exists": true,
+          "excerpt": "# SPEC — Odyssée des grenouilles (amélioration IA)\n\nDate: 2026-03-06\n\n## Contexte\n- Le jeu **Odyssée des grenouilles** est déjà fonctionnel (règles + interface).\n- La demande utilisateur: **ne rien modifier** du fonctionnement ni de l’UI.\n- Ce run vise uniquement à **améliorer l’IA**, en particulier en **2 à 6 joueurs**.\n- On travaille d’abord **“à côté”** dans un dossier dédié (cible: `../ai_lab/`) en réutilisant le **moteur existant** (mêmes règles), puis on intègre uniquement le meilleur candidat.\n\n## Périmètre\nInclus:\n- Audit de l’IA actuelle (random/greedy/alpha‑beta) et vérification “vraiment multi‑joueurs” vs “2 joueurs simulé” (paranoid).\n- Baseline mesurable (winrate par siège/position, temps moyen par coup, coups illégaux = 0).\n- Arène / simulateur headless (self‑play) sous forme de runner CLI:\n  - parties 2..6 joueurs,\n  - mélange humains simulés / bots (bots partout),\n  - seeds reproductibles,\n  - logs minimaux + stats.\n- Tournois:\n  - round‑robin entre bots,\n  - rotation des sièges (important en 2–6),\n  - best‑of‑N + intervalle de confiance simple (N≈200–1000 selon vitesse).\n- IA multi‑joueurs sans RL:\n  - MaxN (recommandé) avec score vectoriel,\n  - Paranoid (alternative) “1 vs tous”,\n  - MCTS multi‑joueurs (UCT) avec rollouts rapides + heuristiques.\n- Heuristique d’évaluation (features multi‑joueurs) + tuning léger via l’arène (grid/random search sur coefficients).\n- Intégration finale (une fois un gagnant identifié):\n  - UI identique (EASY/MEDIUM/HARD),\n  - remplacement du moteur interne des bots,\n  - fallback propre en cas de timeout (meilleur coup connu / coup safe).\n\nExclus (sauf décision explicite ultérieure):\n- Changement des règles du jeu ou du rendu UI.\n- RL end‑to‑end multi‑joueurs (trop coûteux). Option possible: apprentissage “laptop‑friendly” d\n[...truncated]\n"
+        },
+        "todo": {
+          "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\TODO.md",
+          "exists": true,
+          "excerpt": "# TODO - IA (2-6 joueurs)\n\nRegle: ce fichier est user-editable. Le Manager le relit avant chaque dispatch.\n\nFormat:\n- [ ] P0|P1|P2 (developer_codex|developer_antigravity) <TASK_ID> - (N) action (proof: files/tests)\n\n## Execution order\n\n- [x] P0 (developer_codex) T-001_ai_lab_runner_cli - (1) Creer `../ai_lab/` + runner CLI headless 2..6 joueurs (seeds, bots partout, logs+stats, illegal_moves=0). (proof: nouveau dossier `../ai_lab/` + CLI + sample report; tests: smoke run + `npm --prefix ..\\\\odyssee-web test`)\n- [x] P0 (developer_antigravity) T-002_doc_review_ia_lab - (2) Relire/clarifier `doc/SPEC.md`, `doc/TODO.md`, `doc/TESTING_PLAN.md`, `doc/DECISIONS.md`, `doc/INDEX.md` pour s'assurer que le plan IA est coherent et non-intrusif. (proof: modifications docs + resume)\n- [x] P0 (developer_codex) T-003_audit_baseline_2to6 - (3) Cataloguer l'IA actuelle (random/greedy/alpha-beta) + verifier le comportement multi-joueurs (vrai multi vs paranoid) + produire baseline winrate/seat/time/illegal sur 2..6 via le runner. (proof: report baseline + scripts; tests: runner baseline + `npm --prefix ..\\\\odyssee-web test`)\n- [x] P0 (developer_antigravity) T-004_search_maxn_paranoid - (4) Implementer bots de recherche multi-joueurs dans `../ai_lab/` (MaxN recommande + Paranoid option) avec iterative deepening, move ordering, transposition cache (hash 100% cote `../ai_lab/`, sans modifier le moteur), arret propre au budget. (proof: code + benchmark vs baseline; tests: runner tournois)\n- [x] P0 (developer_codex) T-005_mcts_multiplayer - (5) Implementer MCTS multi-joueurs (UCT) dans `../ai_lab/\n[...truncated]\n"
+        },
+        "testing_plan": {
+          "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\TESTING_PLAN.md",
+          "exists": true,
+          "excerpt": "# Testing Plan — IA Lab (2–6 joueurs)\n\nDate: 2026-03-06\n\nObjectif: valider que l’arène/IA ne produit **aucun coup illégal**, reste **reproductible**, et que l’intégration finale ne modifie pas l’UI ni le fonctionnement du jeu.\n\n## Tests existants (jeu)\n- [ ] `npm --prefix ..\\\\odyssee-web test` (Vitest) passe.\n\n## Runner / arène (à partir de T-001)\n- [ ] Smoke 2 joueurs (ex: 10 parties, seed fixe): aucune erreur, `illegal_moves=0`, sortie stable.\n- [ ] Smoke 6 joueurs (ex: 10 parties, seed fixe): aucune erreur, `illegal_moves=0`.\n- [ ] Reproductibilité: même seed/config → mêmes résultats (au moins pour une exécution courte).\n- [ ] Mesure temps: exporter `avg_time_ms_per_move` (ou équivalent) par bot.\n\n## Baselines / tournois (T-003+)\n- [ ] Baseline 2..6 joueurs: winrate par siège + temps moyen/coup + illegal_moves.\n- [ ] Tournoi round-robin: rotation des sièges activée; best-of-N (N≥200 en “quick”, N≥500 si temps OK).\n- [ ] CI simple (Wilson / normal approx) calculé et inclus dans le report.\n\n## Strength Gate (avant intégration jeu)\n- [ ] Tie-break activé à `max_turns` (pas de “draw” silencieux): score déterministe et reporté.\n- [ ] Sanity baselines (gate): `MEDIUM vs MEDIUM vs MEDIUM` (3 joueurs, ≥200 parties, seed fixe, tie-break) ne doit pas montrer de siège dominant (>60%) et doit garder `illegal_moves=0`. Les runs 2 joueurs restent un diagnostic secondaire.\n- [ ] 2 joueurs:\n[...truncated]\n"
+        },
+        "decisions": {
+          "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\doc\\DECISIONS.md",
+          "exists": true,
+          "excerpt": "# Decisions\n\n- 2026-03-06: Travailler d’abord “à côté” dans `../ai_lab/` (dossier dédié) et **ne pas toucher** au runtime UI/règles tant qu’un candidat IA n’est pas validé. (Rationale: préserver l’existant intact et permettre itération/benchmark sans risques de régression.)\n- 2026-03-06: Baseline multi‑joueurs mesurée via arène headless (winrate par siège, temps/coup, illegal_moves=0) avant toute intégration. (Rationale: éviter les régressions invisibles et objectiver les gains.)\n- 2026-03-06: Prioriser MaxN (vrai multi‑joueurs) + MCTS multi‑joueurs; conserver Paranoid comme alternative/stabilisateur. (Rationale: couvrir à la fois search “déterministe” et approche robuste aux évaluations imparfaites.)\n- 2026-03-06: Politique quota AG basse (≤40%): alterner raisonnablement les tâches entre `developer_codex` et `developer_antigravity`, avec au moins une doc review AG. (Rationale: respecter la contrainte quota/ratio tout en gardant du débit.)\n- 2026-03-06: Introduire un **Strength Gate** quantitatif (seuils + protocole) avant toute intégration IA dans le jeu. (Rationale: empêcher d’avancer sans preuve mesurable de force; éviter les “draw” silencieux à `max_turns`.)\n- 2026-03-07: Guardrail \"too many dispatch attempts\" triggered for T-006b_strength_gate; stop re-dispatching and require a single consolidated rework update (see data/tasks/T-006b_strength_gate/answers/A-2026-03-07T17-2\n[...truncated]\n"
+        }
+      },
+      "pipeline_state": {
+        "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\pipeline_state.json",
+        "raw": {
+          "run_id": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+          "iteration": 222,
+          "phase": "dispatching",
+          "current_task_id": "T-006b_strength_gate",
+          "assigned_developer": "developer_codex",
+          "developer_status": "waiting_job",
+          "manager_decision": null,
+          "summary": "Long job started (job-T-006b_strength_gate-2026-03-19T18-16-23). Monitor: data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md.",
+          "updated_at": "2026-03-19T18:16:23.951Z",
+          "tests": {
+            "ran": false,
+            "passed": false,
+            "notes": "Long job queued for vs_hard (2p>=200, 6p>=120) using --resume."
+          }
+        },
+        "summary": {
+          "current_task_id": "T-006b_strength_gate",
+          "developer_status": "waiting_job",
+          "manager_decision": null,
+          "summary": "Long job started (job-T-006b_strength_gate-2026-03-19T18-16-23). Monitor: data/jobs/job-T-006b_strength_gate-2026-03-19T18-16-23/monitor_reports/latest.md.",
+          "updated_at": "2026-03-19T18:16:23.951Z"
+        }
+      },
+      "bug_memory": {
+        "scope": "project",
+        "jsonl_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\bug_memory\\project_patterns.jsonl",
+        "index_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\bug_memory\\project_patterns.index.json",
+        "total_patterns": 4,
+        "recent_patterns": [
+          {
+            "bug_key": "project:docs/encoding_artifacts",
+            "canonical_class": "docs/encoding_artifacts",
+            "lifecycle_status": "observed",
+            "summary": "Task doc excerpts show BOM/encoding artifacts that may affect downstream parsing.",
+            "last_transition_at": "2026-03-19T21:56:47.811Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          },
+          {
+            "bug_key": "project:artifact/encoding-bom-mojibake",
+            "canonical_class": "artifact/encoding-bom-mojibake",
+            "lifecycle_status": "observed",
+            "summary": "Observed encoding artifacts (BOM/mojibake) in dev_result.md excerpt within context packet.",
+            "last_transition_at": "2026-03-19T21:31:30.048Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          },
+          {
+            "bug_key": "project:encoding/utf8_bom_in_md",
+            "canonical_class": "encoding/utf8_bom_in_md",
+            "lifecycle_status": "observed",
+            "summary": "Observed UTF-8 BOM in task dev_result markdown excerpt (ï»¿ prefix).",
+            "last_transition_at": "2026-03-19T19:07:28.100Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          },
+          {
+            "bug_key": "project:artifact/encoding.bom_in_dev_result",
+            "canonical_class": "artifact/encoding.bom_in_dev_result",
+            "lifecycle_status": "observed",
+            "summary": "Task dev_result.md excerpt includes BOM rendering (ï»¿), suggesting an encoding inconsistency.",
+            "last_transition_at": "2026-03-19T18:43:08.491Z",
+            "corrected_at": null,
+            "validated_at": null,
+            "reopened_at": null,
+            "reopen_count": 0,
+            "automation_status": "report_only",
+            "promotion_status": "observed_only"
+          }
+        ]
+      },
+      "current_task": {
+        "task_id": "T-006b_strength_gate",
+        "task_dir": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\tasks\\T-006b_strength_gate",
+        "task_dir_rel": "data/tasks/T-006b_strength_gate",
+        "task_md": {
+          "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\tasks\\T-006b_strength_gate\\task.md",
+          "exists": true,
+          "excerpt": "# T-006b_strength_gate — Strength Gate (preuves de force)\n\ntask_id: T-006b_strength_gate  \ntask_kind: ai_strength_gate  \nassigned_developer: developer_codex  \npriority: P1  \ndepends_on: T-003_audit_baseline_2to6, T-004_search_maxn_paranoid, T-005_mcts_multiplayer, T-006_eval_features_tuning  \n\n## Objectif\nOn ne veut pas intégrer une IA \"HARD\" dans le jeu tant qu'on n'a pas une preuve mesurable qu'elle est plus forte.\nCette tâche met en place (ou complète) la mesure \"Strength Gate\" décrite dans `doc/SPEC.md`, puis produit un rapport.\n\n## Définition of Done (DoD)\n- Tie-break à `max_turns` actif (pas de \"draw\" silencieux) dans l'arène/runner, et expliqué dans le report.\n- Tournois/benchmarks exécutés au minimum sur 2, 4 et 6 joueurs (rotation des sièges) avec budgets réalistes (ex: 250–500ms) + tailles d'échantillon conformes à `doc/SPEC.md`.\n- Le meilleur candidat HARD passe les seuils du Strength Gate (ou, si impossible, le report explique précisément pourquoi + propose un plan correctif).\n- `illegal_moves = 0` sur tous les runs.\n- Artefacts produits:\n  - `data/tasks/T-006b_strength_gate/dev_result.md` (résumé + commandes pour reproduire),\n  - un JSON de résultats (ex: `ai_lab/reports/strength_gate.json` ou `data/antigravity_runs/.../artifacts/*.json`).\n\n"
+        },
+        "manager_instruction": {
+          "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\tasks\\T-006b_strength_gate\\manager_instruction.md",
+          "exists": true,
+          "excerpt": "# Manager instruction - T-006b_strength_gate\n\nYou are `developer_codex`.\nUpdated_at: 2026-03-19T19:11:22.4593436+01:00\n\nReviewed evidence may be reused for planning this step: yes\n\nContext (authoritative artifacts):\n- `..\\\\ai_lab\\\\reports\\\\strength_gate.json` generated_at=2026-03-18T23:01:29.569Z:\n  - Candidate `maxn` PASS: `vs_easy` (2p+4p), `vs_medium` (2p+4p), `illegal_moves=0`, tie_break active.\n  - Missing: `vs_hard` not run; no 6p results at all.\n- Task artifact hygiene issue: `data/tasks/T-006b_strength_gate/dev_result.md` still references a running job and must be updated to match the completed reports.\n\nDecision:\n- Candidate remains `maxn` (budget 500ms).\n\nGoal (DoD focus):\n- Complete the remaining required Strength Gate matchup from `doc/SPEC.md`: `maxn` vs baseline `hard` on sizes **2 and 6** at SPEC sample sizes, tie-break active, `illegal_moves=0`.\n\nHard constraints:\n- Do not modify the game UI; avoid touching `..\\\\odyssee-web` in this task.\n- Work in `..\\\\ai_lab\\\\` only.\n\nNext attempt:\n1) Proof hygiene (required before/after run):\n   - Update `data/tasks/T-006b_strength_gate/dev_result.md` so it:\n     - references completed jobs (incl. `job-T-006b_strength_gate-2026-03-15T18-45-08`) instead of the stale “running” job,\n     - includes a short table for `vs_easy (2p,4p)`, `vs_medium (2p,4p)`, and `vs_hard (2p,6p)` (pending),\n     - states `illegal_moves=0` for all completed matchups.\n\n2) Run the missing gate (use `--resume` into existing report):\n   - `pushd ..\\\\ai_lab`\n   - `node --import tsx src\\\\runner.ts --strength-gate --resume --candidate maxn --baseline-e\n[...truncated]\n"
+        },
+        "manager_review": {
+          "path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\tasks\\T-006b_strength_gate\\manager_review.md",
+          "exists": true,
+          "excerpt": "# Manager Review - T-006b_strength_gate\n\nDecision: **REWORK**\nReviewed_at: 2026-03-19T19:11:22.4593436+01:00\nTurn nonce: turn-439d239e28764eb39a49\n\nReasons (short):\n- Latest `..\\\\ai_lab\\\\reports\\\\strength_gate.{md,json}` (generated_at=2026-03-18T23:01:29.569Z) shows `maxn` passes `vs_easy` (2p+4p) and `vs_medium` (2p+4p), with tie-break active and `illegal_moves=0`.\n- DoD not met: `vs_hard` (baseline-hard) is not run and no 6p results exist; `doc/SPEC.md` requires the baseline-HARD gate on 2p+6p.\n- `data/tasks/T-006b_strength_gate/dev_result.md` is stale (still references a “running” job) and must be refreshed to match current artifacts.\n\nGoal check:\n- Final goal: prove a HARD candidate passes the full Strength Gate thresholds in `doc/SPEC.md` (incl. baseline-HARD gate on 2p+6p), with tie-break at `max_turns` and `illegal_moves=0`.\n- Evidence that invalidates: `..\\\\ai_lab\\\\reports\\\\strength_gate.md` shows `maxn vs hard` as “not run” for all sizes and `6p: not run` for all matchups.\n- Failure type: local_task_issue\n- Decision: rerun only the missing gate (`vs_hard` on sizes 2 and 6) and refresh `dev_result.md`.\n- Why this is the right level: candidate strength is already demonstrate\n[...truncated]\n"
+        },
+        "dev_result": {
+          "md_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\tasks\\T-006b_strength_gate\\dev_result.md",
+          "md_exists": true,
+          "md_excerpt": "﻿# T-006b_strength_gate - Dev Result (Waiting Job)\n\nSummary:\n- Consumed latest completed job `job-T-006b_strength_gate-2026-03-15T18-45-08` (strength_gate.json generated_at=2026-03-18T23:01:29.569Z) adding `vs_easy` and confirming `vs_medium`.\n- `illegal_moves=0` for all completed matchups; tie-break active.\n\nMatchup summary (completed):\n| Matchup | Size | Key metrics | Status |\n| --- | --- | --- | --- |\n| vs_easy | 2p | winrate=0.99, avg_rank=1.01, points_avg=0.99 | PASS |\n| vs_easy | 4p | top1=1.00, top2=1.00, avg_rank=1.00, points_avg=3.00 | PASS |\n| vs_medium | 2p | winrate=0.67, avg_rank=1.33, points_avg=0.67 | PASS |\n| vs_medium | 4p | top1=0.6583, top2=0.825, avg_rank=1.5583, points_avg=2.4417 | PASS |\n| vs_hard | 2p | not run | PENDING |\n| vs_hard | 6p | not run | PENDING |\n\nLong job queued (SPEC-sized vs HARD, maxn 500ms, resume):\n- Request: `data/jobs/requests/REQ-2026-03-19T18-15-14-1c11dc2f-a9d-T-006b_strength_gate.json`\n- Script: `scripts/strength_gate_hard_spec_job_maxn_500ms_resume.cmd`\n- Expected outputs:\n  - `..\\ai_lab\\reports\\strength_gate.json`\n  - `..\\ai_lab\\reports\\strength_gate.md`\n- Expected result.json contents:\n  - status, timestamps\n  - output_json/output_\n[...truncated]\n",
+          "json_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\tasks\\T-006b_strength_gate\\dev_result.json",
+          "json_exists": false
+        }
+      }
+    }
+  }
+}

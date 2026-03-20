@@ -1,0 +1,58 @@
+{
+  "where": "developer",
+  "signature": "developer:T-006b_strength_gate:Another turn is already running",
+  "run_id": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+  "project_cwd": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab",
+  "task_id": "T-006b_strength_gate",
+  "context": "auto-run stall/block",
+  "expected": "Pipeline to advance smoothly",
+  "observed": "Another turn is already running",
+  "last_error": {
+    "message": "Another turn is already running",
+    "at": "2026-03-15T12:33:32.842Z",
+    "where": "developer"
+  },
+  "evidence_paths": [
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\pipeline_state.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\pipeline_state.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\recovery_log.jsonl",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Games\\odyssee-grenouilles\\ai-lab\\data\\tasks\\T-006b_strength_gate",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_developer_implementing_2026-03-15T10-21-16-456Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_developer_implementing_2026-03-15T10-21-16-456Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_developer_implementing_retry1_2026-03-15T10-24-34-665Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_developer_implementing_retry1_2026-03-15T10-24-34-665Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_monitor_job_monitor_2026-03-15T10-25-28-578Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_monitor_job_monitor_2026-03-15T10-25-28-578Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_monitor_job_monitor_2026-03-15T11-27-29-454Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_monitor_job_monitor_2026-03-15T11-27-29-454Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_monitor_job_monitor_2026-03-15T12-30-15-878Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_monitor_job_monitor_2026-03-15T12-30-15-878Z_rpc.log",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_developer_implementing_2026-03-15T12-33-32-645Z_assistant.txt",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\logs\\run_1c11dc2f_developer_implementing_2026-03-15T12-33-32-645Z_rpc.log"
+  ],
+  "corrector_docs": {
+    "runbook_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\CORRECTOR_RUNBOOK.md",
+    "fix_patterns_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\CORRECTOR_FIX_PATTERNS.md",
+    "spec_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\SPEC.md",
+    "error_handling_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\ERROR_HANDLING.md",
+    "robustness_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\ROBUSTNESS_IMPROVEMENTS.md",
+    "decisions_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\DECISIONS.md",
+    "index_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\doc\\INDEX.md"
+  },
+  "run_timeline_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\runs\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\timeline.jsonl",
+  "run_summary_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\runs\\1c11dc2f-a9d3-4cac-a26d-eab866f267fd\\summary.md",
+  "recent_incident_paths": [
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-14T18-12-56-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-14T18-13-01-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-14T18-13-01-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T10-21-16-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-developer.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T10-21-16-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-developer_bundle.json",
+    "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T10-21-16-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-developer_result.json"
+  ],
+  "attempts": 14,
+  "corrector_enabled": true,
+  "would_trigger_corrector": true,
+  "bundle_path": "C:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T12-33-32-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-developer_bundle.json",
+  "fix_status": "failed",
+  "fix_error": "Another turn is already running"
+}

@@ -1,6 +1,0 @@
-# Decisions
-
-- 2026-02-18: Initialised SPEC/TODO/TESTING_PLAN for the hello/world/files pipeline and decided on three sequential tasks T-001_hello, T-002_world, T-003_files (rationale: align with user request and keep each file-related step small and verifiable).
-- 2026-02-18: Reviewed T-001_hello (iterations 1 et 2), accepted the creation of `hello.txt` and its tests, and decided to continue the run with T-002_world and T-003_files (rationale: first step of the pipeline is complete; remaining tasks still pending). No Git commit was performed for this project-cwd because it lives inside the global `Local_Agents` repo and is not a dedicated Git repo; committing here would mélange orchestrator-level changes with this run’s artefacts.
-- 2026-02-18: Re-reviewed T-001_hello at iteration 3, confirmed that `hello.txt` still satisfies the task requirements and that tests pass, and maintained the decision to continue with T-002_world and T-003_files. The Git decision remains unchanged (no commit at the global `Local_Agents` level; a dedicated repo for this cwd would need its own task).
-- 2026-02-18: Re-reviewed T-001_hello at iteration 4, confirmed une nouvelle fois que `hello.txt` est conforme et que les tests passent, et laissé la suite du pipeline inchangée (T-002_world puis T-003_files). Toujours aucun commit Git effectué au niveau global pour ce cwd.

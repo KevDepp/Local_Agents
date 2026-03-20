@@ -1,8 +1,0 @@
-Confirmed: current task folder is `data/tasks/T-001_hello`.
-
-Task is already completed and all required artifacts are present:
-- `data/tasks/T-001_hello/dev_ack.json`
-- `data/tasks/T-001_hello/dev_result.md` (includes tests + “Ecarts & rationale”)
-- `data/pipeline_state.json` set to `ready_for_review`
-
-If you want any changes or a re-run of tests, specify what to adjust.

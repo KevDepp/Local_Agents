@@ -1,1 +1,0 @@
-data/tasks/T-003_files/manager_review.md written with decision REWORK, pipeline_state.json updated for T-003_files rework, and turn marker turn-834773043eaf45cc9ebb.done refreshed.

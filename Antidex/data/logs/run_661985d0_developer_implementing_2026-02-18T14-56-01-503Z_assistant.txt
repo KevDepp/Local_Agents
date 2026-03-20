@@ -1,4 +1,0 @@
-Confirmed: current task folder is `data/tasks/T-001_hello`.
-
-Task already completed and `data/pipeline_state.json` is `ready_for_review`.  
-If you want me to proceed to `T-002_world` or make any changes, say the word.

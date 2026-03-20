@@ -28,6 +28,8 @@ But: drafts a copier dans le projet cible (`cwd/agents/*.md`) au demarrage d'un 
 - `doc/agent_instruction_templates/manager.md` - Template `agents/manager.md` (edition fichiers, git, cycle projet, memoire canonique des long jobs, future compaction/archivage pilotee par Manager). (owner: Both, updated: 2026-03-14)
 - `doc/agent_instruction_templates/developer_codex.md` - Template `agents/developer_codex.md` (incluant la discipline de rerun basee sur `long_job_history.md` et la lecture d'un futur `context_checkpoint.md`). (owner: Both, updated: 2026-03-14)
 - `doc/agent_instruction_templates/developer_antigravity.md` - Template `agents/developer_antigravity.md`. (owner: Both, updated: 2026-03-08)
+- `doc/agent_instruction_templates/auditor.md` - Template `agents/auditor.md` pour l'auditeur dedie, incluant les `memory_updates` agentiques. (owner: Codex, updated: 2026-03-19)
+- `doc/agent_instruction_templates/corrector_memory_update.md` - Instruction dediee au Correcteur pour l'artefact `INC-..._memory_update.json` (`transition=corrected` seulement). (owner: Codex, updated: 2026-03-19)
 - `doc/agent_instruction_templates/AG_cursorrules.md` - Template `agents/AG_cursorrules.md` (regles generales AG). (owner: Both)
 
 

@@ -1,8 +1,0 @@
-Confirmed: `data/tasks/T-001_hello`.
-
-It’s already completed and `data/pipeline_state.json` is `ready_for_review`.  
-Please choose what you want me to do next:
-
-1. Re-run checks + refresh `data/tasks/T-001_hello/dev_result.md`
-2. Reset and redo T-001
-3. Proceed to `T-002_world`

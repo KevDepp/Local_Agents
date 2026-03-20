@@ -1,0 +1,9 @@
+{
+  "at": "2026-03-15T16:03:13.951Z",
+  "runId": "1c11dc2f-a9d3-4cac-a26d-eab866f267fd",
+  "where": "job/monitor_missed",
+  "sig": "job/monitor_missed:T-006b_strength_gate:Long job monitor failed: codex app-server is not running",
+  "incidentPath": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-03-13-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed.json",
+  "bundlePath": "c:\\Users\\kdeplus\\OneDrive - Université Libre de Bruxelles\\Bureau\\code\\Local_Agents\\Antidex_V2\\data\\incidents\\INC-2026-03-15T16-03-13-1c11dc2f-a9d3-4cac-a26d-eab866f267fd-job-monitor-missed_bundle.json",
+  "context": "long job monitor failure"
+}

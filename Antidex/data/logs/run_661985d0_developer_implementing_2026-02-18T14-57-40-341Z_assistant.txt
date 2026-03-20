@@ -1,2 +1,0 @@
-T-001_hello is already complete; `data/pipeline_state.json` is `ready_for_review`.  
-Awaiting your next instruction.

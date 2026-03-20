@@ -1,0 +1,47 @@
+﻿{
+    "suggested_incident_message":  null,
+    "summary":  "Run marked completed/accepted, but pipeline retains a prior guardrail error (missing_task_spec) despite task.md existing; indicates stale error state or encoding/path parsing issue.",
+    "suggested_incident_where":  null,
+    "recommendation":  null,
+    "run_id":  "c83c5cdd-a4f6-4d3d-8e69-e756fe10f275",
+    "confidence":  "medium",
+    "conclusion":  "suspicious",
+    "findings":  [
+                     {
+                         "confidence":  "medium",
+                         "code":  "pipeline/stale_last_error",
+                         "evidence":  [
+                                          "agent_context.json: pipeline.last_error.where=guardrail/missing_task_spec at 2026-02-26T15:15:26.924Z",
+                                          "agent_context.json: audit_context.target_project.current_task.task_md.exists=true",
+                                          "agent_context.json: summary.run_status=completed; last_summary indicates ACCEPTED"
+                                      ],
+                         "summary":  "pipeline.last_error still reports missing task spec although task.md exists and run is completed",
+                         "severity":  "warn",
+                         "why_it_matters":  "May cause downstream automation/guardian decisions to treat the run as failed or block future tasks; suggests state reconciliation bug."
+                     },
+                     {
+                         "confidence":  "low",
+                         "code":  "io/encoding_mojibake",
+                         "evidence":  [
+                                          "agent_context.json: task_md.excerpt begins with ï»¿#",
+                                          "agent_context.json: evidence_paths and paths contain UniversitÃ© rendered as UniversitÃ©/UniversitÃ© Libre de Bruxelles with mojibake"
+                                      ],
+                         "summary":  "Context excerpts show BOM/mojibake sequences (e.g., ï»¿, UniversitÃ©), implying potential UTF-8/ANSI decoding mismatch",
+                         "severity":  "info",
+                         "why_it_matters":  "If Antidex guardrails parse task specs by reading markdown, encoding mismatches can lead to false “missing spec” detections."
+                     },
+                     {
+                         "confidence":  "medium",
+                         "code":  "task/dev_result_md_missing",
+                         "evidence":  [
+                                          "agent_context.json: audit_context.target_project.current_task.dev_result.md_exists=false; json_exists=true"
+                                      ],
+                         "summary":  "dev_result.md is absent while dev_result.json exists",
+                         "severity":  "info",
+                         "why_it_matters":  "If some tooling expects the markdown result, it could reduce human readability or break a doc-only consumer; not necessarily an error."
+                     }
+                 ],
+    "generated_at":  "2026-03-15T20:08:49.3900239Z",
+    "schema":  "antidex.external_auditor.agent_report.v1",
+    "recommended_action":  "observe"
+}

@@ -1,4 +1,0 @@
-Checked for a response: `data/tasks/T-001_hello/answers` does not exist (no answer yet).
-
-I’m still blocked awaiting your reply to `data/tasks/T-001_hello/questions/Q-001.md`.  
-Please respond with 1, 2, or 3.

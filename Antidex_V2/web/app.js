@@ -365,6 +365,15 @@ function renderRun(run) {
     developerModel: run.developerModel || null,
     activeTurn: run.activeTurn ? { role: run.activeTurn.role || null, step: run.activeTurn.step || null } : null,
     lastError: run.lastError ? { where: run.lastError.where || null, message: run.lastError.message || null } : null,
+    recovery: run.recovery
+      ? {
+          active: run.recovery.active === true,
+          status: run.recovery.status || null,
+          lane: run.recovery.lane || null,
+          fixStatus: run.recovery.fixStatus || null,
+          incidentSignature: run.recovery.incidentSignature || null,
+        }
+      : null,
     lastSummary: run.lastSummary || null,
     lastJobId: run.lastJobId || null,
     activeJob: run.activeJob
@@ -411,6 +420,12 @@ function renderRun(run) {
   if (run.lastError) {
     const msg = run.lastError.message || "(unknown error)";
     lines.push(`lastError: ${msg}`);
+  }
+  if (run.recovery?.active) {
+    lines.push(`recoveryStatus: ${run.recovery.status || "-"}`);
+    lines.push(`recoveryLane: ${run.recovery.lane || "-"}`);
+    lines.push(`recoveryFixStatus: ${run.recovery.fixStatus || "-"}`);
+    if (run.recovery.incidentSignature) lines.push(`recoveryIncident: ${run.recovery.incidentSignature}`);
   }
   if (run.lastSummary) {
     lines.push("lastSummary:");

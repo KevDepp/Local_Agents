@@ -1,4 +1,4 @@
-﻿const fs = require("node:fs");
+const fs = require("node:fs");
 const path = require("node:path");
 
 const DEFAULT_STATE = {
@@ -145,10 +145,32 @@ function normalizeRunDefaults(run) {
     r.agCodexRatio = "";
     changed = true;
   }
+  if (typeof r.executionMode !== "string") {
+    r.executionMode = "ide";
+    changed = true;
+  }
 
   // Corrector should default ON for robustness unless explicitly disabled.
   if (typeof r.enableCorrector !== "boolean") {
     r.enableCorrector = true;
+    changed = true;
+  }
+
+  if (!r.recovery || typeof r.recovery !== "object") {
+    r.recovery = {
+      active: false,
+      status: null,
+      lane: null,
+      incidentPath: null,
+      incidentSignature: null,
+      incidentWhere: null,
+      fixStatus: null,
+      baseline: null,
+      progress: null,
+      correctorPreflight: null,
+      resumePreflight: null,
+      lastEvaluation: null,
+    };
     changed = true;
   }
 

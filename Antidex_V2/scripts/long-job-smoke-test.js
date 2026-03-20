@@ -252,6 +252,157 @@ async function main() {
     }
     if (finalFailRun.activeJobId) throw new Error("failing long job should have been cleared from active state");
 
+    const liveTaskId = "T-LONGJOB-LIVE";
+    const liveTaskDir = path.join(projectRoot, "data", "tasks", liveTaskId);
+    fs.mkdirSync(liveTaskDir, { recursive: true });
+    fs.writeFileSync(path.join(liveTaskDir, "task.md"), `# ${liveTaskId}\n`, "utf8");
+    fs.writeFileSync(path.join(liveTaskDir, "manager_instruction.md"), `# ${liveTaskId}\nMonitor fixture.\n`, "utf8");
+    const liveJobId = "job-live-monitor-refresh";
+    const liveJobDir = path.join(projectRoot, "data", "jobs", liveJobId);
+    const liveMonitorDir = path.join(liveJobDir, "monitor_reports");
+    fs.mkdirSync(liveMonitorDir, { recursive: true });
+    const liveHeartbeatPath = path.join(liveJobDir, "heartbeat.json");
+    const liveProgressPath = path.join(liveJobDir, "progress.json");
+    const liveJobJsonPath = path.join(liveJobDir, "job.json");
+    const liveRequestPath = path.join(liveJobDir, "request.json");
+    writeJson(liveJobJsonPath, {
+      schema: "antidex.long_job.v1",
+      job_id: liveJobId,
+      run_id: runId,
+      task_id: liveTaskId,
+      status: "running",
+      pid: process.pid,
+      started_at: new Date(Date.now() - 60_000).toISOString(),
+      updated_at: new Date().toISOString(),
+      expected_minutes: 5,
+    });
+    writeJson(liveRequestPath, {
+      schema: "antidex.long_job.request.v1",
+      run_id: runId,
+      task_id: liveTaskId,
+      launch_kind: "script",
+      script_path: ".\\scripts\\emit-job.cmd",
+    });
+    writeJson(liveHeartbeatPath, {
+      at: new Date().toISOString(),
+      status: "alive",
+      note: "live monitor fixture",
+    });
+    writeJson(liveProgressPath, {
+      at: new Date().toISOString(),
+      percent: 42,
+      note: "still running",
+    });
+    writeJson(projectStatePath, {
+      run_id: runId,
+      iteration: 3,
+      phase: "dispatching",
+      current_task_id: liveTaskId,
+      assigned_developer: "developer_codex",
+      developer_status: "waiting_job",
+      manager_decision: null,
+      summary: "Live monitor fixture waiting job.",
+      updated_at: new Date().toISOString(),
+    });
+    const liveMonitorRun = pipeline.getRun(runId);
+    liveMonitorRun.currentTaskId = liveTaskId;
+    liveMonitorRun.assignedDeveloper = "developer_codex";
+    liveMonitorRun.status = "waiting_job";
+    liveMonitorRun.developerStatus = "waiting_job";
+    liveMonitorRun.activeJobId = liveJobId;
+    liveMonitorRun.lastJobId = liveJobId;
+    liveMonitorRun.activeJob = {
+      jobId: liveJobId,
+      taskId: liveTaskId,
+      status: "running",
+      pid: process.pid,
+      pidAlive: true,
+      heartbeatMtimeIso: "2000-01-01T00:00:00.000Z",
+      progressMtimeIso: "2000-01-01T00:00:00.000Z",
+      lastMonitorAtIso: null,
+    };
+    pipeline._setRun(runId, liveMonitorRun);
+    const originalEnsureCodex = pipeline._ensureCodex.bind(pipeline);
+    const originalEnsureThread = pipeline._ensureThread.bind(pipeline);
+    const originalRunTurnWithHandshake = pipeline._runTurnWithHandshake.bind(pipeline);
+    let ensureCodexCalls = 0;
+    pipeline._ensureCodex = async (...args) => {
+      ensureCodexCalls += 1;
+      return originalEnsureCodex(...args);
+    };
+    pipeline._ensureThread = async () => "thread-monitor-smoke";
+    pipeline._runTurnWithHandshake = async (opts) => {
+      const prompt = opts.buildPrompt({ run: pipeline.getRun(runId), turnNonce: "turn-monitor-smoke", retryReason: null });
+      const contextPath = path.join(liveMonitorDir, "context.json");
+      if (!prompt.includes("agents/monitor.md")) {
+        throw new Error("expected long-job monitor prompt to read agents/monitor.md");
+      }
+      if (!prompt.includes("monitor_reports/context.json")) {
+        throw new Error("expected long-job monitor prompt to read monitor_reports/context.json");
+      }
+      if (prompt.includes("agents/developer_codex.md")) {
+        throw new Error("long-job monitor prompt must not reuse developer_codex instructions");
+      }
+      if (prompt.includes(`${liveJobId}/stdout.log`) || prompt.includes(`${liveJobId}/stderr.log`) || prompt.includes(`${liveJobId}/job.json`)) {
+        throw new Error("long-job monitor prompt must not rely on raw job artifacts as primary read paths");
+      }
+      if (!fs.existsSync(contextPath)) {
+        throw new Error("expected live monitor context.json to be written before the monitor turn");
+      }
+      const context = readJson(contextPath);
+      if (context.schema !== "antidex.long_job.monitor_context.v1") {
+        throw new Error(`unexpected monitor context schema: ${context.schema}`);
+      }
+      if (context.authoritative_runtime_facts?.pid_alive !== true) {
+        throw new Error(`expected pid_alive=true in monitor context, got ${context.authoritative_runtime_facts?.pid_alive}`);
+      }
+      if (typeof context.recent_artifacts?.stdout_tail !== "string") {
+        throw new Error("expected monitor context to include stdout_tail");
+      }
+      const now = new Date().toISOString();
+      writeJson(path.join(liveMonitorDir, "latest.json"), {
+        schema: "antidex.long_job.monitor_report.v1",
+        at: now,
+        job_id: liveJobId,
+        run_id: runId,
+        task_id: liveTaskId,
+        status: "running",
+        summary: "job still healthy",
+        decision: "continue",
+        decision_reason: "heartbeat is moving",
+        suggested_next_steps: [],
+      });
+      fs.writeFileSync(path.join(liveMonitorDir, "latest.md"), "# Monitor\n\nContinue.\n", "utf8");
+      return { ok: true };
+    };
+    try {
+      const forcedMonitor = await pipeline.forceLongJobMonitor(runId, { reason: "live_smoke" });
+      if (!forcedMonitor.ok || !forcedMonitor.report) {
+        throw new Error(`expected forced long-job monitor to succeed, got ${JSON.stringify(forcedMonitor)}`);
+      }
+      if (ensureCodexCalls < 1) {
+        throw new Error("expected forceLongJobMonitor to ensure codex before running the monitor turn");
+      }
+      const latestMonitorPath = path.join(liveMonitorDir, "latest.json");
+      if (!fs.existsSync(latestMonitorPath)) {
+        throw new Error("expected live monitor latest.json to be written");
+      }
+      const refreshedLiveRun = pipeline.getRun(runId);
+      const heartbeatIso = new Date(fs.statSync(liveHeartbeatPath).mtimeMs).toISOString();
+      if (refreshedLiveRun.activeJob?.heartbeatMtimeIso !== heartbeatIso) {
+        throw new Error(
+          `expected getRun() to refresh heartbeat mtime from disk, got ${refreshedLiveRun.activeJob?.heartbeatMtimeIso} expected ${heartbeatIso}`
+        );
+      }
+      if (refreshedLiveRun.activeJob?.lastMonitorDecision == null) {
+        throw new Error("expected getRun() to expose the latest long-job monitor decision");
+      }
+    } finally {
+      pipeline._ensureCodex = originalEnsureCodex;
+      pipeline._ensureThread = originalEnsureThread;
+      pipeline._runTurnWithHandshake = originalRunTurnWithHandshake;
+    }
+
     writeJson(projectStatePath, {
       run_id: runId,
       iteration: 3,

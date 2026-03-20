@@ -1,7 +1,0 @@
-Confirmed: current task folder is `data/tasks/T-001_hello`.
-
-Status:
-- `dev_ack.json` and `dev_result.md` already present.
-- `data/pipeline_state.json` is `ready_for_review`.
-
-No further action required for T-001. If you want me to proceed to `T-002_world` or make changes, say so.

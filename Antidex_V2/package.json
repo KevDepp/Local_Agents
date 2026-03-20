@@ -13,6 +13,8 @@
     "test:logs": "node scripts/api-logs-smoke-test.js",
     "test:corrector": "node scripts/corrector-smoke-test.js",
     "test:corrector:e2e": "node scripts/corrector-e2e-supervised.js",
+    "test:auditor": "node scripts/external-auditor-smoke-test.js",
+    "test:guardian-auditor-schedule": "node scripts/guardian-auditor-schedule-smoke-test.js",
     "test:phase1": "node scripts/phase1-e2e.js",
     "test:phase2": "node scripts/phase2-e2e.js",
     "test:rebase": "node scripts/rebase-manager-review-smoke-test.js",

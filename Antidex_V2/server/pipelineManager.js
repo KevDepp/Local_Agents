@@ -626,6 +626,111 @@ function taskLongJobOutcomePaths(run, taskIdOverride) {
   };
 }
 
+function incidentResultPath(incidentPath) {
+  return String(incidentPath || "").replace(/(\.json)$/i, "_result$1");
+}
+
+function incidentMemoryUpdatePath(incidentPath) {
+  return String(incidentPath || "").replace(/(\.json)$/i, "_memory_update$1");
+}
+
+function externalAuditorDir(dataDir, runId) {
+  const safe = String(runId || "unknown").replace(/[^a-zA-Z0-9_-]/g, "_");
+  return path.join(dataDir, "external_auditor", safe);
+}
+
+function recoveryStatusPath(dataDir, runId) {
+  return path.join(externalAuditorDir(dataDir, runId), "recovery_status.json");
+}
+
+function antidexBugMemoryDir(dataDir) {
+  return path.join(dataDir, "bug_memory");
+}
+
+function antidexBugMemoryJsonlPath(dataDir) {
+  return path.join(antidexBugMemoryDir(dataDir), "antidex_patterns.jsonl");
+}
+
+function antidexBugMemoryIndexPath(dataDir) {
+  return path.join(antidexBugMemoryDir(dataDir), "antidex_patterns.index.json");
+}
+
+function projectBugMemoryDir(cwd) {
+  return path.join(String(cwd || ""), "data", "bug_memory");
+}
+
+function projectBugMemoryJsonlPath(cwd) {
+  return path.join(projectBugMemoryDir(cwd), "project_patterns.jsonl");
+}
+
+function projectBugMemoryIndexPath(cwd) {
+  return path.join(projectBugMemoryDir(cwd), "project_patterns.index.json");
+}
+
+function externalAuditorContextPath(dataDir, runId) {
+  return path.join(externalAuditorDir(dataDir, runId), "agent_context.json");
+}
+
+function externalAuditorAgentReportJsonPath(dataDir, runId) {
+  return path.join(externalAuditorDir(dataDir, runId), "agent_report.json");
+}
+
+function externalAuditorAgentReportMdPath(dataDir, runId) {
+  return path.join(externalAuditorDir(dataDir, runId), "agent_report.md");
+}
+
+function longJobMonitorContextPath(jobDirAbs) {
+  return path.join(jobDirAbs, "monitor_reports", "context.json");
+}
+
+function latestTaskEvidenceMtimeMs(taskDir) {
+  if (!taskDir) return null;
+  const candidates = [
+    "task.md",
+    "manager_instruction.md",
+    "manager_review.md",
+    "dev_ack.json",
+    "dev_result.md",
+    "dev_result.json",
+    "latest_long_job_outcome.md",
+    "latest_long_job_outcome.json",
+    "long_job_history.md",
+    "long_job_history.json",
+  ];
+  let max = null;
+  for (const name of candidates) {
+    const m = safeStatMtimeMs(path.join(taskDir, name));
+    if (Number.isFinite(m)) max = max == null ? m : Math.max(max, m);
+  }
+  const qM = maxMtimeMsUnderPath(path.join(taskDir, "questions"), { maxEntries: 200 });
+  if (Number.isFinite(qM)) max = max == null ? qM : Math.max(max, qM);
+  const aM = maxMtimeMsUnderPath(path.join(taskDir, "answers"), { maxEntries: 200 });
+  if (Number.isFinite(aM)) max = max == null ? aM : Math.max(max, aM);
+  return max;
+}
+
+function turnMarkersMtimeMs(turnMarkersDir) {
+  return maxMtimeMsUnderPath(turnMarkersDir, { maxEntries: 500 });
+}
+
+function runTimelineMtimeMs(dataDir, runId) {
+  const safe = String(runId || "unknown").replace(/[^a-zA-Z0-9_-]/g, "_");
+  return safeStatMtimeMs(path.join(dataDir, "runs", safe, "timeline.jsonl"));
+}
+
+function mergeUniqueTail(existing, additions, limit = 8) {
+  const next = Array.isArray(existing) ? existing.map((item) => String(item || "").trim()).filter(Boolean) : [];
+  const incoming = Array.isArray(additions) ? additions : [additions];
+  for (const raw of incoming) {
+    const value = String(raw || "").trim();
+    if (!value) continue;
+    const idx = next.indexOf(value);
+    if (idx >= 0) next.splice(idx, 1);
+    next.push(value);
+  }
+  return next.slice(-Math.max(1, limit));
+}
+
 function buildResultOutputs(result) {
   const nestedOutputs = Array.isArray(result?.outputs)
     ? result.outputs.slice(0, 6).map((entry) => ({
@@ -1153,6 +1258,9 @@ function ensureProjectDocs({ cwd, runId, threadPolicy }) {
     { name: "manager.md" },
     { name: "developer_codex.md" },
     { name: "developer_antigravity.md" },
+    { name: "monitor.md" },
+    { name: "auditor.md" },
+    { name: "corrector_memory_update.md" },
     { name: "AG_cursorrules.md" },
   ];
   for (const tmpl of agentTemplates) {
@@ -1832,6 +1940,7 @@ class PipelineManager extends EventEmitter {
     const monitorDirAbs = path.join(jobDirAbs, "monitor_reports");
     const latestMonitorJsonAbs = path.join(monitorDirAbs, "latest.json");
     const latestMonitorMdAbs = path.join(monitorDirAbs, "latest.md");
+    const monitorContextJsonAbs = longJobMonitorContextPath(jobDirAbs);
     return {
       jobDirAbs,
       jobJsonAbs,
@@ -1842,6 +1951,7 @@ class PipelineManager extends EventEmitter {
       progressAbs,
       resultAbs,
       monitorDirAbs,
+      monitorContextJsonAbs,
       latestMonitorJsonAbs,
       latestMonitorMdAbs,
       jobDirRel: relPathForPrompt(run.cwd, jobDirAbs),
@@ -1853,6 +1963,7 @@ class PipelineManager extends EventEmitter {
       progressRel: relPathForPrompt(run.cwd, progressAbs),
       resultRel: relPathForPrompt(run.cwd, resultAbs),
       monitorDirRel: relPathForPrompt(run.cwd, monitorDirAbs),
+      monitorContextJsonRel: relPathForPrompt(run.cwd, monitorContextJsonAbs),
       latestMonitorJsonRel: relPathForPrompt(run.cwd, latestMonitorJsonAbs),
       latestMonitorMdRel: relPathForPrompt(run.cwd, latestMonitorMdAbs),
     };
@@ -2787,6 +2898,7 @@ class PipelineManager extends EventEmitter {
       status: "running",
       pid: child.pid,
       startedAt,
+      expectedMinutes: request.expected_minutes ?? null,
       jobDirRel: paths.jobDirRel,
       jobJsonRel: paths.jobJsonRel,
       stdoutRel: paths.stdoutRel,
@@ -2833,6 +2945,10 @@ class PipelineManager extends EventEmitter {
       pidAlive: alive,
       startedAt: job.started_at || null,
       updatedAt: job.updated_at || null,
+      elapsedMinutes:
+        Number.isFinite(startedAtMs) ? Math.max(0, Math.round((Date.now() - startedAtMs) / 60000)) : null,
+      expectedMinutes:
+        Number.isFinite(Number(job.expected_minutes)) && Number(job.expected_minutes) >= 0 ? Number(job.expected_minutes) : null,
       jobDirRel: paths.jobDirRel,
       jobJsonRel: paths.jobJsonRel,
       stdoutRel: paths.stdoutRel,
@@ -2853,6 +2969,31 @@ class PipelineManager extends EventEmitter {
       lastMonitorSummary: mon && typeof mon.summary === "string" ? clampString(mon.summary, 2000) : null,
     };
     this._setRun(runId, run);
+  }
+
+  _refreshRunReadModel(runId) {
+    const id = String(runId || "").trim();
+    if (!id) return null;
+    const run = this._state.getRun(id);
+    if (!run) return null;
+    try {
+      const status = String(run.status || "").trim().toLowerCase();
+      const isTerminal = status === "stopped" || status === "paused" || status === "completed" || status === "canceled" || status === "failed";
+      if (
+        run.activeTurn &&
+        typeof run.activeTurn === "object" &&
+        !this._active &&
+        !this._runningRunId &&
+        (isTerminal || !this._autoRunLoops.has(id))
+      ) {
+        run.activeTurn = null;
+        this._setRun(id, run);
+      }
+      if (run.activeJobId) this._refreshActiveLongJobSummary(id);
+    } catch {
+      // best-effort: read paths should not crash because of stale job metadata
+    }
+    return this._state.getRun(id);
   }
 
   _reconcileActiveLongJobReference(runId) {
@@ -3201,6 +3342,107 @@ class PipelineManager extends EventEmitter {
     return { report, md };
   }
 
+  _buildLongJobMonitorContextPacket(run, jobId, { reason, force, paths, job, lastMonitor, result, pidAlive, nowMs } = {}) {
+    const stdoutSt = longJob.safeStat(paths.stdoutAbs);
+    const stderrSt = longJob.safeStat(paths.stderrAbs);
+    const hbSt = longJob.safeStat(paths.heartbeatAbs);
+    const progSt = longJob.safeStat(paths.progressAbs);
+    const resultSt = longJob.safeStat(paths.resultAbs);
+    const startedAtMs = tryParseIsoToMs(job?.started_at);
+    const elapsedMinutes = Number.isFinite(startedAtMs) ? Math.max(0, Math.round((nowMs - startedAtMs) / 60000)) : null;
+    const expectedMinutes =
+      Number.isFinite(Number(job?.expected_minutes)) && Number(job.expected_minutes) >= 0 ? Number(job.expected_minutes) : null;
+    const tail = (filePath, maxBytes) => {
+      const raw = longJob.tailTextFile(filePath, maxBytes);
+      return raw ? clampString(raw, maxBytes) : "";
+    };
+    const ageMinutes = (st) => (st ? Math.max(0, Math.round((nowMs - st.mtimeMs) / 60000)) : null);
+    const parseJson = (filePath) => {
+      const read = readJsonBestEffort(filePath);
+      return read.ok ? read.value : null;
+    };
+    const request = parseJson(paths.requestAbs);
+    const heartbeat = parseJson(paths.heartbeatAbs);
+    const progress = parseJson(paths.progressAbs);
+
+    return {
+      schema: "antidex.long_job.monitor_context.v1",
+      generated_at: new Date(nowMs).toISOString(),
+      reason: reason ? String(reason) : force ? "forced by UI" : "scheduled",
+      run: {
+        run_id: run.runId,
+        status: run.status || null,
+        developer_status: run.developerStatus || null,
+        current_task_id: run.currentTaskId || null,
+        active_job_id: run.activeJobId || null,
+      },
+      job: {
+        job_id: jobId,
+        task_id: job?.task_id || run.currentTaskId || null,
+        status: job?.status || null,
+        started_at: job?.started_at || null,
+        updated_at: job?.updated_at || null,
+        expected_minutes: expectedMinutes,
+        monitor_every_minutes:
+          Number.isFinite(Number(job?.monitor_every_minutes)) && Number(job.monitor_every_minutes) >= 0
+            ? Number(job.monitor_every_minutes)
+            : null,
+        monitor_grace_minutes:
+          Number.isFinite(Number(job?.monitor_grace_minutes)) && Number(job.monitor_grace_minutes) >= 0
+            ? Number(job.monitor_grace_minutes)
+            : null,
+      },
+      authoritative_runtime_facts: {
+        now_iso: new Date(nowMs).toISOString(),
+        pid: job?.pid != null ? Number(job.pid) : null,
+        pid_alive: Boolean(pidAlive),
+        elapsed_minutes: elapsedMinutes,
+        expected_minutes: expectedMinutes,
+        silent_warmup_minutes: Math.round(LONG_JOB_SILENT_WARMUP_MS / 60000),
+        stdout_log_bytes: stdoutSt?.size ?? 0,
+        stdout_age_minutes: ageMinutes(stdoutSt),
+        stderr_log_bytes: stderrSt?.size ?? 0,
+        stderr_age_minutes: ageMinutes(stderrSt),
+        heartbeat_seen: Boolean(hbSt),
+        heartbeat_mtime: hbSt ? new Date(hbSt.mtimeMs).toISOString() : null,
+        heartbeat_age_minutes: ageMinutes(hbSt),
+        progress_seen: Boolean(progSt),
+        progress_mtime: progSt ? new Date(progSt.mtimeMs).toISOString() : null,
+        progress_age_minutes: ageMinutes(progSt),
+        result_exists: Boolean(resultSt),
+        result_mtime: resultSt ? new Date(resultSt.mtimeMs).toISOString() : null,
+        result_status: result && typeof result.status === "string" ? result.status : null,
+        last_monitor_decision: lastMonitor && typeof lastMonitor.decision === "string" ? lastMonitor.decision : null,
+        last_monitor_status: lastMonitor && typeof lastMonitor.status === "string" ? lastMonitor.status : null,
+      },
+      recent_artifacts: {
+        request,
+        heartbeat,
+        progress,
+        result,
+        last_monitor: lastMonitor || null,
+        stdout_tail: tail(paths.stdoutAbs, 4000),
+        stderr_tail: tail(paths.stderrAbs, 4000),
+      },
+      refs: {
+        job_json: paths.jobJsonRel,
+        request_json: paths.requestRel,
+        heartbeat_json: paths.heartbeatRel,
+        progress_json: paths.progressRel,
+        result_json: paths.resultRel,
+        stdout_log: paths.stdoutRel,
+        stderr_log: paths.stderrRel,
+        latest_monitor_json: paths.latestMonitorJsonRel,
+        latest_monitor_md: paths.latestMonitorMdRel,
+      },
+      guidance: {
+        read_scope: "Use this context packet as the primary source of truth for a rapid monitor decision.",
+        raw_read_required: false,
+        note: "Only the monitor report files must be written. The monitor does not change code or pipeline state.",
+      },
+    };
+  }
+
   _describeLongJobWakeOutcome(run, jobId, reason) {
     const taskId = run?.currentTaskId || "(task)";
     const label = jobId || "job";
@@ -3409,16 +3651,28 @@ class PipelineManager extends EventEmitter {
     const repMdRel = relPathForPrompt(run.cwd, repMdAbs);
     const pid = job.pid != null ? Number(job.pid) : null;
     const pidAlive = pid != null ? longJob.isPidAlive(pid) : false;
-    const startedAtMs = tryParseIsoToMs(job.started_at);
     const nowMs = Date.now();
-    const elapsedMinutes = Number.isFinite(startedAtMs) ? Math.max(0, Math.round((nowMs - startedAtMs) / 60000)) : null;
-    const stdoutSt = longJob.safeStat(paths.stdoutAbs);
-    const stderrSt = longJob.safeStat(paths.stderrAbs);
-    const hbSt = longJob.safeStat(paths.heartbeatAbs);
-    const progSt = longJob.safeStat(paths.progressAbs);
-    const resultSt = longJob.safeStat(paths.resultAbs);
     const result = this._readLongJobJsonBestEffort(paths.resultAbs);
     const lastMonitor = this._readLongJobJsonBestEffort(paths.latestMonitorJsonAbs);
+    const monitorContext = this._buildLongJobMonitorContextPacket(run, jobId, {
+      reason,
+      force,
+      paths,
+      job,
+      lastMonitor,
+      result,
+      pidAlive,
+      nowMs,
+    });
+    writeJsonAtomic(paths.monitorContextJsonAbs, monitorContext);
+    const monitorInstructionAbs = path.join(run.cwd, "agents", "monitor.md");
+    copyTemplateIfMissing({
+      sourcePath: path.join(AGENT_TEMPLATES_DIR, "monitor.md"),
+      targetPath: monitorInstructionAbs,
+      transform: (raw) => applyUpdatedAt(raw, nowIso()),
+    });
+
+    await this._ensureCodex();
 
     const threadId = await this._ensureThread({ runId, role: "monitor" });
     const attempt = await this._runTurnWithHandshake({
@@ -3432,22 +3686,15 @@ class PipelineManager extends EventEmitter {
           role: "monitor",
           turnNonce,
           readPaths: [
-            relPathForPrompt(run.cwd, run.projectDeveloperInstructionPath || path.join(run.cwd, "agents", "developer_codex.md")),
-            paths.jobJsonRel,
-            paths.requestRel,
-            paths.heartbeatRel,
-            paths.progressRel,
-            paths.stdoutRel,
-            paths.stderrRel,
-            paths.resultRel,
-            paths.latestMonitorJsonRel,
-            paths.latestMonitorMdRel,
+            relPathForPrompt(run.cwd, monitorInstructionAbs),
+            paths.monitorContextJsonRel,
           ],
           writePaths: [repJsonRel, repMdRel, paths.latestMonitorJsonRel, paths.latestMonitorMdRel, ...(marker ? [marker.tmpRel, marker.doneRel] : [])],
           notes: [
             "You are the LONG-JOB MONITOR. Keep output short and actionable.",
             "You MUST write both REP-*.json and REP-*.md, and also update monitor_reports/latest.{json,md}.",
             "Decision must be one of: continue | stop | restart | wake_developer | escalate_manager.",
+            "Use monitor_reports/context.json as the authoritative compact context for this turn.",
             ...(marker
               ? [`TURN COMPLETION MARKER (required): write ${marker.tmpRel} then rename to ${marker.doneRel} with content 'ok' as the LAST step of this turn.`]
               : []),
@@ -3463,14 +3710,16 @@ class PipelineManager extends EventEmitter {
           `Task: ${job.task_id || run.currentTaskId || "(unknown)"}`,
           "",
           "Goal:",
-          "- Inspect job state (job.json), logs, heartbeat/progress.",
+          "- Read the prepared monitor context and decide quickly whether the job is healthy or needs intervention.",
           "- Decide whether the job is healthy and whether any action is needed.",
-          "- Produce an hourly report visible in the Antidex UI.",
+          "- Produce a concise report visible in the Antidex UI.",
           "",
           "Write files:",
           `1) ${repJsonRel} (JSON)`,
           `2) ${repMdRel} (Markdown)`,
           `3) Update ${paths.latestMonitorJsonRel} and ${paths.latestMonitorMdRel} (copy same content).`,
+          "",
+          `Primary context packet: ${paths.monitorContextJsonRel}`,
           "",
           "JSON schema (latest.json and REP-*.json):",
           "{",
@@ -3489,26 +3738,10 @@ class PipelineManager extends EventEmitter {
           "- If logs/heartbeat haven't changed in a long time: status=stalled, decision=restart or wake_developer.",
           "- If result.json exists and indicates done: status=done, decision=wake_developer.",
           "- If the pid is alive and the job is still within the warmup / expected window, prefer decision=continue unless there is explicit evidence of failure.",
-          "- Do NOT infer a stall from ambiguous timestamps or timezone confusion; use the authoritative facts below.",
+          "- Do NOT infer a stall from ambiguous timestamps or timezone confusion; use the authoritative facts from the context packet.",
+          "- Do not broaden the investigation unless the context packet is missing decisive facts.",
           "",
-          "Authoritative runtime facts:",
-          `- pid_alive: ${pidAlive ? "yes" : "no"}`,
-          `- started_at: ${job.started_at || "(missing)"}`,
-          `- now_iso: ${new Date(nowMs).toISOString()}`,
-          `- elapsed_minutes: ${elapsedMinutes == null ? "(unknown)" : elapsedMinutes}`,
-          `- expected_minutes: ${job.expected_minutes ?? "(unknown)"}`,
-          `- silent_warmup_minutes: ${Math.round(LONG_JOB_SILENT_WARMUP_MS / 60000)}`,
-          `- stdout_log_bytes: ${stdoutSt?.size ?? 0}`,
-          `- stderr_log_bytes: ${stderrSt?.size ?? 0}`,
-          `- heartbeat_seen: ${hbSt ? "yes" : "no"}`,
-          `- heartbeat_mtime: ${hbSt ? new Date(hbSt.mtimeMs).toISOString() : "(missing)"}`,
-          `- progress_seen: ${progSt ? "yes" : "no"}`,
-          `- progress_mtime: ${progSt ? new Date(progSt.mtimeMs).toISOString() : "(missing)"}`,
-          `- result_exists: ${resultSt ? "yes" : "no"}`,
-          `- result_status: ${result && typeof result.status === "string" ? result.status : "(missing)"}`,
-          `- last_monitor_decision: ${lastMonitor && typeof lastMonitor.decision === "string" ? lastMonitor.decision : "(none)"}`,
-          "",
-          `Context: ${reason ? String(reason) : force ? "forced by UI" : "scheduled"}`,
+          `Context: ${monitorContext.reason}`,
           retry,
           "",
         ].join("\n");
@@ -4692,6 +4925,10 @@ class PipelineManager extends EventEmitter {
                 startedAt: run.activeJob.startedAt || null,
                 stoppedAt: run.activeJob.stoppedAt || null,
                 updatedAt: run.activeJob.updatedAt || null,
+                elapsedMinutes:
+                  Object.prototype.hasOwnProperty.call(run.activeJob, "elapsedMinutes") ? run.activeJob.elapsedMinutes : null,
+                expectedMinutes:
+                  Object.prototype.hasOwnProperty.call(run.activeJob, "expectedMinutes") ? run.activeJob.expectedMinutes : null,
                 lastMonitorAtIso: run.activeJob.lastMonitorAtIso || null,
                 lastMonitorDecision: run.activeJob.lastMonitorDecision || null,
                 lastMonitorStatus: run.activeJob.lastMonitorStatus || null,
@@ -4702,6 +4939,9 @@ class PipelineManager extends EventEmitter {
                 heartbeatRel: run.activeJob.heartbeatRel || null,
                 progressRel: run.activeJob.progressRel || null,
                 resultRel: run.activeJob.resultRel || null,
+                heartbeatMtimeIso: run.activeJob.heartbeatMtimeIso || null,
+                progressMtimeIso: run.activeJob.progressMtimeIso || null,
+                resultMtimeIso: run.activeJob.resultMtimeIso || null,
               }
             : null,
         projectPipelineState: {
@@ -4716,6 +4956,16 @@ class PipelineManager extends EventEmitter {
         },
         updatedAt: run.updatedAt,
         lastError: run.lastError || null,
+        recovery:
+          run.recovery && typeof run.recovery === "object"
+            ? {
+                active: run.recovery.active === true,
+                status: run.recovery.status || null,
+                lane: run.recovery.lane || null,
+                fixStatus: run.recovery.fixStatus || null,
+                incidentSignature: run.recovery.incidentSignature || null,
+              }
+            : null,
       },
     });
   }
@@ -4926,12 +5176,13 @@ class PipelineManager extends EventEmitter {
   }
 
   getRun(runId) {
-    return this._state.getRun(runId);
+    return this._refreshRunReadModel(runId);
   }
 
   listRuns() {
     return this._state
       .listRuns()
+      .map((run) => this._refreshRunReadModel(run.runId) || run)
       .slice()
       .sort((a, b) => String(b.updatedAt || "").localeCompare(String(a.updatedAt || "")));
   }
@@ -5259,6 +5510,7 @@ class PipelineManager extends EventEmitter {
       projectManagerInstructionPath: path.join(agentsDir, "manager.md"),
       projectDeveloperInstructionPath: path.join(agentsDir, "developer_codex.md"),
       projectDeveloperAgInstructionPath: path.join(agentsDir, "developer_antigravity.md"),
+      projectAuditorInstructionPath: path.join(agentsDir, "auditor.md"),
       projectAgCursorRulesPath: path.join(agentsDir, "AG_cursorrules.md"),
       projectSpecPath: path.join(projectDocDir, "SPEC.md"),
       projectTodoPath: path.join(projectDocDir, "TODO.md"),
@@ -5291,6 +5543,20 @@ class PipelineManager extends EventEmitter {
       lastError: null,
       monitorThreadId: null,
       monitorRolloutPath: null,
+      recovery: {
+        active: false,
+        status: null,
+        lane: null,
+        incidentPath: null,
+        incidentSignature: null,
+        incidentWhere: null,
+        fixStatus: null,
+        baseline: null,
+        progress: null,
+        correctorPreflight: null,
+        resumePreflight: null,
+        lastEvaluation: null,
+      },
     };
 
     // Project-level AG thread rule:
@@ -5950,6 +6216,27 @@ class PipelineManager extends EventEmitter {
       }
     }
 
+    try {
+      const recoveryResume = this._prepareRecoveryResume(runId, {
+        source: opts?.resumeSource || (opts?.newSession === true ? "continue_new_session" : "continue"),
+      });
+      if (recoveryResume && recoveryResume.ok === false) {
+        const blocked = this._getRunRequired(runId);
+        blocked.status = "stopped";
+        blocked.developerStatus = "blocked";
+        blocked.managerDecision = null;
+        blocked.lastError = {
+          message: `Recovery resume preflight failed: ${recoveryResume.reasons.join(", ") || recoveryResume.lane}`,
+          at: nowIso(),
+          where: "recovery/resume_preflight",
+        };
+        this._setRun(runId, blocked);
+        return blocked;
+      }
+    } catch {
+      // ignore
+    }
+
     const isActivelyProcessing = this._isRunActivelyProcessing(curBefore) || this._autoRunLoops.has(runId);
     if (autoRun && isActivelyProcessing) {
       // If a run is already processing (Codex turn or AG step), don't error.
@@ -6140,9 +6427,11 @@ class PipelineManager extends EventEmitter {
       taskReviewCounts: {},
       managerThreadId: null,
       developerThreadId: null,
+      auditorThreadId: null,
       developerThreadTaskId: null,
       managerRolloutPath: null,
       developerRolloutPath: null,
+      auditorRolloutPath: null,
       logFiles: [],
       developerStatus: "idle",
       managerDecision: null,
@@ -6153,6 +6442,7 @@ class PipelineManager extends EventEmitter {
       projectManagerInstructionPath: path.join(agentsDir, "manager.md"),
       projectDeveloperInstructionPath: path.join(agentsDir, "developer_codex.md"),
       projectDeveloperAgInstructionPath: path.join(agentsDir, "developer_antigravity.md"),
+      projectAuditorInstructionPath: path.join(agentsDir, "auditor.md"),
       projectAgCursorRulesPath: path.join(agentsDir, "AG_cursorrules.md"),
       projectSpecPath: path.join(projectDocDir, "SPEC.md"),
       projectTodoPath: path.join(projectDocDir, "TODO.md"),
@@ -6179,7 +6469,23 @@ class PipelineManager extends EventEmitter {
       lastError: null,
       activeTurn: null,
       monitorThreadId: null,
+      auditorThreadId: null,
       monitorRolloutPath: null,
+      auditorRolloutPath: null,
+      recovery: {
+        active: false,
+        status: null,
+        lane: null,
+        incidentPath: null,
+        incidentSignature: null,
+        incidentWhere: null,
+        fixStatus: null,
+        baseline: null,
+        progress: null,
+        correctorPreflight: null,
+        resumePreflight: null,
+        lastEvaluation: null,
+      },
     };
 
     run.agConversationStarted = readManifestAgConversationStarted(run.projectManifestPath);
@@ -6961,15 +7267,34 @@ class PipelineManager extends EventEmitter {
   async _ensureThread({ runId, role }) {
     const run = this._getRunRequired(runId);
     const cwd = run.cwd;
-    const model = role === "manager" ? run.managerModel : run.developerModel;
-    const threadKey = role === "manager" ? "managerThreadId" : role === "monitor" ? "monitorThreadId" : "developerThreadId";
-    const rolloutKey = role === "manager" ? "managerRolloutPath" : role === "monitor" ? "monitorRolloutPath" : "developerRolloutPath";
+    const model =
+      role === "manager"
+        ? run.managerModel
+        : role === "auditor"
+          ? String(process.env.ANTIDEX_AUDITOR_MODEL || "").trim() || run.managerModel
+          : run.developerModel;
+    const threadKey =
+      role === "manager"
+        ? "managerThreadId"
+        : role === "monitor"
+          ? "monitorThreadId"
+          : role === "auditor"
+            ? "auditorThreadId"
+            : "developerThreadId";
+    const rolloutKey =
+      role === "manager"
+        ? "managerRolloutPath"
+        : role === "monitor"
+          ? "monitorRolloutPath"
+          : role === "auditor"
+            ? "auditorRolloutPath"
+            : "developerRolloutPath";
     const existing = run[threadKey] ? String(run[threadKey]) : "";
 
     const sandbox = DEFAULT_SANDBOX;
     const approvalPolicy = DEFAULT_APPROVAL_POLICY;
 
-    let shouldReuse = true;
+    let shouldReuse = role !== "monitor" && role !== "auditor";
     if (role === "developer") {
       const policy = run.threadPolicy?.developer_codex || "reuse";
       if (policy === "new_per_task" && run.currentTaskId) {
@@ -10482,7 +10807,7 @@ class PipelineManager extends EventEmitter {
       threadId,
       model,
       prompt,
-      effort: "high",
+      effort: role === "auditor" ? "low" : role === "monitor" ? "medium" : "high",
       retryCount: 0,
       assistantText: "",
       turnId: null,
@@ -10669,10 +10994,14 @@ class PipelineManager extends EventEmitter {
       try {
         const r = this._getRunRequired(still.runId);
         const where = isHardTimeout ? "turn/hard_timeout" : isSoftStall ? "turn/soft_timeout" : "turn/inactivity";
-        r.lastError = { message: reason, at: nowIso(), where };
         // IMPORTANT: do not leave the run in a limbo state where lastError is set but status stays "ongoing".
         // Block developer runs (so Manager/Corrector can intervene) and fail non-developer runs.
-        if (String(still.role || "").startsWith("developer")) {
+        if (String(still.role || "").toLowerCase() === "auditor") {
+          // The auditor is read-only and must not fail or block the product run on its own.
+          // Keep the run state intact; simply terminate the audit turn and surface the failure to Guardian.
+          r.lastSoftTimeout = { at: nowIso(), role: still.role, step: still.step, wallMs, reason };
+        } else if (String(still.role || "").startsWith("developer")) {
+          r.lastError = { message: reason, at: nowIso(), where };
           // On hard-timeout, stop the auto-run to avoid burning tokens in repeated Corrector/Manager loops
           // while a potentially-zombie Codex turn is still running server-side.
           if (isHardTimeout) r.status = "stopped";
@@ -10690,6 +11019,7 @@ class PipelineManager extends EventEmitter {
             // ignore
           }
         } else {
+          r.lastError = { message: reason, at: nowIso(), where };
           r.status = "failed";
         }
         r.activeTurn = null;
@@ -10989,6 +11319,2413 @@ class PipelineManager extends EventEmitter {
       return;
     }
   }
+
+  _readIncidentResult(incidentPath) {
+    const p = incidentResultPath(incidentPath);
+    const read = readJsonBestEffort(p);
+    if (!read.ok || !read.value || typeof read.value !== "object") return {};
+    return read.value;
+  }
+
+  _writeIncidentResult(incidentPath, patch) {
+    const p = incidentResultPath(incidentPath);
+    const prev = this._readIncidentResult(incidentPath);
+    const next = {
+      ...prev,
+      ...(patch && typeof patch === "object" ? patch : {}),
+      updated_at: nowIso(),
+    };
+    if (patch?.corrector_preflight && typeof patch.corrector_preflight === "object") {
+      next.corrector_preflight = { ...(prev.corrector_preflight || {}), ...patch.corrector_preflight };
+    }
+    if (patch?.resume_preflight && typeof patch.resume_preflight === "object") {
+      next.resume_preflight = { ...(prev.resume_preflight || {}), ...patch.resume_preflight };
+    }
+    if (patch?.recovery_progress && typeof patch.recovery_progress === "object") {
+      next.recovery_progress = { ...(prev.recovery_progress || {}), ...patch.recovery_progress };
+    }
+    writeJsonAtomic(p, next);
+    return next;
+  }
+
+  _updateRunRecovery(runId, patch) {
+    const run = this._getRunRequired(runId);
+    const prev = run.recovery && typeof run.recovery === "object" ? run.recovery : {};
+    const next = {
+      active: false,
+      status: null,
+      lane: null,
+      incidentPath: null,
+      incidentSignature: null,
+      incidentWhere: null,
+      fixStatus: null,
+      baseline: null,
+      progress: null,
+      correctorPreflight: null,
+      resumePreflight: null,
+      lastEvaluation: null,
+      ...prev,
+      ...(patch && typeof patch === "object" ? patch : {}),
+    };
+    if (patch?.correctorPreflight && typeof patch.correctorPreflight === "object") {
+      next.correctorPreflight = { ...(prev.correctorPreflight || {}), ...patch.correctorPreflight };
+    }
+    if (patch?.resumePreflight && typeof patch.resumePreflight === "object") {
+      next.resumePreflight = { ...(prev.resumePreflight || {}), ...patch.resumePreflight };
+    }
+    if (patch?.progress && typeof patch.progress === "object") {
+      next.progress = { ...(prev.progress || {}), ...patch.progress };
+    }
+    if (patch?.lastEvaluation && typeof patch.lastEvaluation === "object") {
+      next.lastEvaluation = { ...(prev.lastEvaluation || {}), ...patch.lastEvaluation };
+    }
+    run.recovery = next;
+    this._setRun(runId, run);
+    try {
+      const statusPath = recoveryStatusPath(this._dataDir, runId);
+      if (next.active === true && next.incidentPath) {
+        writeJsonAtomic(statusPath, {
+          schema: "antidex.external_auditor.recovery_status.v1",
+          at: nowIso(),
+          run_id: runId,
+          incident_path: next.incidentPath || null,
+          incident_signature: next.incidentSignature || null,
+          incident_where: next.incidentWhere || null,
+          recovery_status: next.status || null,
+          crisis_lane: next.lane || null,
+          fix_status: next.fixStatus || null,
+          corrector_preflight: next.correctorPreflight || null,
+          resume_preflight: next.resumePreflight || null,
+          progress: next.progress || null,
+          last_evaluation: next.lastEvaluation || null,
+        });
+      } else if (fs.existsSync(statusPath)) {
+        fs.rmSync(statusPath, { force: true });
+      }
+    } catch {
+      // ignore
+    }
+    return next;
+  }
+
+  _collectRecoveryBaseline(run) {
+    const { taskDir } = taskContext(run);
+    return {
+      recorded_at: nowIso(),
+      iteration: Number(run.iteration || 0),
+      current_task_id: run.currentTaskId || null,
+      developer_status: run.developerStatus || null,
+      manager_decision: run.managerDecision || null,
+      project_state_mtime_ms: safeStatMtimeMs(run.projectPipelineStatePath),
+      turn_markers_mtime_ms: turnMarkersMtimeMs(run.projectTurnMarkersDir),
+      task_evidence_mtime_ms: latestTaskEvidenceMtimeMs(taskDir),
+    };
+  }
+
+  _synthesizeRecoveryBaselineFromIncident(run, recovery) {
+    const incidentPath = String(recovery?.incidentPath || "").trim();
+    if (!incidentPath) return null;
+    const incidentResult = this._readIncidentResult(incidentPath);
+    const floorCandidates = [
+      safeStatMtimeMs(incidentPath),
+      safeStatMtimeMs(incidentResultPath(incidentPath)),
+      Date.parse(String(incidentResult?.updated_at || "")),
+      Date.parse(String(incidentResult?.at || "")),
+      Date.parse(String(incidentResult?.last_error?.at || "")),
+      Date.parse(String(recovery?.correctorPreflight?.checked_at || "")),
+      Date.parse(String(recovery?.resumePreflight?.checked_at || "")),
+    ].filter((value) => Number.isFinite(value));
+    if (!floorCandidates.length) return null;
+    const floorMs = Math.max(...floorCandidates);
+    return {
+      recorded_at: new Date(floorMs).toISOString(),
+      source: "incident_time_floor",
+      synthetic: true,
+      incident_floor_ms: floorMs,
+      iteration: Number(run.iteration || 0),
+      current_task_id: run.currentTaskId || null,
+      developer_status: run.developerStatus || null,
+      manager_decision: run.managerDecision || null,
+      project_state_mtime_ms: floorMs,
+      turn_markers_mtime_ms: floorMs,
+      task_evidence_mtime_ms: floorMs,
+    };
+  }
+
+  _evaluateRecoveryProgress(run, recovery) {
+    const baseline =
+      (recovery?.baseline && typeof recovery.baseline === "object" ? recovery.baseline : null) ||
+      this._synthesizeRecoveryBaselineFromIncident(run, recovery);
+    if (!baseline) return { observed: false, reasons: ["missing_baseline"], metrics: null };
+    const { taskDir } = taskContext(run);
+    const metrics = {
+      iteration: Number(run.iteration || 0),
+      current_task_id: run.currentTaskId || null,
+      developer_status: run.developerStatus || null,
+      manager_decision: run.managerDecision || null,
+      project_state_mtime_ms: safeStatMtimeMs(run.projectPipelineStatePath),
+      turn_markers_mtime_ms: turnMarkersMtimeMs(run.projectTurnMarkersDir),
+      task_evidence_mtime_ms: latestTaskEvidenceMtimeMs(taskDir),
+      baseline_source: baseline.source || "recovery_baseline",
+    };
+    const reasons = [];
+    if (metrics.iteration > Number(baseline.iteration || 0)) reasons.push("iteration_advanced");
+    if ((metrics.project_state_mtime_ms || 0) > (baseline.project_state_mtime_ms || 0)) reasons.push("project_state_updated");
+    if ((metrics.turn_markers_mtime_ms || 0) > (baseline.turn_markers_mtime_ms || 0)) reasons.push("turn_marker_written");
+    if ((metrics.task_evidence_mtime_ms || 0) > (baseline.task_evidence_mtime_ms || 0)) reasons.push("task_artifact_updated");
+    if (metrics.current_task_id && metrics.current_task_id !== baseline.current_task_id) reasons.push("task_changed");
+    return { observed: reasons.length > 0, reasons, metrics };
+  }
+
+  _evaluateAuditorJobActiveReference(run) {
+    const waiting =
+      String(run.status || "").trim().toLowerCase() === "waiting_job" ||
+      String(run.developerStatus || "").trim().toLowerCase() === "waiting_job";
+    const activeJobId = run.activeJobId ? String(run.activeJobId) : "";
+    if (!waiting && !activeJobId) return null;
+
+    const jobId = activeJobId || (run.lastJobId ? String(run.lastJobId) : "");
+    const pendingReq = this._pickNextLongJobRequest(run);
+    const issues = [];
+    let resultState = { status: null, isTerminal: false };
+    let resultMtimeMs = null;
+    if (!jobId) issues.push("waiting_job_without_active_job_reference");
+    if (jobId) {
+      const paths = this._jobPaths(run, jobId);
+      const job = this._readLongJobJsonBestEffort(paths.jobJsonAbs);
+      const result = this._readLongJobJsonBestEffort(paths.resultAbs);
+      resultState = this._getLongJobResultState(result);
+      resultMtimeMs = safeStatMtimeMs(paths.resultAbs);
+      if (!job) issues.push("active_job_reference_missing_job_json");
+      else if (job.run_id && String(job.run_id) !== String(run.runId)) issues.push("job_run_id_mismatch");
+      if (waiting && resultState.isTerminal) issues.push(`waiting_job_with_terminal_result:${resultState.status || "terminal"}`);
+      if (activeJobId && resultState.isTerminal) issues.push(`active_job_reference_points_to_terminal_result:${resultState.status || "terminal"}`);
+      if (!job && !pendingReq) issues.push("no_live_job_and_no_pending_request");
+    }
+    if (!issues.length) return null;
+
+    const taskId = run.currentTaskId || null;
+    const signature = this._normalizeCorrectorIncidentSignature({
+      where: "job/active_reference_incoherent",
+      message: issues.join("; "),
+      taskId,
+    });
+    return {
+      id: `rec-${signature.replace(/[^a-zA-Z0-9_-]/g, "_")}`,
+      signature,
+      where: "job/active_reference_incoherent",
+      task_id: taskId,
+      confidence: "high",
+      severity: "error",
+      dedupe_key: `${signature}:${jobId || "none"}:${resultState.status || "none"}:${resultMtimeMs || 0}`,
+      explanation: `Long-job state is incoherent for ${taskId || run.runId}: ${issues.join(", ")}.`,
+      observed: issues,
+      healing_predicates: [
+        "No stale waiting_job/activeJob reference remains for the same task.",
+        "Any referenced active long job is live or the terminal result has been reconciled locally.",
+      ],
+    };
+  }
+
+  _evaluateAuditorReviewLoop(run) {
+    if (String(run.developerStatus || "").trim().toLowerCase() !== "blocked") return null;
+    const where = String(run.lastError?.where || "").trim().toLowerCase();
+    if (where !== "guardrail/review_loop" && where !== "manager/review") return null;
+    const taskId = run.currentTaskId || null;
+    if (!taskId) return null;
+    const { taskDir } = taskContext(run, taskId);
+    const reviewPath = path.join(taskDir, "manager_review.md");
+    const reviewMtimeMs = safeStatMtimeMs(reviewPath);
+    const signature = this._normalizeCorrectorIncidentSignature({
+      where: "review/stale_loop_high_confidence",
+      message: String(run.lastError?.message || "review loop"),
+      taskId,
+    });
+    return {
+      id: `rec-${signature.replace(/[^a-zA-Z0-9_-]/g, "_")}`,
+      signature,
+      where: "review/stale_loop_high_confidence",
+      task_id: taskId,
+      confidence: "high",
+      severity: "error",
+      dedupe_key: `${signature}:${reviewMtimeMs || 0}:${String(run.lastError?.at || "")}`,
+      explanation: `Run is still blocked on a stale review loop for ${taskId}.`,
+      observed: [where, String(run.lastError?.message || "").trim() || "review loop blocked"],
+      healing_predicates: [
+        "The run is no longer blocked on guardrail/review_loop or manager/review for the same task.",
+        "A measurable post-fix progress signal appears after resume.",
+      ],
+    };
+  }
+
+  _extractJobIdsFromText(text) {
+    const raw = String(text || "");
+    if (!raw) return [];
+    const matches = raw.match(/job-[A-Za-z0-9._:-]+/g) || [];
+    return Array.from(new Set(matches.map((item) => String(item || "").trim()).filter(Boolean))).slice(0, 12);
+  }
+
+  _countHistoricalIncidentMatches(run, prefix) {
+    const counts = run?.correctorIncidentCounts && typeof run.correctorIncidentCounts === "object" ? run.correctorIncidentCounts : null;
+    if (!counts) return 0;
+    const needle = String(prefix || "").trim();
+    if (!needle) return 0;
+    let total = 0;
+    for (const [key, value] of Object.entries(counts)) {
+      if (!String(key || "").startsWith(needle)) continue;
+      total += Number.isFinite(Number(value)) ? Number(value) : 0;
+    }
+    return total;
+  }
+
+  _evaluateAuditorStaleProjection(run) {
+    const status = String(run.status || "").trim().toLowerCase();
+    const developerStatus = String(run.developerStatus || "").trim().toLowerCase();
+    const waiting = status === "waiting_job" || developerStatus === "waiting_job";
+    if (!waiting) return null;
+
+    const activeJobId = run.activeJobId ? String(run.activeJobId).trim() : "";
+    const taskId = run.currentTaskId || null;
+    if (!activeJobId || !taskId) return null;
+    if (this._evaluateAuditorJobActiveReference(run)) return null;
+
+    const staleWindowMs = clampInt(parseInt(process.env.ANTIDEX_AUDITOR_STALE_PROJECTION_MS || "1800000", 10), 5 * 60_000, 6 * 60 * 60_000);
+    const nowMs = Date.now();
+    const projectStateRead = readJsonBestEffort(run.projectPipelineStatePath);
+    const projectState = projectStateRead.ok && projectStateRead.value && typeof projectStateRead.value === "object" ? projectStateRead.value : null;
+    const projectStateUpdatedAtMs =
+      Date.parse(String(projectState?.updated_at || "")) || safeStatMtimeMs(run.projectPipelineStatePath) || 0;
+    const projectWaiting = String(projectState?.developer_status || "").trim().toLowerCase() === "waiting_job";
+    const projectStateStale = !projectStateUpdatedAtMs || nowMs - projectStateUpdatedAtMs >= staleWindowMs;
+    if (!(projectWaiting && projectStateStale)) return null;
+
+    const { taskDir } = taskContext(run, taskId);
+    const devResultPath = path.join(taskDir, "dev_result.md");
+    const devResultText = fileExists(devResultPath) ? fs.readFileSync(devResultPath, "utf8") : "";
+    const devResultJobIds = this._extractJobIdsFromText(devResultText);
+    const devResultJobMismatch = devResultJobIds.length > 0 && !devResultJobIds.includes(activeJobId);
+
+    const jobPaths = this._jobPaths(run, activeJobId);
+    const latestMonitorMtimeMs = Math.max(
+      safeStatMtimeMs(jobPaths.latestMonitorJsonAbs) || 0,
+      safeStatMtimeMs(jobPaths.latestMonitorMdAbs) || 0,
+      Date.parse(String(run.activeJob?.lastMonitorAtIso || "")) || 0,
+    );
+    const monitorStale = !latestMonitorMtimeMs || nowMs - latestMonitorMtimeMs >= staleWindowMs;
+    const repeatedMonitorMissedCount = this._countHistoricalIncidentMatches(run, "job/monitor_missed:");
+    const repeatedMonitorMissed = repeatedMonitorMissedCount >= 2;
+    const corroboratingSignals = [monitorStale, repeatedMonitorMissed, devResultJobMismatch].filter(Boolean).length;
+    if (corroboratingSignals < 2) return null;
+
+    const observed = [
+      `waiting_job_with_active_job:${activeJobId}`,
+      `project_pipeline_state_waiting_job_stale:${projectState?.updated_at || "missing_updated_at"}`,
+    ];
+    if (monitorStale) {
+      observed.push(`monitor_projection_stale:${latestMonitorMtimeMs ? new Date(latestMonitorMtimeMs).toISOString() : "missing_monitor_report"}`);
+    }
+    if (repeatedMonitorMissed) observed.push(`historical_job_monitor_missed_count:${repeatedMonitorMissedCount}`);
+    if (devResultJobMismatch) observed.push(`dev_result_references_other_job:${devResultJobIds.join(",")}`);
+
+    const signature = this._normalizeCorrectorIncidentSignature({
+      where: "ui_or_api/stale_projection",
+      message: observed.join("; "),
+      taskId,
+    });
+    return {
+      id: `rec-${signature.replace(/[^a-zA-Z0-9_-]/g, "_")}`,
+      signature,
+      where: "ui_or_api/stale_projection",
+      task_id: taskId,
+      confidence: "high",
+      severity: "error",
+      dedupe_key: `${signature}:${activeJobId}:${projectStateUpdatedAtMs || 0}:${latestMonitorMtimeMs || 0}`,
+      explanation:
+        `Projection is durably stale for ${taskId}: waiting_job still points to ${activeJobId} while the source artifacts stay stale and monitoring evidence is inconsistent.`,
+      observed,
+      healing_predicates: [
+        "The run no longer presents the same durable waiting_job stale projection for the same active job.",
+        "Project/API job pointers and monitoring evidence are locally reconciled for the current task.",
+      ],
+    };
+  }
+
+  _evaluateRecoveryHealing(run, recovery) {
+    const signature = String(recovery?.incidentSignature || "").trim();
+    const where = String(recovery?.incidentWhere || "").trim();
+    const lastWhere = String(run.lastError?.where || "").trim();
+    const sameWhere = !!where && where === lastWhere;
+
+    if (signature.startsWith("job/active_reference_incoherent")) {
+      const rec = this._evaluateAuditorJobActiveReference(run);
+      return rec
+        ? { cleared: false, reasons: rec.observed || ["job_active_reference_incoherent_still_present"] }
+        : { cleared: true, reasons: ["active_job_reference_revalidated_locally"] };
+    }
+    if (signature.startsWith("review/stale_loop_high_confidence") || where === "guardrail/review_loop") {
+      const rec = this._evaluateAuditorReviewLoop(run);
+      return rec
+        ? { cleared: false, reasons: rec.observed || ["review_loop_still_present"] }
+        : { cleared: true, reasons: ["review_loop_signature_absent"] };
+    }
+    if (signature.startsWith("ui_or_api/stale_projection") || where === "ui_or_api/stale_projection") {
+      const rec = this._evaluateAuditorStaleProjection(run);
+      return rec
+        ? { cleared: false, reasons: rec.observed || ["stale_projection_still_present"] }
+        : { cleared: true, reasons: ["stale_projection_absent"] };
+    }
+    if (sameWhere) {
+      return { cleared: false, reasons: [lastWhere || signature || "original_signature_still_present"] };
+    }
+    return { cleared: true, reasons: ["original_signature_absent"] };
+  }
+
+  _evaluateTrackedRecovery(run) {
+    const recovery = run.recovery && typeof run.recovery === "object" ? run.recovery : null;
+    if (!recovery || recovery.active !== true || !recovery.incidentPath) return null;
+
+    const fixStatus = String(recovery.fixStatus || "").trim() || "unknown";
+    const lane = String(recovery.lane || "").trim() || null;
+    const resumePreflightOk = recovery.resumePreflight ? recovery.resumePreflight.ok !== false : null;
+    const correctorPreflightOk = recovery.correctorPreflight ? recovery.correctorPreflight.ok !== false : null;
+    const progress = this._evaluateRecoveryProgress(run, recovery);
+    const healing = this._evaluateRecoveryHealing(run, recovery);
+
+    let status = String(recovery.status || "").trim() || null;
+    let nextLane = lane;
+    if (correctorPreflightOk === false) {
+      status = recovery.correctorPreflight?.lane || "manager_action_required";
+      nextLane = status;
+    } else if (resumePreflightOk === false) {
+      status = recovery.resumePreflight?.lane || "manager_action_required";
+      nextLane = status;
+    } else if (run.lastError?.where === "corrector/restart_required") {
+      status = "environment_not_recoverable";
+      nextLane = "environment_not_recoverable";
+    } else if (String(run.status || "").trim().toLowerCase() === "paused" || String(run.status || "").trim().toLowerCase() === "canceled") {
+      status = "manager_action_required";
+      nextLane = "manager_action_required";
+    } else if (!healing.cleared) {
+      status = "recovery_not_cleared";
+      nextLane = "recovery_not_cleared";
+    } else if (!progress.observed) {
+      status = "recovery_inconclusive";
+      nextLane = "recovery_inconclusive";
+    } else {
+      status = "recovery_cleared";
+      nextLane = "auto_resume_safe";
+    }
+
+    return {
+      incident_path: recovery.incidentPath,
+      signature: recovery.incidentSignature || null,
+      where: recovery.incidentWhere || null,
+      fix_status: fixStatus,
+      status,
+      lane: nextLane,
+      progress,
+      healing,
+    };
+  }
+
+  _syncTrackedRecoveryFromAuditSnapshot(runId, snapshot) {
+    const recovery = snapshot?.recovery && typeof snapshot.recovery === "object" ? snapshot.recovery : null;
+    if (!recovery || !recovery.incident_path) return;
+    const run = this._getRunRequired(runId);
+    const current = run.recovery && typeof run.recovery === "object" ? run.recovery : null;
+    if (!current || !current.incidentPath) return;
+    if (path.resolve(String(current.incidentPath)) !== path.resolve(String(recovery.incident_path))) return;
+
+    const lastEvaluation = {
+      evaluated_at: String(snapshot?.generated_at || snapshot?.at || nowIso()),
+      status: recovery.status || null,
+      lane: recovery.lane || null,
+      fix_status: recovery.fix_status || null,
+      healing: recovery.healing || null,
+      progress: recovery.progress || null,
+    };
+    const cleared = recovery.status === "recovery_cleared";
+    const patch = {
+      active: cleared ? false : true,
+      status: recovery.status || current.status || null,
+      lane: cleared ? "auto_resume_safe" : recovery.lane || current.lane || null,
+      incidentPath: cleared ? null : current.incidentPath,
+      incidentSignature: cleared ? null : current.incidentSignature,
+      incidentWhere: cleared ? null : current.incidentWhere,
+      baseline: cleared ? null : current.baseline || null,
+      progress: cleared ? null : recovery.progress || current.progress || null,
+      correctorPreflight: cleared ? null : current.correctorPreflight || null,
+      resumePreflight: cleared ? null : current.resumePreflight || null,
+      lastEvaluation,
+    };
+    this._updateRunRecovery(runId, patch);
+    try {
+      this._writeIncidentResult(current.incidentPath, {
+        recovery_status: patch.status,
+        crisis_lane: patch.lane,
+        recovery_progress: patch.progress,
+        last_evaluation: lastEvaluation,
+      });
+    } catch {
+      // ignore
+    }
+  }
+
+  _canonicalizeClosedRecovery(runId) {
+    const run = this._getRunRequired(runId);
+    const current = run.recovery && typeof run.recovery === "object" ? run.recovery : null;
+    if (!current || String(current.status || "").trim() !== "recovery_cleared") return false;
+    const incidentPath = current.incidentPath || null;
+    const lastEvaluation = {
+      ...(current.lastEvaluation && typeof current.lastEvaluation === "object" ? current.lastEvaluation : {}),
+      evaluated_at: nowIso(),
+      status: "recovery_cleared",
+      lane: "auto_resume_safe",
+      fix_status: null,
+    };
+    this._updateRunRecovery(runId, {
+      active: false,
+      status: "recovery_cleared",
+      lane: "auto_resume_safe",
+      incidentPath: null,
+      incidentSignature: null,
+      incidentWhere: null,
+      fixStatus: null,
+      baseline: null,
+      progress: null,
+      correctorPreflight: null,
+      resumePreflight: null,
+      lastEvaluation,
+    });
+    if (incidentPath) {
+      try {
+        this._writeIncidentResult(incidentPath, {
+          recovery_status: "recovery_cleared",
+          crisis_lane: "auto_resume_safe",
+          recovery_progress: null,
+          last_evaluation: lastEvaluation,
+        });
+      } catch {
+        // ignore
+      }
+    }
+    return true;
+  }
+
+  _buildAuditorFinding({ code, signature, severity, summary, evidence, whyItMatters, confidence, automation, observed, scope } = {}) {
+    return {
+      code: code || "state/unknown_anomaly",
+      signature: signature || null,
+      scope: scope || this._inferBugMemoryScope({ code, signature }),
+      severity: severity || "warn",
+      summary: summary || "Anomaly observed.",
+      explanation: summary || "Anomaly observed.",
+      evidence: Array.isArray(evidence) ? evidence.filter(Boolean).slice(0, 12) : [],
+      observed: Array.isArray(observed) ? observed.filter(Boolean).slice(0, 12) : [],
+      why_it_matters: whyItMatters || "This anomaly may indicate that Antidex and the source artifacts are drifting apart.",
+      confidence: confidence || "medium",
+      automation: automation || "report_only",
+      catalogued: automation === "auto_incident_candidate",
+    };
+  }
+
+  _inferBugMemoryScope({ scope, code, signature, where } = {}) {
+    const explicit = String(scope || "").trim().toLowerCase();
+    if (explicit === "project" || explicit === "antidex") return explicit;
+
+    const needle = String(where || code || signature || "").trim().toLowerCase();
+    if (!needle) return "antidex";
+    if (
+      needle.startsWith("project/") ||
+      needle.includes("project_pipeline_state_unreadable") ||
+      needle.includes("current_task_context_missing")
+    ) {
+      return "project";
+    }
+    return "antidex";
+  }
+
+  _canonicalBugMemoryClass({ code, signature, where } = {}) {
+    const base = String(where || code || signature || "").trim();
+    if (!base) return "state/unknown_anomaly";
+    if (base.includes(":")) return base.split(":")[0];
+    return base;
+  }
+
+  _bugMemoryPaths(run, scope) {
+    const normalizedScope = this._inferBugMemoryScope({ scope });
+    if (normalizedScope === "project") {
+      return {
+        scope: "project",
+        dir: projectBugMemoryDir(run.cwd),
+        jsonlPath: projectBugMemoryJsonlPath(run.cwd),
+        indexPath: projectBugMemoryIndexPath(run.cwd),
+      };
+    }
+    return {
+      scope: "antidex",
+      dir: antidexBugMemoryDir(this._dataDir),
+      jsonlPath: antidexBugMemoryJsonlPath(this._dataDir),
+      indexPath: antidexBugMemoryIndexPath(this._dataDir),
+    };
+  }
+
+  _readBugMemoryIndex(indexPath, scope) {
+    const read = readJsonBestEffort(indexPath);
+    if (!read.ok || !read.value || typeof read.value !== "object") {
+      return {
+        schema: "antidex.bug_memory.index.v1",
+        scope: this._inferBugMemoryScope({ scope }),
+        updated_at: null,
+        entries_by_key: {},
+      };
+    }
+    return {
+      schema: "antidex.bug_memory.index.v1",
+      scope: this._inferBugMemoryScope({ scope: read.value.scope || scope }),
+      updated_at: read.value.updated_at || null,
+      entries_by_key:
+        read.value.entries_by_key && typeof read.value.entries_by_key === "object" ? read.value.entries_by_key : {},
+    };
+  }
+
+  _writeBugMemoryIndex(indexPath, scope, entriesByKey) {
+    writeJsonAtomic(indexPath, {
+      schema: "antidex.bug_memory.index.v1",
+      scope: this._inferBugMemoryScope({ scope }),
+      updated_at: nowIso(),
+      entries_by_key: entriesByKey && typeof entriesByKey === "object" ? entriesByKey : {},
+    });
+  }
+
+  _summarizeBugMemoryEntries(entries, { limit = 6 } = {}) {
+    return entries
+      .slice()
+      .sort((a, b) => Date.parse(String(b?.last_transition_at || b?.last_observed_at || "")) - Date.parse(String(a?.last_transition_at || a?.last_observed_at || "")))
+      .slice(0, Math.max(1, limit))
+      .map((entry) => ({
+        bug_key: entry.bug_key,
+        canonical_class: entry.canonical_class,
+        lifecycle_status: entry.lifecycle_status || null,
+        summary: entry.last_summary || null,
+        last_transition_at: entry.last_transition_at || null,
+        corrected_at: entry.corrected_at || null,
+        validated_at: entry.validated_at || null,
+        reopened_at: entry.reopened_at || null,
+        reopen_count: Number.isFinite(Number(entry.reopen_count)) ? Number(entry.reopen_count) : 0,
+        automation_status: entry.automation?.status || "report_only",
+        promotion_status: entry.automation?.promotion_status || "observed_only",
+      }));
+  }
+
+  _getBugMemoryOverview(run, scope, { limit = 6 } = {}) {
+    const paths = this._bugMemoryPaths(run, scope);
+    const store = this._readBugMemoryIndex(paths.indexPath, paths.scope);
+    const entries = Object.values(store.entries_by_key || {}).filter((entry) => entry && typeof entry === "object");
+    return {
+      scope: paths.scope,
+      jsonl_path: paths.jsonlPath,
+      index_path: paths.indexPath,
+      total_patterns: entries.length,
+      recent_patterns: this._summarizeBugMemoryEntries(entries, { limit }),
+    };
+  }
+
+  getBugMemorySnapshot(runId) {
+    const run = this._getRunRequired(runId);
+    return {
+      schema: "antidex.bug_memory.snapshot.v1",
+      run_id: runId,
+      generated_at: nowIso(),
+      antidex: this._getBugMemoryOverview(run, "antidex"),
+      project: this._getBugMemoryOverview(run, "project"),
+    };
+  }
+
+  _buildBugMemoryReferences(run) {
+    return {
+      antidex: this._getBugMemoryOverview(run, "antidex"),
+      project: this._getBugMemoryOverview(run, "project"),
+    };
+  }
+
+  _allowedBugMemoryTransitionsForSource(sourceKind) {
+    const key = String(sourceKind || "").trim().toLowerCase();
+    if (key === "auditor") return new Set(["observed", "validated", "reopened"]);
+    if (key === "corrector") return new Set(["corrected"]);
+    return new Set();
+  }
+
+  _normalizeAgentBugMemoryUpdate(
+    run,
+    rawUpdate,
+    { sourceKind, auditReportPath, incidentPath, at, defaultTaskId, defaultActiveJobId } = {},
+  ) {
+    const raw = rawUpdate && typeof rawUpdate === "object" ? rawUpdate : null;
+    if (!raw) return { ok: false, reason: "invalid_object" };
+    const allowed = this._allowedBugMemoryTransitionsForSource(sourceKind);
+    const transition = String(raw.transition || "").trim().toLowerCase();
+    if (!allowed.has(transition)) return { ok: false, reason: `transition_not_allowed:${transition || "missing"}` };
+
+    const canonicalClass = this._canonicalBugMemoryClass({
+      code: raw.code || raw.canonical_class,
+      signature: raw.signature || raw.canonical_class,
+      where: raw.where || raw.canonical_class,
+    });
+    if (!canonicalClass) return { ok: false, reason: "missing_canonical_class" };
+
+    const scope = this._inferBugMemoryScope({
+      scope: raw.scope,
+      code: raw.code || canonicalClass,
+      signature: raw.signature || canonicalClass,
+      where: raw.where || canonicalClass,
+    });
+    const normalizedIncidentPath = String(raw.incident_path || incidentPath || "").trim();
+    const normalizedAuditReportPath = String(raw.audit_report_path || auditReportPath || "").trim();
+    const normalized = {
+      transition,
+      scope,
+      canonical_class: canonicalClass,
+      code: String(raw.code || canonicalClass).trim() || canonicalClass,
+      signature: String(raw.signature || "").trim() || null,
+      where: String(raw.where || raw.code || canonicalClass).trim() || canonicalClass,
+      summary: String(raw.summary || raw.explanation || canonicalClass).trim() || canonicalClass,
+      evidence: Array.isArray(raw.evidence)
+        ? raw.evidence.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
+        : [],
+      validation_evidence: Array.isArray(raw.validation_evidence)
+        ? raw.validation_evidence.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
+        : [],
+      incident_path: normalizedIncidentPath ? path.resolve(normalizedIncidentPath) : null,
+      audit_report_path: normalizedAuditReportPath ? path.resolve(normalizedAuditReportPath) : null,
+      task_id: String(raw.task_id || defaultTaskId || run.currentTaskId || "").trim() || null,
+      active_job_id: String(raw.active_job_id || defaultActiveJobId || run.activeJobId || run.lastJobId || "").trim() || null,
+      fix_status: String(raw.fix_status || "").trim() || null,
+      recovery_status: String(raw.recovery_status || "").trim() || null,
+      automation: raw.automation && typeof raw.automation === "object" ? raw.automation : null,
+      at: String(raw.at || at || nowIso()).trim() || nowIso(),
+    };
+
+    if (sourceKind === "auditor" && !normalized.audit_report_path) {
+      return { ok: false, reason: "missing_audit_report_path" };
+    }
+    if (sourceKind === "corrector" && !normalized.incident_path) {
+      return { ok: false, reason: "missing_incident_path" };
+    }
+    if (normalized.incident_path) {
+      const incidentRunMatch = path.basename(normalized.incident_path).includes(`-${run.runId}-`);
+      if (!incidentRunMatch) return { ok: false, reason: "incident_path_run_mismatch" };
+    }
+
+    return { ok: true, value: normalized };
+  }
+
+  _commitAgentBugMemoryUpdates(
+    runId,
+    rawUpdates,
+    { sourceKind, auditReportPath, incidentPath, at, defaultTaskId, defaultActiveJobId, fallbackBuilder } = {},
+  ) {
+    const run = this._getRunRequired(runId);
+    const updatesRaw = Array.isArray(rawUpdates) ? rawUpdates : [];
+    let committed = 0;
+    const reasons = [];
+    for (const rawUpdate of updatesRaw) {
+      const normalized = this._normalizeAgentBugMemoryUpdate(run, rawUpdate, {
+        sourceKind,
+        auditReportPath,
+        incidentPath,
+        at,
+        defaultTaskId,
+        defaultActiveJobId,
+      });
+      if (!normalized.ok) {
+        reasons.push(normalized.reason);
+        continue;
+      }
+      const update = normalized.value;
+      this._recordBugMemoryTransition(runId, {
+        scope: update.scope,
+        transition: update.transition,
+        at: update.at,
+        code: update.code,
+        signature: update.signature || update.canonical_class,
+        where: update.where,
+        summary: update.summary,
+        evidence: update.evidence,
+        taskId: update.task_id,
+        activeJobId: update.active_job_id,
+        incidentPath: update.incident_path,
+        auditReportPath: update.audit_report_path,
+        auditGeneratedAt: update.at,
+        fixStatus: update.fix_status,
+        automation: update.automation || null,
+        source: sourceKind,
+        recoveryStatus: update.recovery_status,
+        validationEvidence: update.validation_evidence,
+        correctedBy: sourceKind === "corrector" ? "corrector" : null,
+      });
+      committed += 1;
+    }
+    if (committed === 0 && typeof fallbackBuilder === "function") {
+      const fallbackUpdates = fallbackBuilder();
+      if (Array.isArray(fallbackUpdates) && fallbackUpdates.length) {
+        return this._commitAgentBugMemoryUpdates(runId, fallbackUpdates, {
+          sourceKind,
+          auditReportPath,
+          incidentPath,
+          at,
+          defaultTaskId,
+          defaultActiveJobId,
+        });
+      }
+    }
+    return { committed, rejected_reasons: reasons };
+  }
+
+  _recordBugMemoryTransition(
+    runId,
+    {
+      scope,
+      transition,
+      at,
+      code,
+      signature,
+      where,
+      summary,
+      evidence,
+      taskId,
+      activeJobId,
+      incidentPath,
+      auditReportPath,
+      auditGeneratedAt,
+      fixStatus,
+      correctedBy,
+      automation,
+      source,
+      recoveryStatus,
+      validationEvidence,
+    } = {},
+  ) {
+    const run = this._getRunRequired(runId);
+    const paths = this._bugMemoryPaths(run, scope);
+    const canonicalClass = this._canonicalBugMemoryClass({ code, signature, where });
+    const bugKey = `${paths.scope}:${canonicalClass}`;
+    const transitionAt = String(at || nowIso());
+    const store = this._readBugMemoryIndex(paths.indexPath, paths.scope);
+    const entriesByKey = { ...(store.entries_by_key || {}) };
+    const prev = entriesByKey[bugKey] && typeof entriesByKey[bugKey] === "object" ? entriesByKey[bugKey] : null;
+    const effectiveTransition =
+      transition === "observed" && (prev?.lifecycle_status === "corrected" || prev?.lifecycle_status === "validated") ? "reopened" : transition;
+    const eventKey = `${effectiveTransition}:${canonicalClass}:${String(auditGeneratedAt || transitionAt)}:${String(incidentPath || auditReportPath || runId)}`;
+    const previousEvents = Array.isArray(prev?.recent_event_keys) ? prev.recent_event_keys : [];
+    if (previousEvents.includes(eventKey)) return prev;
+
+    const next = {
+      schema: "antidex.bug_memory.entry.v1",
+      bug_key: bugKey,
+      scope: paths.scope,
+      canonical_class: canonicalClass,
+      code: code || canonicalClass,
+      signature: signature || null,
+      lifecycle_status: prev?.lifecycle_status || null,
+      first_observed_at: prev?.first_observed_at || null,
+      last_observed_at: prev?.last_observed_at || null,
+      corrected_at: prev?.corrected_at || null,
+      corrected_by: prev?.corrected_by || null,
+      last_fix_status: prev?.last_fix_status || null,
+      validated_at: prev?.validated_at || null,
+      reopened_at: prev?.reopened_at || null,
+      reopen_count: Number.isFinite(Number(prev?.reopen_count)) ? Number(prev.reopen_count) : 0,
+      observation_count: Number.isFinite(Number(prev?.observation_count)) ? Number(prev.observation_count) : 0,
+      correction_count: Number.isFinite(Number(prev?.correction_count)) ? Number(prev.correction_count) : 0,
+      validation_count: Number.isFinite(Number(prev?.validation_count)) ? Number(prev.validation_count) : 0,
+      last_summary: prev?.last_summary || null,
+      evidence: Array.isArray(prev?.evidence) ? prev.evidence : [],
+      related_runs: Array.isArray(prev?.related_runs) ? prev.related_runs : [],
+      related_tasks: Array.isArray(prev?.related_tasks) ? prev.related_tasks : [],
+      related_jobs: Array.isArray(prev?.related_jobs) ? prev.related_jobs : [],
+      related_incidents: Array.isArray(prev?.related_incidents) ? prev.related_incidents : [],
+      source_refs: prev?.source_refs && typeof prev.source_refs === "object" ? prev.source_refs : {},
+      automation: prev?.automation && typeof prev.automation === "object" ? prev.automation : {},
+      last_transition: prev?.last_transition || null,
+      last_transition_at: prev?.last_transition_at || null,
+      recent_event_keys: previousEvents,
+      updated_at: transitionAt,
+    };
+
+    next.last_summary = String(summary || next.last_summary || canonicalClass).trim() || canonicalClass;
+    next.evidence = mergeUniqueTail(next.evidence, Array.isArray(evidence) ? evidence : [], 12);
+    next.related_runs = mergeUniqueTail(next.related_runs, runId, 8);
+    next.related_tasks = mergeUniqueTail(next.related_tasks, taskId || run.currentTaskId || null, 8);
+    next.related_jobs = mergeUniqueTail(next.related_jobs, activeJobId || run.activeJobId || run.lastJobId || null, 8);
+    next.related_incidents = mergeUniqueTail(next.related_incidents, incidentPath ? path.resolve(String(incidentPath)) : null, 8);
+    next.source_refs = {
+      ...(next.source_refs || {}),
+      last_audit_report_path: auditReportPath ? path.resolve(String(auditReportPath)) : next.source_refs?.last_audit_report_path || null,
+      last_incident_path: incidentPath ? path.resolve(String(incidentPath)) : next.source_refs?.last_incident_path || null,
+      last_source: source || next.source_refs?.last_source || null,
+    };
+    next.automation = {
+      ...(next.automation || {}),
+      status: automation?.status || next.automation?.status || "report_only",
+      local_revalidation_status: automation?.local_revalidation_status || next.automation?.local_revalidation_status || null,
+      last_revalidated_at: automation?.local_revalidation_status ? transitionAt : next.automation?.last_revalidated_at || null,
+    };
+
+    if (effectiveTransition === "observed" || effectiveTransition === "reopened") {
+      if (!next.first_observed_at) next.first_observed_at = transitionAt;
+      next.last_observed_at = transitionAt;
+      next.observation_count += 1;
+      next.lifecycle_status = effectiveTransition === "reopened" ? "reopened" : "observed";
+      if (effectiveTransition === "reopened") {
+        next.reopened_at = transitionAt;
+        next.reopen_count += 1;
+      }
+    } else if (effectiveTransition === "corrected") {
+      next.lifecycle_status = "corrected";
+      next.corrected_at = transitionAt;
+      next.corrected_by = correctedBy || "corrector";
+      next.last_fix_status = fixStatus || null;
+      next.correction_count += 1;
+    } else if (effectiveTransition === "validated") {
+      next.lifecycle_status = "validated";
+      next.validated_at = transitionAt;
+      next.validation_count += 1;
+      next.evidence = mergeUniqueTail(next.evidence, Array.isArray(validationEvidence) ? validationEvidence : [], 12);
+      next.source_refs = {
+        ...(next.source_refs || {}),
+        last_recovery_status: recoveryStatus || null,
+      };
+    }
+
+    const priorPromotion = String(next.automation?.promotion_status || "").trim() || "observed_only";
+    let promotionStatus = "observed_only";
+    if (next.automation?.status === "auto_actionable") promotionStatus = "auto_actionable";
+    else if (next.validation_count > 0 || next.observation_count >= 2 || next.reopen_count >= 1) promotionStatus = "pattern_confirmed";
+    next.automation = {
+      ...(next.automation || {}),
+      promotion_status: promotionStatus,
+      promoted_at: promotionStatus !== priorPromotion ? transitionAt : next.automation?.promoted_at || null,
+    };
+
+    next.last_transition = effectiveTransition;
+    next.last_transition_at = transitionAt;
+    next.recent_event_keys = mergeUniqueTail(previousEvents, eventKey, 12);
+    next.updated_at = transitionAt;
+
+    entriesByKey[bugKey] = next;
+    ensureDir(paths.dir);
+    this._writeBugMemoryIndex(paths.indexPath, paths.scope, entriesByKey);
+    appendJsonlLine(paths.jsonlPath, {
+      schema: "antidex.bug_memory.event.v1",
+      at: transitionAt,
+      run_id: runId,
+      scope: paths.scope,
+      transition: effectiveTransition,
+      bug_key: bugKey,
+      canonical_class: canonicalClass,
+      summary: next.last_summary,
+      task_id: taskId || run.currentTaskId || null,
+      active_job_id: activeJobId || run.activeJobId || null,
+      incident_path: incidentPath ? path.resolve(String(incidentPath)) : null,
+      audit_report_path: auditReportPath ? path.resolve(String(auditReportPath)) : null,
+      fix_status: fixStatus || null,
+      recovery_status: recoveryStatus || null,
+      automation_status: next.automation?.status || "report_only",
+      lifecycle_status: next.lifecycle_status || null,
+    });
+    return next;
+  }
+
+  _recordBugMemoryFromAuditorSnapshot(runId, snapshot, { reportJsonPath } = {}) {
+    const at = String(snapshot?.generated_at || snapshot?.at || nowIso());
+    return this._commitAgentBugMemoryUpdates(runId, snapshot?.memory_updates, {
+      sourceKind: "auditor",
+      auditReportPath: reportJsonPath || null,
+      at,
+      defaultTaskId: snapshot?.current_task_id || null,
+      defaultActiveJobId: snapshot?.api_snapshots?.jobs_state?.active_job_id || null,
+    });
+  }
+
+  _recordBugMemoryCorrected(runId, { incidentPath, incidentData, fixStatus } = {}) {
+    const incident = incidentData && typeof incidentData === "object" ? incidentData : {};
+    this._recordBugMemoryTransition(runId, {
+      scope: this._inferBugMemoryScope({ where: incident.where, signature: incident.signature }),
+      transition: "corrected",
+      at: nowIso(),
+      signature: incident.signature || null,
+      where: incident.where || null,
+      summary: `Corrector applied a fix for ${incident.signature || incident.where || "incident"}.`,
+      evidence: Array.isArray(incident.evidence_paths) ? incident.evidence_paths : [],
+      taskId: incident.task_id || null,
+      incidentPath: incidentPath || null,
+      fixStatus,
+      correctedBy: "corrector",
+      automation: {
+        status: "auto_actionable",
+      },
+      source: "corrector",
+    });
+  }
+
+  _collectAuditorGeneralFindings(run, auditContext) {
+    const findings = [];
+    const projectState = auditContext?.project?.pipeline_state?.raw || null;
+    const projectStatePath = auditContext?.project?.pipeline_state?.path || run.projectPipelineStatePath || null;
+
+    if (!projectState) {
+      findings.push(
+        this._buildAuditorFinding({
+          code: "state/project_pipeline_state_unreadable",
+          scope: "project",
+          severity: "error",
+          summary: "Project pipeline_state.json is missing or unreadable from the auditor context.",
+          evidence: [projectStatePath || "project_pipeline_state_missing"],
+          observed: [projectStatePath || "project_pipeline_state_missing"],
+          whyItMatters: "Without the target project state, the auditor cannot compare what Antidex believes with what the project artifacts expose.",
+          confidence: "high",
+        }),
+      );
+      return findings;
+    }
+
+    const mismatches = [];
+    if (run.currentTaskId && projectState.current_task_id && String(run.currentTaskId) !== String(projectState.current_task_id)) {
+      mismatches.push(`run.currentTaskId=${run.currentTaskId} != pipeline_state.current_task_id=${projectState.current_task_id}`);
+    }
+    if (run.developerStatus && projectState.developer_status && String(run.developerStatus) !== String(projectState.developer_status)) {
+      mismatches.push(`run.developerStatus=${run.developerStatus} != pipeline_state.developer_status=${projectState.developer_status}`);
+    }
+    if (run.managerDecision && projectState.manager_decision && String(run.managerDecision) !== String(projectState.manager_decision)) {
+      mismatches.push(`run.managerDecision=${run.managerDecision} != pipeline_state.manager_decision=${projectState.manager_decision}`);
+    }
+    if (mismatches.length) {
+      findings.push(
+        this._buildAuditorFinding({
+          code: "state/project_pipeline_state_mismatch",
+          scope: "antidex",
+          severity: "warn",
+          summary: "The Antidex in-memory run projection disagrees with the target project's pipeline_state.json.",
+          evidence: [projectStatePath, ...mismatches],
+          observed: mismatches,
+          whyItMatters: "This is exactly the kind of cross-context drift the auditor must surface even when no auto-actionable signature exists yet.",
+          confidence: "high",
+        }),
+      );
+    }
+
+    const taskContextInfo = auditContext?.project?.current_task || null;
+    if (run.currentTaskId && taskContextInfo) {
+      const missingTaskFiles = [];
+      if (!taskContextInfo.task_md?.exists) missingTaskFiles.push(taskContextInfo.task_md?.path || "task.md missing");
+      if (!taskContextInfo.manager_instruction?.exists) missingTaskFiles.push(taskContextInfo.manager_instruction?.path || "manager_instruction.md missing");
+      if (missingTaskFiles.length) {
+        findings.push(
+          this._buildAuditorFinding({
+            code: "project/current_task_context_missing",
+            scope: "project",
+            severity: "error",
+            summary: `Current task ${run.currentTaskId} is missing required project context files for a healthy manual-cycle-equivalent audit.`,
+            evidence: missingTaskFiles,
+            observed: missingTaskFiles,
+            whyItMatters: "If core task artifacts are missing, both the pipeline and the auditor lose the source-of-truth context they are supposed to align on.",
+            confidence: "high",
+          }),
+        );
+      }
+    }
+
+    const status = String(run.status || "").trim().toLowerCase();
+    if (run.activeTurn && (status === "stopped" || status === "completed" || status === "canceled" || status === "paused")) {
+      findings.push(
+        this._buildAuditorFinding({
+          code: "state/active_turn_terminal_status_mismatch",
+          scope: "antidex",
+          severity: "warn",
+          summary: "A live activeTurn is still projected while the run status is terminal or manually paused.",
+          evidence: [`run.status=${run.status || ""}`, `activeTurn.role=${run.activeTurn.role || ""}`, `activeTurn.step=${run.activeTurn.step || ""}`],
+          observed: [`run.status=${run.status || ""}`, `activeTurn.role=${run.activeTurn.role || ""}`, `activeTurn.step=${run.activeTurn.step || ""}`],
+          whyItMatters: "A terminal projection with a live turn often signals stale API/UI state or an incomplete shutdown/restart path.",
+          confidence: "medium",
+        }),
+      );
+    }
+
+    return findings;
+  }
+
+  _buildExternalAuditorContext(run) {
+    const taskId = run.currentTaskId || null;
+    const { taskDir, taskDirRel } = taskContext(run, taskId);
+    const docDigest = (filePath, { excerptChars = 1600 } = {}) => ({
+      path: filePath || null,
+      exists: Boolean(filePath && fileExists(filePath)),
+      excerpt: filePath ? clampString(readTextBestEffort(filePath, Math.max(4000, excerptChars * 2)), excerptChars) || null : null,
+    });
+    const projectStateRead = run.projectPipelineStatePath ? readJsonBestEffort(run.projectPipelineStatePath) : { ok: false };
+    const projectState = projectStateRead.ok && projectStateRead.value && typeof projectStateRead.value === "object" ? projectStateRead.value : null;
+    const timelinePath = this._runTimelinePath(run.runId);
+    const runSummaryPath = this._runSummaryPath(run.runId);
+    const recoveryStatus = readJsonBestEffort(recoveryStatusPath(this._dataDir, run.runId));
+    const recoveryStatusValue = recoveryStatus.ok && recoveryStatus.value && typeof recoveryStatus.value === "object" ? recoveryStatus.value : null;
+    const antidexBugMemory = this._getBugMemoryOverview(run, "antidex");
+    const projectBugMemory = this._getBugMemoryOverview(run, "project");
+    const recentIncidentPaths = (() => {
+      const dir = path.join(this._dataDir, "incidents");
+      if (!fs.existsSync(dir)) return [];
+      return fs
+        .readdirSync(dir)
+        .filter((name) => name.includes(`-${run.runId}-`) && name.endsWith(".json") && !name.endsWith("_bundle.json") && !name.endsWith("_result.json"))
+        .sort()
+        .slice(-5)
+        .map((name) => path.join(dir, name));
+    })();
+    const activeJobPaths = run.activeJobId ? this._jobPaths(run, String(run.activeJobId)) : null;
+    const devResultMdAbs = taskId ? path.join(taskDir, "dev_result.md") : null;
+    const devResultJsonAbs = taskId ? path.join(taskDir, "dev_result.json") : null;
+
+    return {
+      antidex: {
+        orchestrator_version: ORCHESTRATOR_VERSION,
+        cwd: this._rootDir,
+        docs: {
+          spec: path.join(this._rootDir, "doc", "SPEC.md"),
+          decisions: path.join(this._rootDir, "doc", "DECISIONS.md"),
+          todo: path.join(this._rootDir, "doc", "TODO.md"),
+          testing_plan: path.join(this._rootDir, "doc", "TESTING_PLAN.md"),
+          error_handling: path.join(this._rootDir, "doc", "ERROR_HANDLING.md"),
+          corrector_runbook: path.join(this._rootDir, "doc", "CORRECTOR_RUNBOOK.md"),
+          corrector_fix_patterns: path.join(this._rootDir, "doc", "CORRECTOR_FIX_PATTERNS.md"),
+          index: path.join(this._rootDir, "doc", "INDEX.md"),
+        },
+        docs_digest: {
+          spec: docDigest(path.join(this._rootDir, "doc", "SPEC.md"), { excerptChars: 2200 }),
+          decisions: docDigest(path.join(this._rootDir, "doc", "DECISIONS.md"), { excerptChars: 1800 }),
+          todo: docDigest(path.join(this._rootDir, "doc", "TODO.md"), { excerptChars: 1600 }),
+          testing_plan: docDigest(path.join(this._rootDir, "doc", "TESTING_PLAN.md"), { excerptChars: 1600 }),
+          error_handling: docDigest(path.join(this._rootDir, "doc", "ERROR_HANDLING.md"), { excerptChars: 1600 }),
+          corrector_runbook: docDigest(path.join(this._rootDir, "doc", "CORRECTOR_RUNBOOK.md"), { excerptChars: 1600 }),
+          corrector_fix_patterns: docDigest(path.join(this._rootDir, "doc", "CORRECTOR_FIX_PATTERNS.md"), { excerptChars: 1600 }),
+        },
+        run_trace: {
+          timeline_path: timelinePath,
+          summary_path: runSummaryPath,
+          timeline_mtime_ms: safeStatMtimeMs(timelinePath),
+          summary_excerpt: clampString(readTextBestEffort(runSummaryPath, 6000), 2000) || null,
+        },
+        latest_audit: {
+          latest_json: path.join(externalAuditorDir(this._dataDir, run.runId), "latest.json"),
+          latest_md: path.join(externalAuditorDir(this._dataDir, run.runId), "latest.md"),
+          recovery_status_path: recoveryStatusPath(this._dataDir, run.runId),
+          recovery_status: recoveryStatusValue,
+        },
+        bug_memory: antidexBugMemory,
+        incidents: {
+          recent_paths: recentIncidentPaths,
+          recent_count: recentIncidentPaths.length,
+        },
+        jobs: {
+          active_job_id: run.activeJobId || null,
+          last_job_id: run.lastJobId || null,
+          active_job_paths: activeJobPaths
+            ? {
+                job_json: activeJobPaths.jobJsonAbs,
+                result_json: activeJobPaths.resultAbs,
+                heartbeat_json: activeJobPaths.heartbeatAbs,
+                progress_json: activeJobPaths.progressAbs,
+                latest_monitor_json: activeJobPaths.latestMonitorJsonAbs,
+                latest_monitor_md: activeJobPaths.latestMonitorMdAbs,
+              }
+            : null,
+        },
+        api_projection: {
+          run_status: run.status || null,
+          developer_status: run.developerStatus || null,
+          manager_decision: run.managerDecision || null,
+          current_task_id: run.currentTaskId || null,
+          active_turn: run.activeTurn ? { role: run.activeTurn.role || null, step: run.activeTurn.step || null } : null,
+          last_error: run.lastError || null,
+          recovery: run.recovery || null,
+        },
+      },
+      project: {
+        cwd: run.cwd || null,
+        docs: {
+          spec: run.projectSpecPath || null,
+          todo: run.projectTodoPath || null,
+          testing_plan: run.projectTestingPlanPath || null,
+          decisions: run.projectDecisionsPath || null,
+        },
+        docs_digest: {
+          spec: docDigest(run.projectSpecPath, { excerptChars: 1800 }),
+          todo: docDigest(run.projectTodoPath, { excerptChars: 1600 }),
+          testing_plan: docDigest(run.projectTestingPlanPath, { excerptChars: 1400 }),
+          decisions: docDigest(run.projectDecisionsPath, { excerptChars: 1400 }),
+        },
+        pipeline_state: {
+          path: run.projectPipelineStatePath || null,
+          raw: projectState,
+          summary: projectState
+            ? {
+                current_task_id: projectState.current_task_id || null,
+                developer_status: projectState.developer_status || null,
+                manager_decision: projectState.manager_decision || null,
+                summary: projectState.summary ? clampString(projectState.summary, 1200) : null,
+                updated_at: projectState.updated_at || null,
+              }
+            : null,
+        },
+        bug_memory: projectBugMemory,
+        current_task: taskId
+          ? {
+              task_id: taskId,
+              task_dir: taskDir,
+              task_dir_rel: taskDirRel,
+              task_md: {
+                path: path.join(taskDir, "task.md"),
+                exists: fileExists(path.join(taskDir, "task.md")),
+                excerpt: clampString(readTextBestEffort(path.join(taskDir, "task.md"), 6000), 1600) || null,
+              },
+              manager_instruction: {
+                path: path.join(taskDir, "manager_instruction.md"),
+                exists: fileExists(path.join(taskDir, "manager_instruction.md")),
+                excerpt: clampString(readTextBestEffort(path.join(taskDir, "manager_instruction.md"), 6000), 1600) || null,
+              },
+              manager_review: {
+                path: path.join(taskDir, "manager_review.md"),
+                exists: fileExists(path.join(taskDir, "manager_review.md")),
+                excerpt: clampString(readTextBestEffort(path.join(taskDir, "manager_review.md"), 6000), 1200) || null,
+              },
+              dev_result: {
+                md_path: devResultMdAbs,
+                md_exists: fileExists(devResultMdAbs),
+                md_excerpt: clampString(readTextBestEffort(devResultMdAbs, 6000), 1200) || null,
+                json_path: devResultJsonAbs,
+                json_exists: fileExists(devResultJsonAbs),
+              },
+            }
+          : null,
+      },
+    };
+  }
+
+  _buildExternalAuditorContextPacket(run, { mode } = {}) {
+    const auditContext = this._buildExternalAuditorContext(run);
+    const recovery = this._evaluateTrackedRecovery(run);
+    const alerts = this._collectAuditorGeneralFindings(run, auditContext).map((finding) => ({
+      code: finding.code,
+      severity: finding.severity,
+      summary: finding.summary,
+      confidence: finding.confidence,
+      automation: finding.automation,
+    }));
+    const recentIncidentPaths = Array.isArray(auditContext?.antidex?.incidents?.recent_paths)
+      ? auditContext.antidex.incidents.recent_paths.slice(-3)
+      : [];
+    const lastEvents = [];
+    if (run.lastSummary) {
+      lastEvents.push({ type: "run_summary", summary: clampString(run.lastSummary, 500), at: run.updatedAt || nowIso() });
+    }
+    if (run.lastError) {
+      lastEvents.push({
+        type: "last_error",
+        where: run.lastError.where || null,
+        message: clampString(run.lastError.message || "", 500) || null,
+        at: run.lastError.at || null,
+      });
+    }
+    for (const incidentPath of recentIncidentPaths) {
+      lastEvents.push({
+        type: "recent_incident",
+        path: incidentPath,
+        name: path.basename(String(incidentPath || "")),
+      });
+    }
+    return {
+      schema: "antidex.external_auditor.context.v1",
+      generated_at: nowIso(),
+      run_id: run.runId,
+      auditor_mode: mode || "passive",
+      automation_policy: {
+        observer_role: "generalist_agent",
+        auto_incident_requires_local_revalidation: true,
+        auto_recovery_closure_requires_local_revalidation: true,
+        note:
+          "The auditor agent may report anomalies outside any whitelist. Guardian/backend only use whitelists to decide what can be actioned automatically.",
+      },
+      summary: {
+        run_status: run.status || null,
+        developer_status: run.developerStatus || null,
+        current_task_id: run.currentTaskId || null,
+        active_job_id: run.activeJobId || null,
+        last_job_id: run.lastJobId || null,
+        active_turn: run.activeTurn ? { role: run.activeTurn.role || null, step: run.activeTurn.step || null } : null,
+        recovery_status: recovery?.status || run.recovery?.status || null,
+        recovery_lane: recovery?.lane || run.recovery?.lane || null,
+        last_summary: clampString(run.lastSummary || "", 800) || null,
+      },
+      alerts,
+      recovery,
+      pipeline: {
+        status: run.status || null,
+        developer_status: run.developerStatus || null,
+        manager_decision: run.managerDecision || null,
+        current_task_id: run.currentTaskId || null,
+        active_turn: run.activeTurn || null,
+        active_job_id: run.activeJobId || null,
+        last_job_id: run.lastJobId || null,
+        last_error: run.lastError || null,
+      },
+      last_events: lastEvents,
+      evidence_paths: [
+        run.projectPipelineStatePath || null,
+        auditContext?.antidex?.run_trace?.summary_path || null,
+        auditContext?.antidex?.run_trace?.timeline_path || null,
+        ...recentIncidentPaths,
+      ].filter(Boolean),
+      guidance: {
+        primary_fields: ["summary", "alerts", "recovery", "pipeline", "last_events", "audit_context"],
+        note: "Prefer these top-level fields before drilling into nested audit_context.",
+      },
+      run_projection: {
+        status: run.status || null,
+        developer_status: run.developerStatus || null,
+        manager_decision: run.managerDecision || null,
+        current_task_id: run.currentTaskId || null,
+        active_turn: run.activeTurn || null,
+        active_job_id: run.activeJobId || null,
+        last_job_id: run.lastJobId || null,
+        last_error: run.lastError || null,
+        recovery: run.recovery || null,
+      },
+      audit_context: auditContext,
+    };
+  }
+
+  _normalizeAuditorRecommendation(run, rawRecommendation, rawReport = null) {
+    const raw = rawRecommendation && typeof rawRecommendation === "object" ? rawRecommendation : {};
+    const where = String(raw.where || rawReport?.suggested_incident_where || "").trim() || null;
+    const explanation =
+      String(raw.explanation || raw.summary || rawReport?.suggested_incident_message || rawReport?.summary || "").trim() || null;
+    if (!where || !explanation) return null;
+    const taskId = run.currentTaskId || null;
+    const signature =
+      String(raw.signature || "").trim() ||
+      this._normalizeCorrectorIncidentSignature({
+        where,
+        message: explanation,
+        taskId,
+      });
+    const observed = Array.isArray(raw.observed)
+      ? raw.observed.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12)
+      : [];
+    const dedupeKey =
+      String(raw.dedupe_key || "").trim() ||
+      `${signature}:${run.activeJobId || run.lastJobId || "none"}:${run.currentTaskId || "no-task"}:${safeStatMtimeMs(run.projectPipelineStatePath) || 0}`;
+    return {
+      id: `rec-${signature.replace(/[^a-zA-Z0-9_-]/g, "_")}`,
+      signature,
+      where,
+      task_id: taskId,
+      confidence: String(raw.confidence || rawReport?.confidence || "medium").trim() || "medium",
+      severity: String(raw.severity || "error").trim() || "error",
+      dedupe_key: dedupeKey,
+      explanation,
+      observed,
+      healing_predicates: Array.isArray(raw.healing_predicates)
+        ? raw.healing_predicates.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 8)
+        : [],
+    };
+  }
+
+  _normalizeAuditorFindingFromAgent(raw) {
+    const value = raw && typeof raw === "object" ? raw : {};
+    const evidence = Array.isArray(value.evidence) ? value.evidence.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12) : [];
+    const observed = Array.isArray(value.observed) ? value.observed.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12) : evidence;
+    return this._buildAuditorFinding({
+      code: String(value.code || value.signature || "state/unknown_anomaly").trim() || "state/unknown_anomaly",
+      signature: String(value.signature || "").trim() || null,
+      scope: this._inferBugMemoryScope({
+        scope: value.scope,
+        code: value.code,
+        signature: value.signature,
+      }),
+      severity: String(value.severity || "warn").trim() || "warn",
+      summary: String(value.summary || value.explanation || "Anomaly observed.").trim() || "Anomaly observed.",
+      evidence,
+      observed,
+      whyItMatters:
+        String(value.why_it_matters || value.whyItMatters || "This anomaly may indicate drift between Antidex and the project source of truth.").trim() ||
+        "This anomaly may indicate drift between Antidex and the project source of truth.",
+      confidence: String(value.confidence || "medium").trim() || "medium",
+      automation: "report_only",
+    });
+  }
+
+  _buildExternalAuditorPrompt(run, { mode, contextPath, reportJsonPath, reportMdPath, turnNonce, retryReason } = {}) {
+    const marker = turnNonce ? turnMarkerPaths(run, turnNonce) : null;
+    const instructionsPath = relPathForPrompt(run.cwd, run.projectAuditorInstructionPath || path.join(run.cwd, "agents", "auditor.md"));
+    const contextRel = normalizePathForMd(contextPath);
+    const reportJsonRel = normalizePathForMd(reportJsonPath);
+    const reportMdRel = normalizePathForMd(reportMdPath);
+    const header = buildReadFirstHeader({
+      role: "auditor",
+      turnNonce,
+      readPaths: [
+        instructionsPath,
+        contextRel,
+      ],
+      writePaths: [
+        reportJsonRel,
+        reportMdRel,
+        ...(marker ? [marker.tmpRel, marker.doneRel] : []),
+      ],
+      notes: [
+        "You are a dedicated auditor agent. Do not modify Antidex or the target project.",
+        "Read the compact Antidex context and target-project context from the context packet first.",
+        "The context packet already includes compact excerpts from the relevant Antidex and project docs for this audit tick.",
+        "Your job is to diagnose structural malfunctions or confirm health, not to implement fixes.",
+        "You may report anomalies outside any known whitelist. Whitelists only constrain automatic actions taken later by Antidex.",
+        "If you are not confident enough for an incident recommendation, keep recommended_action=observe or none.",
+        "Do not reopen whole docs unless the context packet lacks a decisive fact; if you must read more, read the smallest relevant slice only.",
+        ...(marker
+          ? [`TURN COMPLETION MARKER (required): write ${marker.tmpRel} then rename to ${marker.doneRel} with content 'ok' as the LAST step of this turn.`]
+          : []),
+      ],
+    });
+
+    const schemaExample = JSON.stringify(
+      {
+        schema: "antidex.external_auditor.agent_report.v1",
+        generated_at: nowIso(),
+        run_id: run.runId,
+        conclusion: "healthy",
+        confidence: "medium",
+        summary: "short factual summary",
+        recommended_action: "none",
+        suggested_incident_where: null,
+        suggested_incident_message: null,
+        recommendation: null,
+        findings: [
+          {
+            code: "state/example",
+            severity: "warn",
+            summary: "short anomaly summary",
+            evidence: ["path or field"],
+            why_it_matters: "short impact",
+            confidence: "medium",
+          },
+        ],
+        memory_updates: [
+          {
+            transition: "observed",
+            scope: "antidex",
+            canonical_class: "state/example",
+            summary: "short factual memory entry",
+            evidence: ["field:x"],
+          },
+        ],
+      },
+      null,
+      2,
+    );
+
+    const body = [
+      "Mission: act as the external Antidex auditor agent for this run.",
+      "",
+      "What to do:",
+      "1) Read the context packet first; it is the primary source for this audit tick.",
+      "   Focus first on these top-level fields from the packet: summary, alerts, recovery, pipeline, last_events.",
+      "2) Diagnose whether the run is healthy, suspicious, incident-worthy, or in an unresolved recovery state.",
+      "3) Write a JSON report to the exact path below.",
+      "4) Write a short Markdown summary to the exact path below.",
+      "",
+      `Write JSON report: ${reportJsonRel}`,
+      `Write Markdown summary: ${reportMdRel}`,
+      "",
+      "Constraints:",
+      "- Do not modify project code, Antidex code, task docs, pipeline_state, or incidents.",
+      "- Do not open incidents directly.",
+      "- Prefer factual anomalies with evidence paths/fields.",
+      "- Use the compact context packet before considering any additional file reads.",
+      "- If you recommend an incident, include a recommendation object with where + explanation + confidence.",
+      "- Also emit memory_updates that capture the bug-memory transitions you want Antidex to commit from this audit tick.",
+      "- Only propose transitions allowed for the auditor role: observed, validated, reopened.",
+      "",
+      "Expected JSON shape:",
+      "```json",
+      schemaExample,
+      "```",
+      "",
+      "Allowed values:",
+      "- conclusion: healthy | suspicious | incident_recommended | recovery_cleared | recovery_not_cleared | recovery_inconclusive | manager_action_required | environment_not_recoverable",
+      "- recommended_action: none | observe | open_incident | keep_under_periodic_observation | handoff_manager",
+      "",
+      retryReason ? `Retry required: ${retryReason}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    return `${header}\n\n${body}\n`;
+  }
+
+  _buildAuditorFallbackSnapshot(run, { mode, auditContext, errorMessage } = {}) {
+    const findings = [
+      this._buildAuditorFinding({
+        code: "auditor/agent_execution_failed",
+        scope: "antidex",
+        severity: "error",
+        summary: `Auditor agent execution failed: ${String(errorMessage || "unknown error")}`.slice(0, 600),
+        evidence: [String(errorMessage || "unknown error").slice(0, 600)],
+        observed: [String(errorMessage || "unknown error").slice(0, 600)],
+        whyItMatters: "The dedicated auditor agent did not complete, so no autonomous audit conclusion can be trusted for this tick.",
+        confidence: "high",
+        automation: "report_only",
+      }),
+    ];
+    return {
+      schema: "antidex.external_auditor.v1",
+      at: nowIso(),
+      generated_at: nowIso(),
+      run_id: run.runId,
+      auditor_mode: mode || "passive",
+      run_status: run.status || null,
+      developer_status: run.developerStatus || null,
+      current_task_id: run.currentTaskId || null,
+      conclusion: "suspicious",
+      confidence: "high",
+      summary: "Auditor agent failed; no automatic incident should be opened from this audit tick.",
+      recommended_action: "observe",
+      suggested_incident_where: null,
+      suggested_incident_message: null,
+      recovery_of_incident: null,
+      recovery_status: run.recovery?.status || "none",
+      local_revalidation: { performed: false, checks: [] },
+      findings,
+      memory_updates: [],
+      recommendation: null,
+      recovery: this._evaluateTrackedRecovery(run),
+      evidence_paths: [],
+      api_snapshots: {
+        pipeline_state: {
+          status: run.status || null,
+          developer_status: run.developerStatus || null,
+          current_task_id: run.currentTaskId || null,
+        },
+        jobs_state: {
+          active_job_id: run.activeJobId || null,
+          last_job_id: run.lastJobId || null,
+        },
+      },
+      automation_scope: {
+        observer_mode: "agent",
+        auto_incident_limited_to_catalogued_signatures: true,
+        auto_recovery_closure_requires_local_revalidation: true,
+        auto_actionable_findings: [],
+        report_only_findings: findings.map((finding) => finding.code),
+      },
+      audit_context: auditContext,
+    };
+  }
+
+  _deriveObservationOnlyAuditorConclusion(findings = []) {
+    if (!Array.isArray(findings) || !findings.length) return "healthy";
+    const hasWarnOrError = findings.some((finding) => {
+      const severity = String(finding?.severity || "").trim().toLowerCase();
+      return severity === "warn" || severity === "error";
+    });
+    return hasWarnOrError ? "suspicious" : "healthy";
+  }
+
+  _deriveNormalizedAuditorConclusion(rawConclusion, { recovery, recommendation, findings } = {}) {
+    if (recovery?.status) return recovery.status;
+    if (recommendation) return "incident_recommended";
+    const observationConclusion = this._deriveObservationOnlyAuditorConclusion(findings);
+    const raw = String(rawConclusion || "").trim().toLowerCase();
+    if (!raw) return observationConclusion;
+    if (raw === "healthy") return observationConclusion === "healthy" ? "healthy" : observationConclusion;
+    if (raw === "suspicious") return Array.isArray(findings) && findings.length ? "suspicious" : observationConclusion;
+    if (raw === "manager_action_required" || raw === "environment_not_recoverable") {
+      return Array.isArray(findings) && findings.length ? raw : observationConclusion;
+    }
+    if (
+      raw === "incident_recommended" ||
+      raw === "recovery_cleared" ||
+      raw === "recovery_not_cleared" ||
+      raw === "recovery_inconclusive"
+    ) {
+      return observationConclusion;
+    }
+    return observationConclusion;
+  }
+
+  _deriveNormalizedAuditorRecommendedAction(rawRecommendedAction, { conclusion, recovery, recommendation, findings } = {}) {
+    const raw = String(rawRecommendedAction || "").trim().toLowerCase();
+    if (recommendation) return "open_incident";
+    if (recovery?.status === "recovery_inconclusive" || conclusion === "recovery_inconclusive") {
+      return "keep_under_periodic_observation";
+    }
+    if (conclusion === "manager_action_required" || conclusion === "environment_not_recoverable") {
+      return "handoff_manager";
+    }
+    if (Array.isArray(findings) && findings.length) {
+      return raw === "none" && conclusion === "healthy" ? "none" : "observe";
+    }
+    return raw === "observe" ? "observe" : "none";
+  }
+
+  _normalizeExternalAuditorAgentReport(run, report, { mode, auditContext } = {}) {
+    const raw = report && typeof report === "object" ? report : {};
+    const findings = Array.isArray(raw.findings) ? raw.findings.map((item) => this._normalizeAuditorFindingFromAgent(item)) : [];
+    const recommendation = this._normalizeAuditorRecommendation(run, raw.recommendation, raw);
+    if (recommendation) {
+      for (const finding of findings) {
+        if (finding.code === recommendation.where || finding.signature === recommendation.signature) {
+          finding.automation = "auto_incident_candidate";
+          finding.catalogued = true;
+        }
+      }
+    }
+    const recovery = this._evaluateTrackedRecovery(run);
+    const localRevalidationChecks = [];
+    if (recommendation) {
+      const validator =
+        recommendation.where === "job/active_reference_incoherent"
+          ? this._evaluateAuditorJobActiveReference(run)
+          : recommendation.where === "review/stale_loop_high_confidence"
+            ? this._evaluateAuditorReviewLoop(run)
+            : recommendation.where === "ui_or_api/stale_projection"
+              ? this._evaluateAuditorStaleProjection(run)
+            : null;
+      localRevalidationChecks.push({
+        name: recommendation.signature || recommendation.where || "recommended_incident",
+        status: validator ? "fail" : "n/a",
+        evidence: validator && Array.isArray(validator.observed) ? validator.observed.slice(0, 6) : [],
+      });
+    }
+    if (recovery) {
+      localRevalidationChecks.push({
+        name: "recovery_healing",
+        status: recovery.healing?.cleared ? "pass" : "fail",
+        evidence: Array.isArray(recovery.healing?.reasons) ? recovery.healing.reasons.slice(0, 6) : [],
+      });
+      localRevalidationChecks.push({
+        name: "recovery_progress",
+        status: recovery.progress?.observed ? "pass" : "fail",
+        evidence: Array.isArray(recovery.progress?.reasons) ? recovery.progress.reasons.slice(0, 6) : [],
+      });
+    }
+    const conclusion = this._deriveNormalizedAuditorConclusion(raw.conclusion, { recovery, recommendation, findings });
+    const recommendedAction = this._deriveNormalizedAuditorRecommendedAction(raw.recommended_action, {
+      conclusion,
+      recovery,
+      recommendation,
+      findings,
+    });
+    return {
+      schema: "antidex.external_auditor.v1",
+      at: nowIso(),
+      generated_at: nowIso(),
+      run_id: run.runId,
+      auditor_mode: mode || "passive",
+      run_status: run.status || null,
+      developer_status: run.developerStatus || null,
+      current_task_id: run.currentTaskId || null,
+      conclusion,
+      confidence: String(raw.confidence || (recommendation ? recommendation.confidence : findings.length ? "medium" : "high")).trim() || "medium",
+      summary:
+        String(raw.summary || "").trim() ||
+        (recovery?.status
+          ? `Recovery verification for ${recovery.signature || run.currentTaskId || run.runId}: ${recovery.status}.`
+          : recommendation?.explanation || (findings[0] ? findings[0].summary : "No incoherence detected.")),
+      recommended_action: recommendedAction,
+      suggested_incident_where: recommendation?.where || null,
+      suggested_incident_message: recommendation?.explanation || null,
+      recovery_of_incident: recovery?.incident_path || recovery?.incidentPath || null,
+      recovery_status: recovery?.status || "none",
+      local_revalidation: {
+        performed: true,
+        checks: localRevalidationChecks,
+      },
+      findings,
+      memory_updates: Array.isArray(raw.memory_updates) ? raw.memory_updates : [],
+      recommendation,
+      recovery,
+      evidence_paths: Array.isArray(raw.evidence_paths) ? raw.evidence_paths.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 40) : [],
+      api_snapshots: raw.api_snapshots && typeof raw.api_snapshots === "object" ? raw.api_snapshots : {
+        pipeline_state: {
+          status: run.status || null,
+          developer_status: run.developerStatus || null,
+          current_task_id: run.currentTaskId || null,
+          active_turn: run.activeTurn ? { role: run.activeTurn.role || null, step: run.activeTurn.step || null } : null,
+        },
+        jobs_state: {
+          active_job_id: run.activeJobId || null,
+          last_job_id: run.lastJobId || null,
+        },
+      },
+      automation_scope: {
+        observer_mode: "agent",
+        auto_incident_limited_to_catalogued_signatures: true,
+        auto_recovery_closure_requires_local_revalidation: true,
+        auto_actionable_findings: findings.filter((finding) => finding.automation === "auto_incident_candidate").map((finding) => finding.code),
+        report_only_findings: findings.filter((finding) => finding.automation !== "auto_incident_candidate").map((finding) => finding.code),
+      },
+      audit_context: auditContext,
+      agent_report: raw,
+    };
+  }
+
+  _buildExternalAuditorSnapshotMarkdown(snapshot, { mode, jsonPath, mdPath } = {}) {
+    const lines = [];
+    lines.push(`# External audit - ${snapshot?.run_id || "unknown"}`);
+    lines.push("");
+    lines.push(`- generated_at: ${snapshot?.generated_at || snapshot?.at || nowIso()}`);
+    lines.push(`- mode: ${mode || snapshot?.auditor_mode || "passive"}`);
+    lines.push(`- conclusion: ${snapshot?.conclusion || "unknown"}`);
+    lines.push(`- confidence: ${snapshot?.confidence || "-"}`);
+    lines.push(`- recommended_action: ${snapshot?.recommended_action || "-"}`);
+    lines.push(`- run_status: ${snapshot?.run_status || "-"}`);
+    lines.push(`- developer_status: ${snapshot?.developer_status || "-"}`);
+    lines.push(`- current_task_id: ${snapshot?.current_task_id || "-"}`);
+    if (snapshot?.summary) lines.push(`- summary: ${snapshot.summary}`);
+    if (snapshot?.recommendation) {
+      lines.push("");
+      lines.push("## Recommendation");
+      lines.push(`- signature: ${snapshot.recommendation.signature || "-"}`);
+      lines.push(`- where: ${snapshot.recommendation.where || "-"}`);
+      lines.push(`- confidence: ${snapshot.recommendation.confidence || "-"}`);
+      lines.push(`- dedupe_key: ${snapshot.recommendation.dedupe_key || "-"}`);
+      lines.push(`- explanation: ${snapshot.recommendation.explanation || "-"}`);
+    }
+    if (snapshot?.recovery) {
+      lines.push("");
+      lines.push("## Recovery");
+      lines.push(`- status: ${snapshot.recovery.status || "-"}`);
+      lines.push(`- lane: ${snapshot.recovery.lane || "-"}`);
+      lines.push(`- fix_status: ${snapshot.recovery.fix_status || "-"}`);
+      if (Array.isArray(snapshot.recovery.healing?.reasons) && snapshot.recovery.healing.reasons.length) {
+        lines.push(`- healing: ${snapshot.recovery.healing.reasons.join(", ")}`);
+      }
+      if (Array.isArray(snapshot.recovery.progress?.reasons) && snapshot.recovery.progress.reasons.length) {
+        lines.push(`- progress: ${snapshot.recovery.progress.reasons.join(", ")}`);
+      }
+    }
+    if (Array.isArray(snapshot?.findings) && snapshot.findings.length) {
+      lines.push("");
+      lines.push("## Findings");
+      for (const finding of snapshot.findings) {
+        const modeLabel = finding.automation === "auto_incident_candidate" ? "auto" : "report-only";
+        lines.push(`- [${modeLabel}] ${finding.code || finding.signature || "finding"}: ${finding.summary || finding.explanation || "-"}`);
+      }
+    }
+    lines.push("");
+    lines.push(`- json_report: ${normalizePathForMd(jsonPath)}`);
+    lines.push(`- md_report: ${normalizePathForMd(mdPath)}`);
+    return lines.join("\n");
+  }
+
+  _persistExternalAuditorSnapshot(runId, { mode, snapshot } = {}) {
+    const run = this._getRunRequired(runId);
+    const dir = externalAuditorDir(this._dataDir, runId);
+    ensureDir(dir);
+    const stampSource = String(snapshot?.generated_at || snapshot?.at || nowIso());
+    const stamp = stampSource.replace(/[:.]/g, "-").replace(/[^0-9A-Za-zT_-]/g, "").slice(0, 19) || nowIso().replace(/[:.]/g, "-").slice(0, 19);
+    const jsonPath = path.join(dir, `AUD-${stamp}.json`);
+    const mdPath = path.join(dir, `AUD-${stamp}.md`);
+    const normalized = {
+      ...snapshot,
+      schema: "antidex.external_auditor.v1",
+      at: snapshot?.at || snapshot?.generated_at || nowIso(),
+      generated_at: snapshot?.generated_at || snapshot?.at || nowIso(),
+      auditor_mode: mode || snapshot?.auditor_mode || "passive",
+    };
+    writeJsonAtomic(jsonPath, normalized);
+    writeTextAtomic(mdPath, this._buildExternalAuditorSnapshotMarkdown(normalized, { mode, jsonPath, mdPath }));
+    writeJsonAtomic(path.join(dir, "latest.json"), normalized);
+    writeTextAtomic(path.join(dir, "latest.md"), this._buildExternalAuditorSnapshotMarkdown(normalized, {
+      mode,
+      jsonPath: path.join(dir, "latest.json"),
+      mdPath: path.join(dir, "latest.md"),
+    }));
+    this._syncTrackedRecoveryFromAuditSnapshot(runId, normalized);
+    this._canonicalizeClosedRecovery(runId);
+    this._recordBugMemoryFromAuditorSnapshot(runId, normalized, { reportJsonPath: jsonPath });
+    const nextRun = this._getRunRequired(runId);
+    nextRun.lastExternalAudit = {
+      generatedAt: normalized.generated_at,
+      conclusion: normalized.conclusion || null,
+      recommendedAction: normalized.recommended_action || null,
+      jsonPath,
+      mdPath,
+    };
+    this._setRun(runId, nextRun);
+    return { jsonPath, mdPath, snapshot: normalized };
+  }
+
+  async runExternalAuditorPass(runId, { mode = "passive" } = {}) {
+    await this._ensureCodex();
+    const run = this._refreshRunReadModel(runId) || this._getRunRequired(runId);
+    const auditorInstructionPath = run.projectAuditorInstructionPath || path.join(run.cwd, "agents", "auditor.md");
+    if (!fileExists(auditorInstructionPath)) {
+      copyTemplateIfMissing({
+        sourcePath: path.join(AGENT_TEMPLATES_DIR, "auditor.md"),
+        targetPath: auditorInstructionPath,
+        transform: (raw) => applyUpdatedAt(raw, nowIso()),
+      });
+    }
+    if (run.projectAuditorInstructionPath !== auditorInstructionPath) {
+      run.projectAuditorInstructionPath = auditorInstructionPath;
+      this._setRun(runId, run);
+    }
+    const activeTurn = run.activeTurn && typeof run.activeTurn === "object" ? run.activeTurn : null;
+    const globalActive = this._active && typeof this._active === "object" ? this._active : null;
+    const auditContext = this._buildExternalAuditorContext(run);
+    if (activeTurn || globalActive) {
+      const blockingRole = activeTurn?.role || globalActive?.role || "unknown";
+      const blockingStep = activeTurn?.step || globalActive?.step || "unknown";
+      return {
+        ok: true,
+        deferred: true,
+        snapshot: {
+          schema: "antidex.external_auditor.v1",
+          at: nowIso(),
+          generated_at: nowIso(),
+          run_id: run.runId,
+          auditor_mode: mode || "passive",
+          run_status: run.status || null,
+          developer_status: run.developerStatus || null,
+          current_task_id: run.currentTaskId || null,
+          conclusion: "suspicious",
+          confidence: "medium",
+          summary: `Auditor deferred because active turn ${blockingRole}/${blockingStep} is still running.`,
+          recommended_action: "observe",
+          suggested_incident_where: null,
+          suggested_incident_message: null,
+          recovery_of_incident: null,
+          recovery_status: run.recovery?.status || "none",
+          local_revalidation: { performed: false, checks: [] },
+          findings: [
+            this._buildAuditorFinding({
+              code: "auditor/deferred_active_turn",
+              scope: "antidex",
+              severity: "info",
+              summary: "Audit deferred while another agent turn is running.",
+              evidence: [`activeTurn.role=${blockingRole}`, `activeTurn.step=${blockingStep}`],
+              observed: [`activeTurn.role=${blockingRole}`, `activeTurn.step=${blockingStep}`],
+              whyItMatters: "The dedicated auditor agent is serialized with the other agents and should not race a live turn.",
+              confidence: "high",
+              automation: "report_only",
+            }),
+          ],
+          memory_updates: [],
+          recommendation: null,
+          recovery: this._evaluateTrackedRecovery(run),
+          evidence_paths: [],
+          api_snapshots: {
+            pipeline_state: {
+              status: run.status || null,
+              developer_status: run.developerStatus || null,
+              current_task_id: run.currentTaskId || null,
+              active_turn: { role: blockingRole || null, step: blockingStep || null },
+            },
+            jobs_state: {
+              active_job_id: run.activeJobId || null,
+              last_job_id: run.lastJobId || null,
+            },
+          },
+          automation_scope: {
+            observer_mode: "agent",
+            auto_incident_limited_to_catalogued_signatures: true,
+            auto_recovery_closure_requires_local_revalidation: true,
+            auto_actionable_findings: [],
+            report_only_findings: ["auditor/deferred_active_turn"],
+          },
+          audit_context: auditContext,
+        },
+      };
+    }
+
+    const contextPacket = this._buildExternalAuditorContextPacket(run, { mode });
+    const contextPath = externalAuditorContextPath(this._dataDir, run.runId);
+    const reportJsonPath = externalAuditorAgentReportJsonPath(this._dataDir, run.runId);
+    const reportMdPath = externalAuditorAgentReportMdPath(this._dataDir, run.runId);
+    writeJsonAtomic(contextPath, contextPacket);
+
+    let attempt = null;
+    try {
+      const threadId = await this._ensureThread({ runId, role: "auditor" });
+      const model = String(process.env.ANTIDEX_AUDITOR_MODEL || "").trim() || run.managerModel;
+      attempt = await this._runTurnWithHandshake({
+        runId,
+        role: "auditor",
+        step: "audit",
+        threadId,
+        model,
+        buildPrompt: ({ run: latestRun, turnNonce, retryReason }) =>
+          this._buildExternalAuditorPrompt(latestRun, {
+            mode,
+            contextPath,
+            reportJsonPath,
+            reportMdPath,
+            turnNonce,
+            retryReason,
+          }),
+        verifyPostconditions: async () => {
+          if (!fileExists(reportJsonPath)) return { ok: false, reason: `Missing auditor report: ${normalizePathForMd(reportJsonPath)}` };
+          const parsed = readJsonBestEffort(reportJsonPath);
+          if (!parsed.ok || !parsed.value || typeof parsed.value !== "object") {
+            return { ok: false, reason: `Unreadable auditor report JSON: ${normalizePathForMd(reportJsonPath)}` };
+          }
+          if (!Array.isArray(parsed.value.memory_updates)) {
+            return { ok: false, reason: `Auditor report missing memory_updates array: ${normalizePathForMd(reportJsonPath)}` };
+          }
+          return { ok: true };
+        },
+        maxAttempts: 2,
+      });
+      if (!attempt.ok) {
+        const fallback = this._buildAuditorFallbackSnapshot(run, { mode, auditContext, errorMessage: attempt.errorMessage || "auditor turn failed" });
+        this._persistExternalAuditorSnapshot(runId, { mode, snapshot: fallback });
+        return { ok: false, snapshot: fallback };
+      }
+      const parsed = readJsonBestEffort(reportJsonPath);
+      if (!parsed.ok || !parsed.value || typeof parsed.value !== "object") {
+        const fallback = this._buildAuditorFallbackSnapshot(run, { mode, auditContext, errorMessage: parsed.error || "auditor report unreadable" });
+        this._persistExternalAuditorSnapshot(runId, { mode, snapshot: fallback });
+        return { ok: false, snapshot: fallback };
+      }
+      const normalized = this._normalizeExternalAuditorAgentReport(this._getRunRequired(runId), parsed.value, { mode, auditContext });
+      this._persistExternalAuditorSnapshot(runId, { mode, snapshot: normalized });
+      return { ok: true, snapshot: normalized };
+    } catch (e) {
+      const fallback = this._buildAuditorFallbackSnapshot(run, { mode, auditContext, errorMessage: safeErrorMessage(e) });
+      this._persistExternalAuditorSnapshot(runId, { mode, snapshot: fallback });
+      return { ok: false, snapshot: fallback };
+    }
+  }
+
+  getExternalAuditorSnapshot(runId) {
+    const run = this._getRunRequired(runId);
+    const findings = [];
+    const recommendations = [];
+    const activeStatuses = new Set(["planning", "implementing", "reviewing", "waiting_job", "failed"]);
+    const autoIncidentEligible = activeStatuses.has(String(run.status || "").trim().toLowerCase());
+    const auditContext = this._buildExternalAuditorContext(run);
+
+    for (const finding of this._collectAuditorGeneralFindings(run, auditContext)) {
+      findings.push(finding);
+    }
+
+    const jobRec = this._evaluateAuditorJobActiveReference(run);
+    if (jobRec) {
+      findings.push(this._buildAuditorFinding({
+        code: jobRec.where,
+        signature: jobRec.signature,
+        scope: "antidex",
+        severity: jobRec.severity,
+        summary: jobRec.explanation,
+        evidence: Array.isArray(jobRec.observed) ? jobRec.observed : [],
+        observed: Array.isArray(jobRec.observed) ? jobRec.observed : [],
+        whyItMatters: "A stale active job reference can keep the run blocked or mis-routed after the real terminal state already exists.",
+        confidence: jobRec.confidence || "high",
+        automation: "auto_incident_candidate",
+      }));
+      if (autoIncidentEligible) recommendations.push(jobRec);
+    }
+    const reviewRec = this._evaluateAuditorReviewLoop(run);
+    if (reviewRec) {
+      findings.push(this._buildAuditorFinding({
+        code: reviewRec.where,
+        signature: reviewRec.signature,
+        scope: "antidex",
+        severity: reviewRec.severity,
+        summary: reviewRec.explanation,
+        evidence: Array.isArray(reviewRec.observed) ? reviewRec.observed : [],
+        observed: Array.isArray(reviewRec.observed) ? reviewRec.observed : [],
+        whyItMatters: "A stale review loop can keep the run alive without producing new deliverables or a real next action.",
+        confidence: reviewRec.confidence || "high",
+        automation: "auto_incident_candidate",
+      }));
+      if (autoIncidentEligible) recommendations.push(reviewRec);
+    }
+    const staleProjectionRec = this._evaluateAuditorStaleProjection(run);
+    if (staleProjectionRec) {
+      findings.push(this._buildAuditorFinding({
+        code: staleProjectionRec.where,
+        signature: staleProjectionRec.signature,
+        scope: "antidex",
+        severity: staleProjectionRec.severity,
+        summary: staleProjectionRec.explanation,
+        evidence: Array.isArray(staleProjectionRec.observed) ? staleProjectionRec.observed : [],
+        observed: Array.isArray(staleProjectionRec.observed) ? staleProjectionRec.observed : [],
+        whyItMatters: "A durable stale projection can keep the run alive on a false waiting_job picture and block correct recovery/monitoring.",
+        confidence: staleProjectionRec.confidence || "high",
+        automation: "auto_incident_candidate",
+      }));
+      if (autoIncidentEligible) recommendations.push(staleProjectionRec);
+    }
+
+    const recovery = this._evaluateTrackedRecovery(run);
+    const recommendation = recommendations.length ? recommendations[0] : null;
+    let conclusion = "healthy";
+    if (recovery) conclusion = recovery.status || "recovery_inconclusive";
+    else if (recommendation) conclusion = "incident_recommended";
+    else if (findings.length) conclusion = "suspicious";
+
+    const localRevalidationChecks = [];
+    for (const finding of findings) {
+      localRevalidationChecks.push({
+        name: finding.signature || finding.code || "finding_observed",
+        status: finding.automation === "auto_incident_candidate" ? "fail" : "n/a",
+        evidence: Array.isArray(finding.evidence) ? finding.evidence.slice(0, 6) : [],
+      });
+    }
+    if (recovery) {
+      localRevalidationChecks.push({
+        name: "recovery_healing",
+        status: recovery.healing?.cleared ? "pass" : "fail",
+        evidence: Array.isArray(recovery.healing?.reasons) ? recovery.healing.reasons.slice(0, 6) : [],
+      });
+      localRevalidationChecks.push({
+        name: "recovery_progress",
+        status: recovery.progress?.observed ? "pass" : "fail",
+        evidence: Array.isArray(recovery.progress?.reasons) ? recovery.progress.reasons.slice(0, 6) : [],
+      });
+    }
+
+    const confidence = recommendation?.confidence || (recovery ? "high" : findings.length ? "medium" : "high");
+    const recommendedAction =
+      conclusion === "incident_recommended"
+        ? "open_incident"
+        : conclusion === "recovery_inconclusive"
+          ? "keep_under_periodic_observation"
+          : conclusion === "manager_action_required" || conclusion === "environment_not_recoverable"
+            ? "handoff_manager"
+            : findings.length
+              ? "observe"
+              : "none";
+    const evidencePaths = [
+      run.projectPipelineStatePath,
+      auditContext?.project?.current_task?.task_md?.path || null,
+      auditContext?.project?.current_task?.manager_instruction?.path || null,
+      auditContext?.project?.current_task?.manager_review?.path || null,
+      auditContext?.project?.current_task?.dev_result?.md_path || null,
+      auditContext?.antidex?.run_trace?.timeline_path || null,
+      auditContext?.antidex?.run_trace?.summary_path || null,
+      recovery?.incident_path || recovery?.incidentPath || null,
+    ].filter(Boolean);
+    const apiSnapshots = {
+      pipeline_state: {
+        status: run.status || null,
+        developer_status: run.developerStatus || null,
+        current_task_id: run.currentTaskId || null,
+        active_turn: run.activeTurn ? { role: run.activeTurn.role || null, step: run.activeTurn.step || null } : null,
+        active_job_id: run.activeJobId || null,
+        last_job_id: run.lastJobId || null,
+      },
+      jobs_state: {
+        active_job_id: run.activeJobId || null,
+        last_job_id: run.lastJobId || null,
+        waiting_job: String(run.status || "").trim().toLowerCase() === "waiting_job" || String(run.developerStatus || "").trim().toLowerCase() === "waiting_job",
+      },
+    };
+    const summary =
+      recovery?.status
+        ? `Recovery verification for ${recovery.signature || run.currentTaskId || run.runId}: ${recovery.status}.`
+        : recommendation?.explanation || (findings[0] ? findings[0].explanation || findings[0].summary : "No incoherence detected.");
+
+    return {
+      schema: "antidex.external_auditor.v1",
+      at: nowIso(),
+      generated_at: nowIso(),
+      run_id: run.runId,
+      auditor_mode: null,
+      run_status: run.status || null,
+      developer_status: run.developerStatus || null,
+      current_task_id: run.currentTaskId || null,
+      conclusion,
+      confidence,
+      summary,
+      recommended_action: recommendedAction,
+      suggested_incident_where: recommendation?.where || null,
+      suggested_incident_message: recommendation?.explanation || null,
+      recovery_of_incident: recovery?.incident_path || recovery?.incidentPath || null,
+      recovery_status: recovery?.status || "none",
+      local_revalidation: {
+        performed: true,
+        checks: localRevalidationChecks,
+      },
+      findings,
+      memory_updates: [],
+      recommendation,
+      recovery,
+      evidence_paths: evidencePaths,
+      api_snapshots: apiSnapshots,
+      automation_scope: {
+        observer_mode: "generalist",
+        auto_incident_limited_to_catalogued_signatures: true,
+        auto_recovery_closure_requires_local_revalidation: true,
+        auto_actionable_findings: findings.filter((finding) => finding.automation === "auto_incident_candidate").map((finding) => finding.code),
+        report_only_findings: findings.filter((finding) => finding.automation !== "auto_incident_candidate").map((finding) => finding.code),
+      },
+      audit_context: auditContext,
+    };
+  }
+
+  _hasRecentIncidentForSignature(runId, signature, dedupeKey) {
+    const cooldownMs = clampInt(parseInt(process.env.ANTIDEX_AUDITOR_COOLDOWN_MS || String(30 * 60 * 1000), 10), 1000, 24 * 60 * 60 * 1000);
+    const dir = path.join(this._dataDir, "incidents");
+    if (!fs.existsSync(dir)) return false;
+    const files = fs
+      .readdirSync(dir)
+      .filter((name) => name.includes(`-${runId}-`) && name.endsWith(".json"))
+      .sort()
+      .slice(-50);
+    for (const name of files) {
+      const incidentPath = path.join(dir, name);
+      const read = readJsonBestEffort(incidentPath);
+      if (!read.ok || !read.value || typeof read.value !== "object") continue;
+      if (String(read.value.signature || "") !== String(signature || "")) continue;
+      if (dedupeKey && String(read.value.dedupe_key || "") !== String(dedupeKey)) continue;
+      const mtimeMs = safeStatMtimeMs(incidentPath) || 0;
+      if (Date.now() - mtimeMs < cooldownMs) return true;
+    }
+    return false;
+  }
+
+  async _dispatchPreparedIncident(runId, { incidentPath, incidentData, incidentSig, incidentWhere, incidentMsg, context } = {}) {
+    const run = this._getRunRequired(runId);
+    const supervisorEnabled = process.env.ANTIDEX_SUPERVISOR === "1";
+    const isUserStop =
+      run.status === "paused" ||
+      run.status === "canceled" ||
+      run.lastError?.where === "stop" ||
+      run.lastError?.where === "pause" ||
+      run.lastError?.message === "Stopped by user" ||
+      run.lastError?.message === "Run stopped";
+    const isAgDisabledGuardrail = incidentWhere === "ag/watchdog" && /AG disabled/i.test(String(incidentMsg || ""));
+
+    if (isAgDisabledGuardrail) {
+      this.emit("event", {
+        runId,
+        event: "diag",
+        data: { role: "system", type: "warning", message: "AG disabled guardrail: triggering Corrector to diagnose and propose a robust next step." },
+      });
+    }
+
+    if (!supervisorEnabled) {
+      this.emit("event", {
+        runId,
+        event: "diag",
+        data: {
+          role: "system",
+          type: "warning",
+          message:
+            "Supervisor is not enabled: Corrector will still run, but cannot auto-restart Antidex. If it applies a fix that requires a restart, you will need to restart Antidex manually.",
+        },
+      });
+    }
+
+    if (!run.enableCorrector) {
+      this.emit("event", {
+        runId,
+        event: "diag",
+        data: { role: "system", type: "info", message: "Correcteur disabled: auto-fix would have been attempted here." },
+      });
+      try {
+        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "disabled", sig: incidentSig });
+      } catch {
+        // ignore
+      }
+      return false;
+    }
+
+    if (incidentWhere === "ag/watchdog") {
+      this.emit("event", {
+        runId,
+        event: "diag",
+        data: { role: "system", type: "info", message: "AG watchdog stall: Manager action required; Correcteur will not attempt an auto-fix." },
+      });
+      try {
+        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "ag_watchdog", sig: incidentSig });
+      } catch {
+        // ignore
+      }
+      return false;
+    }
+
+    if (incidentWhere === "job/crash") {
+      this.emit("event", {
+        runId,
+        event: "diag",
+        data: { role: "system", type: "info", message: "Long job crash: Manager action required; Correcteur will not attempt an auto-fix." },
+      });
+      try {
+        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "job_crash", sig: incidentSig });
+      } catch {
+        // ignore
+      }
+      return false;
+    }
+
+    if (isUserStop) {
+      this.emit("event", { runId, event: "diag", data: { role: "system", type: "info", message: "Run stopped by user: Correcteur will not attempt an auto-fix." } });
+      try {
+        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "user_stop", sig: incidentSig });
+      } catch {
+        // ignore
+      }
+      return false;
+    }
+
+    const externalCorrectorEnabled = process.env.ANTIDEX_EXTERNAL_CORRECTOR === "1";
+    if (externalCorrectorEnabled) {
+      try {
+        const pendingDir = path.join(this._dataDir, "external_corrector");
+        ensureDir(pendingDir);
+        const pendingPath = path.join(pendingDir, "pending.json");
+        writeJsonAtomic(pendingPath, {
+          at: nowIso(),
+          runId,
+          where: incidentWhere,
+          sig: incidentSig,
+          incidentPath: path.resolve(String(incidentPath || "")),
+          bundlePath: incidentData?.bundle_path ? path.resolve(String(incidentData.bundle_path)) : null,
+          context: String(context || ""),
+        });
+      } catch {
+        // ignore
+      }
+
+      const snap = this._getRunRequired(runId);
+      snap.status = "stopped";
+      snap.developerStatus = "blocked";
+      snap.managerDecision = null;
+      snap.lastError = { message: incidentMsg || "Incident pending external corrector", at: nowIso(), where: "corrector/external_pending" };
+      this._setRun(runId, snap);
+
+      this.emit("event", {
+        runId,
+        event: "diag",
+        data: { role: "system", type: "warning", message: "External corrector mode: run stopped and pending marker written (data/external_corrector/pending.json)." },
+      });
+      return true;
+    }
+
+    run.correctorIncidentCounts = run.correctorIncidentCounts || {};
+    run.correctorTotalCount = run.correctorTotalCount || 0;
+    const countSignature = run.correctorIncidentCounts[incidentSig] || 0;
+    const maxPerSignature = clampInt(parseInt(process.env.ANTIDEX_CORRECTOR_MAX_ATTEMPTS_PER_SIGNATURE || "5", 10), 1, 50);
+    const maxTotalRaw = process.env.ANTIDEX_CORRECTOR_MAX_TOTAL_ATTEMPTS;
+    const maxTotal = maxTotalRaw ? clampInt(parseInt(maxTotalRaw, 10), 1, 10_000) : Infinity;
+    if (countSignature >= maxPerSignature || run.correctorTotalCount >= maxTotal) {
+      const capMsg =
+        countSignature >= maxPerSignature
+          ? `per-signature cap reached (${countSignature}/${maxPerSignature}) for ${incidentSig}`
+          : `total cap reached (${run.correctorTotalCount}/${maxTotal})`;
+      this.emit("event", { runId, event: "diag", data: { role: "system", type: "warning", message: `Correcteur loop cap reached: ${capMsg}. Surface to Manager.` } });
+      try {
+        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "cap_reached", sig: incidentSig });
+      } catch {
+        // ignore
+      }
+      return false;
+    }
+
+    run.correctorIncidentCounts[incidentSig] = countSignature + 1;
+    run.correctorTotalCount += 1;
+    this._setRun(runId, run);
+    this.emit("event", { runId, event: "diag", data: { role: "system", type: "warning", message: `Triggering Corrector for incident: ${incidentSig}` } });
+    try {
+      const relIncident = path.relative(this._dataDir, incidentPath).replace(/\\/g, "/");
+      this._appendRunTimeline(runId, { type: "corrector_triggered", sig: incidentSig, incident: relIncident });
+    } catch {
+      // ignore
+    }
+    await this._runCorrector(runId, incidentPath, incidentData);
+    return true;
+  }
+
+  async openAuditorRecommendationAsIncident({ runId, recommendation, auditReportPath, mode } = {}) {
+    const id = String(runId || "").trim();
+    if (!id) throw new Error("runId is required");
+    const run = this._getRunRequired(id);
+    const parsedAuditReport = (() => {
+      const reportPath = auditReportPath ? String(auditReportPath) : "";
+      if (!reportPath || !fileExists(reportPath)) return null;
+      const read = readJsonBestEffort(reportPath);
+      return read.ok && read.value && typeof read.value === "object" ? read.value : null;
+    })();
+    const rec =
+      this._normalizeAuditorRecommendation(run, recommendation, parsedAuditReport) ||
+      this._normalizeAuditorRecommendation(run, parsedAuditReport?.recommendation || null, parsedAuditReport) ||
+      this.getExternalAuditorSnapshot(id).recommendation;
+    if (!rec) return { ok: false, reason: "no_live_recommendation" };
+    if (recommendation?.dedupe_key && String(recommendation.dedupe_key) !== String(rec.dedupe_key)) {
+      return { ok: false, reason: "dedupe_key_mismatch" };
+    }
+    if (this._hasRecentIncidentForSignature(id, rec.signature, rec.dedupe_key)) {
+      return { ok: false, reason: "cooldown" };
+    }
+
+    const status = String(run.status || "").trim().toLowerCase();
+    if (status === "paused" || status === "stopped" || status === "completed" || status === "canceled") {
+      return { ok: false, reason: `run_not_eligible:${status}` };
+    }
+
+    if (rec.where === "job/active_reference_incoherent" && !this._evaluateAuditorJobActiveReference(run)) {
+      return { ok: false, reason: "local_revalidation_failed:job_active_reference" };
+    }
+    if (rec.where === "review/stale_loop_high_confidence" && !this._evaluateAuditorReviewLoop(run)) {
+      return { ok: false, reason: "local_revalidation_failed:review_loop" };
+    }
+    if (rec.where === "ui_or_api/stale_projection" && !this._evaluateAuditorStaleProjection(run)) {
+      return { ok: false, reason: "local_revalidation_failed:stale_projection" };
+    }
+
+    const incidentWhere = rec.where || rec.signature;
+    const incidentSig = rec.signature;
+    const incidentMsg = rec.explanation || "External auditor recommended an incident.";
+    const ts = nowIsoForFile().slice(0, 19);
+    const short = incidentWhere.replace(/[^a-zA-Z0-9]/g, "-").slice(0, 20);
+    const incidentDir = path.join(this._dataDir, "incidents");
+    const incidentPath = path.join(incidentDir, `INC-${ts}-${id}-${short}.json`);
+    ensureDir(incidentDir);
+    const evidencePaths = [path.join(this._dataDir, "pipeline_state.json"), run.projectPipelineStatePath].filter(Boolean);
+    const bugMemory = this._buildBugMemoryReferences(run);
+    const memoryUpdatePath = incidentMemoryUpdatePath(incidentPath);
+    const incidentData = {
+      where: incidentWhere,
+      signature: incidentSig,
+      dedupe_key: rec.dedupe_key || null,
+      run_id: id,
+      project_cwd: run.cwd,
+      task_id: rec.task_id || run.currentTaskId || null,
+      context: "external_auditor_recommendation",
+      expected: "Pipeline state to remain locally coherent and recoverable.",
+      observed: incidentMsg,
+      last_error: run.lastError || null,
+      evidence_paths: evidencePaths,
+      source: "external_auditor",
+      audit_report_path: auditReportPath ? path.resolve(String(auditReportPath)) : null,
+      auditor_mode: mode ? String(mode) : null,
+      healing_predicates: Array.isArray(rec.healing_predicates) ? rec.healing_predicates : [],
+      bug_memory: bugMemory,
+      corrector_memory_update_path: memoryUpdatePath,
+    };
+    const bundlePath = incidentPath.replace(/(\.json)$/i, "_bundle$1");
+    try {
+      writeJsonAtomic(bundlePath, {
+        at: nowIso(),
+        run_id: id,
+        incident_path: incidentPath,
+        audit_report_path: incidentData.audit_report_path,
+        evidence_paths: evidencePaths,
+        bug_memory: bugMemory,
+        corrector_memory_update_path: memoryUpdatePath,
+        corrector_memory_update_instructions: path.join(this._rootDir, "doc", "agent_instruction_templates", "corrector_memory_update.md"),
+      });
+      incidentData.bundle_path = bundlePath;
+    } catch {
+      // ignore
+    }
+    writeJsonAtomic(incidentPath, incidentData);
+    try {
+      const relIncident = path.relative(this._dataDir, incidentPath).replace(/\\/g, "/");
+      this._appendRunTimeline(id, { type: "incident_created", source: "external_auditor", where: incidentWhere, sig: incidentSig, incident: relIncident });
+    } catch {
+      // ignore
+    }
+    const handled = await this._dispatchPreparedIncident(id, {
+      incidentPath,
+      incidentData,
+      incidentSig,
+      incidentWhere,
+      incidentMsg,
+      context: "external_auditor_recommendation",
+    });
+    return { ok: handled, incidentPath };
+  }
+
+  _buildCorrectorPreflight(runId, incidentPath, incidentData) {
+    const run = this._getRunRequired(runId);
+    const reasons = [];
+    let lane = "manager_action_required";
+    if (!incidentPath || !fs.existsSync(incidentPath)) {
+      reasons.push("incident_file_missing");
+      lane = "environment_not_recoverable";
+    }
+    if (this._active || (run.activeTurn && run.activeTurn.role !== "developer_codex")) {
+      reasons.push("concurrent_turn_active");
+      lane = "manager_action_required";
+    }
+    if (!run.cwd || !fs.existsSync(run.cwd)) {
+      reasons.push("project_cwd_missing");
+      lane = "environment_not_recoverable";
+    }
+    if (!run.projectPipelineStatePath || !fs.existsSync(run.projectPipelineStatePath)) {
+      reasons.push("project_pipeline_state_missing");
+      lane = "environment_not_recoverable";
+    }
+    if (incidentData?.run_id && String(incidentData.run_id) !== String(runId)) {
+      reasons.push("incident_run_mismatch");
+      lane = "manager_action_required";
+    }
+    return {
+      ok: reasons.length === 0,
+      checked_at: nowIso(),
+      lane,
+      reasons,
+    };
+  }
+
+  _prepareRecoveryResume(runId, { source } = {}) {
+    const run = this._getRunRequired(runId);
+    const recovery = run.recovery && typeof run.recovery === "object" ? run.recovery : null;
+    if (!recovery || recovery.active !== true || recovery.fixStatus !== "success") return { ok: true, skipped: true };
+
+    const preflight = {
+      ok: true,
+      checked_at: nowIso(),
+      source: String(source || "continue"),
+      lane: "auto_resume_safe",
+      reasons: [],
+    };
+    if (this._active || run.activeTurn) {
+      preflight.ok = false;
+      preflight.lane = "manager_action_required";
+      preflight.reasons.push("concurrent_turn_active");
+    }
+    if (!run.projectPipelineStatePath || !fs.existsSync(run.projectPipelineStatePath)) {
+      preflight.ok = false;
+      preflight.lane = "environment_not_recoverable";
+      preflight.reasons.push("project_pipeline_state_missing");
+    }
+    if (String(run.status || "").trim().toLowerCase() === "paused" || String(run.status || "").trim().toLowerCase() === "canceled") {
+      preflight.ok = false;
+      preflight.lane = "manager_action_required";
+      preflight.reasons.push(`run_status_${String(run.status || "").trim().toLowerCase()}`);
+    }
+    const nextRecovery = this._updateRunRecovery(runId, {
+      active: true,
+      status: preflight.ok ? "verification_pending" : preflight.lane,
+      lane: preflight.ok ? "auto_resume_safe" : preflight.lane,
+      resumePreflight: preflight,
+      baseline: preflight.ok ? this._collectRecoveryBaseline(this._getRunRequired(runId)) : recovery.baseline || null,
+      progress: preflight.ok ? null : recovery.progress || null,
+    });
+    if (recovery.incidentPath) {
+      this._writeIncidentResult(recovery.incidentPath, {
+        recovery_status: nextRecovery.status,
+        crisis_lane: nextRecovery.lane,
+        resume_preflight: preflight,
+        recovery_progress: preflight.ok ? { observed: false, reasons: ["resume_preflight_passed"], evaluated_at: nowIso() } : null,
+      });
+    }
+    return preflight;
+  }
+
   async _handleIncident(runId, context) {
     let run = this._getRunRequired(runId);
     // Special guardrail: post-incident review is an intentional Manager intervention step.
@@ -11147,6 +13884,8 @@ class PipelineManager extends EventEmitter {
     }
 
     ensureDir(path.dirname(incidentPath));
+    const bugMemory = this._buildBugMemoryReferences(run);
+    const memoryUpdatePath = incidentMemoryUpdatePath(incidentPath);
     const incidentData = {
       where: incidentWhere,
       signature: incidentSig,
@@ -11165,6 +13904,8 @@ class PipelineManager extends EventEmitter {
       attempts: run.correctorTotalCount || 0,
       corrector_enabled: !!run.enableCorrector,
       would_trigger_corrector: !skipCorrectorForMissingSpec,
+      bug_memory: bugMemory,
+      corrector_memory_update_path: memoryUpdatePath,
     };
 
     // "Bundle" artifact: a stable pointer file the Corrector can read first.
@@ -11180,6 +13921,9 @@ class PipelineManager extends EventEmitter {
         run_summary_path: incidentData.run_summary_path,
         recent_incident_paths: recentIncidentPaths,
         evidence_paths: evidencePaths,
+        bug_memory: bugMemory,
+        corrector_memory_update_path: memoryUpdatePath,
+        corrector_memory_update_instructions: path.join(this._rootDir, "doc", "agent_instruction_templates", "corrector_memory_update.md"),
       });
       incidentData.bundle_path = bundlePath;
     } catch {
@@ -11219,161 +13963,14 @@ class PipelineManager extends EventEmitter {
       }
       return false;
     }
-
-    // External-corrector mode: do NOT run the in-process Corrector.
-    // Instead, stop the run and write a stable "pending" marker that an external daemon can pick up.
-    //
-    // Rationale: the external daemon has better process-level control (restart, port recovery, crash isolation),
-    // and can decide whether to run the heavy Corrector vs ask for manual intervention.
-    const externalCorrectorEnabled = process.env.ANTIDEX_EXTERNAL_CORRECTOR === "1";
-    if (externalCorrectorEnabled) {
-      try {
-        const pendingDir = path.join(this._dataDir, "external_corrector");
-        ensureDir(pendingDir);
-        const pendingPath = path.join(pendingDir, "pending.json");
-        writeJsonAtomic(pendingPath, {
-          at: nowIso(),
-          runId,
-          where: incidentWhere,
-          sig: incidentSig,
-          incidentPath: path.resolve(String(incidentPath || "")),
-          bundlePath: incidentData?.bundle_path ? path.resolve(String(incidentData.bundle_path)) : null,
-          context: String(context || ""),
-        });
-      } catch {
-        // ignore
-      }
-
-      try {
-        const snap = this._getRunRequired(runId);
-        snap.status = "stopped";
-        snap.developerStatus = "blocked";
-        snap.managerDecision = null;
-        snap.lastError = { message: incidentMsg || "Incident pending external corrector", at: nowIso(), where: "corrector/external_pending" };
-        this._setRun(runId, snap);
-      } catch {
-        // ignore
-      }
-
-      this.emit("event", {
-        runId,
-        event: "diag",
-        data: { role: "system", type: "warning", message: "External corrector mode: run stopped and pending marker written (data/external_corrector/pending.json)." },
-      });
-      return true;
-    }
-
-    if (isAgDisabledGuardrail) {
-      this.emit("event", {
-        runId,
-        event: "diag",
-        data: { role: "system", type: "warning", message: "AG disabled guardrail: triggering Corrector to diagnose and propose a robust next step." },
-      });
-    }
-
-    if (!supervisorEnabled) {
-      this.emit("event", {
-        runId,
-        event: "diag",
-        data: {
-          role: "system",
-          type: "warning",
-          message:
-            "Supervisor is not enabled: Corrector will still run, but cannot auto-restart Antidex. If it applies a fix that requires a restart, you will need to restart Antidex manually.",
-        },
-      });
-    }
-
-    if (!run.enableCorrector) {
-      this.emit("event", {
-        runId,
-        event: "diag",
-        data: { role: "system", type: "info", message: "Correcteur disabled: auto-fix would have been attempted here." },
-      });
-      try {
-        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "disabled", sig: incidentSig });
-      } catch {
-        // ignore
-      }
-      return false;
-    }
-
-    if (incidentWhere === "ag/watchdog") {
-      this.emit("event", {
-        runId,
-        event: "diag",
-        data: { role: "system", type: "info", message: "AG watchdog stall: Manager action required; Correcteur will not attempt an auto-fix." },
-      });
-      try {
-        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "ag_watchdog", sig: incidentSig });
-      } catch {
-        // ignore
-      }
-      return false;
-    }
-
-    if (incidentWhere === "job/crash") {
-      this.emit("event", {
-        runId,
-        event: "diag",
-        data: { role: "system", type: "info", message: "Long job crash: Manager action required; Correcteur will not attempt an auto-fix." },
-      });
-      try {
-        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "job_crash", sig: incidentSig });
-      } catch {
-        // ignore
-      }
-      return false;
-    }
-
-    if (isUserStop) {
-      this.emit("event", { runId, event: "diag", data: { role: "system", type: "info", message: "Run stopped by user: Correcteur will not attempt an auto-fix." } });
-      try {
-        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "user_stop", sig: incidentSig });
-      } catch {
-        // ignore
-      }
-      return false;
-    }
-
-    // 1. Verify loop caps (only when enabled)
-    run.correctorIncidentCounts = run.correctorIncidentCounts || {};
-    run.correctorTotalCount = run.correctorTotalCount || 0;
-
-    const countSignature = run.correctorIncidentCounts[incidentSig] || 0;
-    const maxPerSignature = clampInt(parseInt(process.env.ANTIDEX_CORRECTOR_MAX_ATTEMPTS_PER_SIGNATURE || "5", 10), 1, 50);
-    const maxTotalRaw = process.env.ANTIDEX_CORRECTOR_MAX_TOTAL_ATTEMPTS;
-    const maxTotal = maxTotalRaw ? clampInt(parseInt(maxTotalRaw, 10), 1, 10_000) : Infinity;
-
-    if (countSignature >= maxPerSignature || run.correctorTotalCount >= maxTotal) {
-      const capMsg =
-        countSignature >= maxPerSignature
-          ? `per-signature cap reached (${countSignature}/${maxPerSignature}) for ${incidentSig}`
-          : `total cap reached (${run.correctorTotalCount}/${maxTotal})`;
-      this.emit("event", { runId, event: "diag", data: { role: "system", type: "warning", message: `Correcteur loop cap reached: ${capMsg}. Surface to Manager.` } });
-      try {
-        this._appendRunTimeline(runId, { type: "corrector_skipped", reason: "cap_reached", sig: incidentSig });
-      } catch {
-        // ignore
-      }
-      return false;
-    }
-
-    run.correctorIncidentCounts[incidentSig] = countSignature + 1;
-    run.correctorTotalCount += 1;
-    this._setRun(runId, run);
-
-    this.emit("event", { runId, event: "diag", data: { role: "system", type: "warning", message: `Triggering Corrector for incident: ${incidentSig}` } });
-    try {
-      const relIncident = path.relative(this._dataDir, incidentPath).replace(/\\/g, "/");
-      this._appendRunTimeline(runId, { type: "corrector_triggered", sig: incidentSig, incident: relIncident });
-    } catch {
-      // ignore
-    }
-
-    // 2. Trigger auto-fix pipeline
-    await this._runCorrector(runId, incidentPath, incidentData);
-    return true;
+    return this._dispatchPreparedIncident(runId, {
+      incidentPath,
+      incidentData,
+      incidentSig,
+      incidentWhere,
+      incidentMsg,
+      context,
+    });
   }
 
   _forcePostIncidentReview(runId, { incidentPath, incidentData } = {}) {
@@ -11500,6 +14097,8 @@ class PipelineManager extends EventEmitter {
     if (w === "ag/watchdog") return `ag/watchdog:${t || "<no_task>"}`;
     if (w === "turn/inactivity") return `turn/inactivity:${t || "<no_task>"}`;
     if (w === "turn/hard_timeout") return `turn/hard_timeout:${t || "<no_task>"}`;
+    if (w === "job/active_reference_incoherent") return `job/active_reference_incoherent:${t || "<no_task>"}`;
+    if (w === "review/stale_loop_high_confidence") return `review/stale_loop_high_confidence:${t || "<no_task>"}`;
 
     if (w === "auto") {
       const connRefused = m.match(/ECONNREFUSED\s+([0-9.]+):(\d+)/i);
@@ -11514,6 +14113,10 @@ class PipelineManager extends EventEmitter {
 
   async _runCorrector(runId, incidentPath, incidentData) {
     const run = this._getRunRequired(runId);
+    const supervisorEnabled = process.env.ANTIDEX_SUPERVISOR === "1";
+    const incidentAbs = path.resolve(String(incidentPath || ""));
+    const correctorMemoryUpdateAbs = path.resolve(incidentMemoryUpdatePath(incidentAbs));
+    const correctorPreflight = this._buildCorrectorPreflight(runId, incidentPath, incidentData);
     this.emit("event", { runId, event: "diag", data: { role: "system", type: "info", message: `Corrector agent starting for ${path.basename(incidentPath)}...` } });
     try {
       const relIncident = path.relative(this._dataDir, incidentPath).replace(/\\/g, "/");
@@ -11525,6 +14128,31 @@ class PipelineManager extends EventEmitter {
     run.status = "implementing";
     run.developerStatus = "auto_fixing";
     this._setRun(runId, run);
+
+    if (!correctorPreflight.ok) {
+      const reason = `Corrector preflight failed: ${correctorPreflight.reasons.join(", ") || correctorPreflight.lane}`;
+      this.emit("event", { runId, event: "diag", data: { role: "system", type: "error", message: reason } });
+      incidentData.fix_status = "failed";
+      incidentData.fix_error = reason;
+      this._writeIncidentResult(incidentPath, {
+        ...incidentData,
+        corrector_preflight: correctorPreflight,
+        recovery_status: correctorPreflight.lane,
+        crisis_lane: correctorPreflight.lane,
+      });
+      this._updateRunRecovery(runId, {
+        active: true,
+        status: correctorPreflight.lane,
+        lane: correctorPreflight.lane,
+        incidentPath: path.resolve(String(incidentPath || "")),
+        incidentSignature: incidentData?.signature || null,
+        incidentWhere: incidentData?.where || null,
+        fixStatus: "failed",
+        correctorPreflight,
+      });
+      this._forcePostIncidentReview(runId, { incidentPath, incidentData });
+      return false;
+    }
 
     // Deterministic test mode: simulate a successful fix without invoking Codex.
     // This validates incident -> corrector -> restart -> auto-resume end-to-end under supervisor,
@@ -11540,12 +14168,65 @@ class PipelineManager extends EventEmitter {
           observed: incidentData?.observed || null,
           at: nowIso(),
         });
+        writeJsonAtomic(correctorMemoryUpdateAbs, {
+          schema: "antidex.corrector.memory_update.v1",
+          generated_at: nowIso(),
+          run_id: runId,
+          memory_updates: [
+            {
+              transition: "corrected",
+              scope: this._inferBugMemoryScope({ where: incidentData?.where, signature: incidentData?.signature }),
+              canonical_class: this._canonicalBugMemoryClass({ where: incidentData?.where, signature: incidentData?.signature }),
+              signature: incidentData?.signature || null,
+              where: incidentData?.where || null,
+              summary: `Corrector applied a fix for ${incidentData?.signature || incidentData?.where || "incident"}.`,
+              evidence: Array.isArray(incidentData?.evidence_paths) ? incidentData.evidence_paths : [],
+              incident_path: incidentPath ? path.resolve(String(incidentPath)) : null,
+              fix_status: "success",
+            },
+          ],
+        });
       } catch {
         // ignore
       }
 
       incidentData.fix_status = "success";
-      writeJsonAtomic(incidentPath.replace(/(\.json)$/, "_result$1"), incidentData);
+      this._writeIncidentResult(incidentPath, {
+        ...incidentData,
+        corrector_preflight: correctorPreflight,
+        recovery_status: supervisorEnabled ? "verification_pending" : "environment_not_recoverable",
+        crisis_lane: supervisorEnabled ? "auto_resume_safe" : "environment_not_recoverable",
+      });
+      this._updateRunRecovery(runId, {
+        active: true,
+        status: supervisorEnabled ? "verification_pending" : "environment_not_recoverable",
+        lane: supervisorEnabled ? "auto_resume_safe" : "environment_not_recoverable",
+        incidentPath: path.resolve(String(incidentPath || "")),
+        incidentSignature: incidentData?.signature || null,
+        incidentWhere: incidentData?.where || null,
+        fixStatus: "success",
+        correctorPreflight,
+      });
+      const fakeCorrectorMemoryRead = readJsonBestEffort(correctorMemoryUpdateAbs);
+      const fakeCommit = this._commitAgentBugMemoryUpdates(
+        runId,
+        fakeCorrectorMemoryRead.ok ? fakeCorrectorMemoryRead.value?.memory_updates : null,
+        {
+          sourceKind: "corrector",
+          incidentPath,
+          at: nowIso(),
+          defaultTaskId: incidentData?.task_id || null,
+          defaultActiveJobId: run.activeJobId || run.lastJobId || null,
+        },
+      );
+      if (fakeCommit.committed === 0) {
+        this.emit("event", {
+          runId,
+          event: "diag",
+          data: { role: "system", type: "error", message: `Corrector memory update missing/invalid: ${fakeCommit.rejected_reasons.join(", ") || "no valid update"}` },
+        });
+        return false;
+      }
 
       // Post-incident review (required): surface what happened + what changed before resuming.
       this._forcePostIncidentReview(runId, { incidentPath, incidentData });
@@ -11556,7 +14237,13 @@ class PipelineManager extends EventEmitter {
         snap.status = "stopped";
         snap.developerStatus = "idle";
         snap.managerDecision = null;
-        snap.lastError = null;
+        snap.lastError = {
+          message: supervisorEnabled
+            ? "Corrector applied a fix; recovery verification is pending after restart."
+            : "Corrector applied a fix, but recovery cannot be verified automatically without supervisor restart support.",
+          at: nowIso(),
+          where: supervisorEnabled ? "corrector/recovery_pending" : "corrector/restart_required",
+        };
         snap.activeTurn = null;
         this._setRun(runId, snap);
       } catch {
@@ -11565,7 +14252,11 @@ class PipelineManager extends EventEmitter {
 
       // Write a system-level resume marker, then restart under supervisor.
       ensureDir(path.join(this._dataDir, "auto_resume"));
-      writeJsonAtomic(path.join(this._dataDir, "auto_resume", "pending.json"), { runId });
+      writeJsonAtomic(path.join(this._dataDir, "auto_resume", "pending.json"), {
+        runId,
+        source: "corrector_fix_applied",
+        incidentPath: path.resolve(String(incidentPath || "")),
+      });
       try {
         writeJsonAtomic(path.join(this._dataDir, "auto_resume", "restart_request.json"), {
           at: nowIso(),
@@ -11584,15 +14275,15 @@ class PipelineManager extends EventEmitter {
       }
 
       setTimeout(() => {
-        if (process.env.ANTIDEX_SUPERVISOR === "1") process.exit(42);
+        if (supervisorEnabled) process.exit(42);
       }, 200);
       return true;
     }
 
     const antidexRoot = this._rootDir;
-    const incidentAbs = path.resolve(String(incidentPath || ""));
     const runbookAbs = path.join(antidexRoot, "doc", "CORRECTOR_RUNBOOK.md");
     const patternsAbs = path.join(antidexRoot, "doc", "CORRECTOR_FIX_PATTERNS.md");
+    const correctorMemoryInstructionAbs = path.join(antidexRoot, "doc", "agent_instruction_templates", "corrector_memory_update.md");
     const bundleAbs = (() => {
       try {
         const b = String(incidentData?.bundle_path || "").trim();
@@ -11601,6 +14292,10 @@ class PipelineManager extends EventEmitter {
         return incidentAbs.replace(/(\.json)$/, "_bundle$1");
       }
     })();
+    const antidexBugMemoryJsonlAbs = path.resolve(String(incidentData?.bug_memory?.antidex?.jsonl_path || antidexBugMemoryJsonlPath(this._dataDir)));
+    const antidexBugMemoryIndexAbs = path.resolve(String(incidentData?.bug_memory?.antidex?.index_path || antidexBugMemoryIndexPath(this._dataDir)));
+    const projectBugMemoryJsonlAbs = path.resolve(String(incidentData?.bug_memory?.project?.jsonl_path || projectBugMemoryJsonlPath(run.cwd)));
+    const projectBugMemoryIndexAbs = path.resolve(String(incidentData?.bug_memory?.project?.index_path || projectBugMemoryIndexPath(run.cwd)));
     const prompt = [
       "READ FIRST (role: corrector)",
       "You are the Antidex Corrector (auto-fix). Your goal is to unblock the pipeline by fixing Antidex itself.",
@@ -11609,10 +14304,16 @@ class PipelineManager extends EventEmitter {
       "Corrector context (read these FIRST):",
       `- Runbook (Normal vs Change): ${runbookAbs}`,
       `- Fix patterns (memory): ${patternsAbs}`,
+      `- Corrector memory update instructions: ${correctorMemoryInstructionAbs}`,
+      `- Antidex bug memory index: ${antidexBugMemoryIndexAbs}`,
+      `- Antidex bug memory log: ${antidexBugMemoryJsonlAbs}`,
+      `- Project bug memory index: ${projectBugMemoryIndexAbs}`,
+      `- Project bug memory log: ${projectBugMemoryJsonlAbs}`,
       "",
       "Incident bundle (read before the incident, if present):",
       `- ${bundleAbs}`,
       `Incident file (read it first): ${incidentAbs}`,
+      `Corrector memory update file (write it): ${correctorMemoryUpdateAbs}`,
       `Target project (read-only context): ${run.cwd}`,
       "",
       `Expected vs observed: ${incidentData.expected} -> ${incidentData.observed}`,
@@ -11624,6 +14325,8 @@ class PipelineManager extends EventEmitter {
       "- Prefer PROCESS fixes (guardrails/invariants/instrumentation/retries) that prevent the incident class from recurring, over ad-hoc changes.",
       "- The runbook/patterns are the BASE: if you hit a special case not covered, you MAY evolve them (without breaking 'NORMAL' invariants) and record the change in doc/DECISIONS.md + update doc/CORRECTOR_FIX_PATTERNS.md.",
       "- After changes, run a quick smoke check from the Antidex repo (e.g. `npm -s test:api` OR a minimal node require check).",
+      "- Before finishing, write the file pointed above with your memory_updates proposal in JSON. It must be your explicit semantic statement for the bug memory.",
+      "- As Corrector, only propose the transition `corrected` in that file.",
       "- Conclude with a short summary of what you changed and why.",
     ].join("\n");
 
@@ -11690,7 +14393,22 @@ class PipelineManager extends EventEmitter {
       this.emit("event", { runId, event: "diag", data: { role: "system", type: "error", message: `Corrector run failed: ${safeErrorMessage(e)}` } });
       incidentData.fix_status = "failed";
       incidentData.fix_error = safeErrorMessage(e);
-      writeJsonAtomic(incidentPath.replace(/(\.json)$/, "_result$1"), incidentData);
+      this._writeIncidentResult(incidentPath, {
+        ...incidentData,
+        corrector_preflight: correctorPreflight,
+        recovery_status: "manager_action_required",
+        crisis_lane: "manager_action_required",
+      });
+      this._updateRunRecovery(runId, {
+        active: true,
+        status: "manager_action_required",
+        lane: "manager_action_required",
+        incidentPath: path.resolve(String(incidentPath || "")),
+        incidentSignature: incidentData?.signature || null,
+        incidentWhere: incidentData?.where || null,
+        fixStatus: "failed",
+        correctorPreflight,
+      });
       // Post-incident review (required) even when the Corrector fails.
       this._forcePostIncidentReview(runId, { incidentPath, incidentData });
       return false;
@@ -11714,13 +14432,104 @@ class PipelineManager extends EventEmitter {
       this.emit("event", { runId, event: "diag", data: { role: "system", type: "error", message: `Corrector smoke check failed: ${safeErrorMessage(e)}` } });
       incidentData.fix_status = "failed";
       incidentData.fix_error = `smoke check failed: ${safeErrorMessage(e)}`;
-      writeJsonAtomic(incidentPath.replace(/(\.json)$/, "_result$1"), incidentData);
+      this._writeIncidentResult(incidentPath, {
+        ...incidentData,
+        corrector_preflight: correctorPreflight,
+        recovery_status: "manager_action_required",
+        crisis_lane: "manager_action_required",
+      });
+      this._updateRunRecovery(runId, {
+        active: true,
+        status: "manager_action_required",
+        lane: "manager_action_required",
+        incidentPath: path.resolve(String(incidentPath || "")),
+        incidentSignature: incidentData?.signature || null,
+        incidentWhere: incidentData?.where || null,
+        fixStatus: "failed",
+        correctorPreflight,
+      });
+      this._forcePostIncidentReview(runId, { incidentPath, incidentData });
+      return false;
+    }
+
+    const correctorMemoryRead = readJsonBestEffort(correctorMemoryUpdateAbs);
+    if (!correctorMemoryRead.ok || !correctorMemoryRead.value || typeof correctorMemoryRead.value !== "object" || !Array.isArray(correctorMemoryRead.value.memory_updates)) {
+      const reason = `Corrector memory update missing or invalid: ${correctorMemoryRead.ok ? "memory_updates_array_missing" : safeErrorMessage(correctorMemoryRead.error)}`;
+      this.emit("event", { runId, event: "diag", data: { role: "system", type: "error", message: reason } });
+      incidentData.fix_status = "failed";
+      incidentData.fix_error = reason;
+      this._writeIncidentResult(incidentPath, {
+        ...incidentData,
+        corrector_preflight: correctorPreflight,
+        recovery_status: "manager_action_required",
+        crisis_lane: "manager_action_required",
+      });
+      this._updateRunRecovery(runId, {
+        active: true,
+        status: "manager_action_required",
+        lane: "manager_action_required",
+        incidentPath: path.resolve(String(incidentPath || "")),
+        incidentSignature: incidentData?.signature || null,
+        incidentWhere: incidentData?.where || null,
+        fixStatus: "failed",
+        correctorPreflight,
+      });
+      this._forcePostIncidentReview(runId, { incidentPath, incidentData });
+      return false;
+    }
+    const correctorCommit = this._commitAgentBugMemoryUpdates(
+      runId,
+      correctorMemoryRead.value.memory_updates,
+      {
+        sourceKind: "corrector",
+        incidentPath,
+        at: nowIso(),
+        defaultTaskId: incidentData?.task_id || null,
+        defaultActiveJobId: run.activeJobId || run.lastJobId || null,
+      },
+    );
+    if (correctorCommit.committed === 0) {
+      const reason = `Corrector memory update rejected: ${correctorCommit.rejected_reasons.join(", ") || "no valid update"}`;
+      this.emit("event", { runId, event: "diag", data: { role: "system", type: "error", message: reason } });
+      incidentData.fix_status = "failed";
+      incidentData.fix_error = reason;
+      this._writeIncidentResult(incidentPath, {
+        ...incidentData,
+        corrector_preflight: correctorPreflight,
+        recovery_status: "manager_action_required",
+        crisis_lane: "manager_action_required",
+      });
+      this._updateRunRecovery(runId, {
+        active: true,
+        status: "manager_action_required",
+        lane: "manager_action_required",
+        incidentPath: path.resolve(String(incidentPath || "")),
+        incidentSignature: incidentData?.signature || null,
+        incidentWhere: incidentData?.where || null,
+        fixStatus: "failed",
+        correctorPreflight,
+      });
       this._forcePostIncidentReview(runId, { incidentPath, incidentData });
       return false;
     }
 
     incidentData.fix_status = "success";
-    writeJsonAtomic(incidentPath.replace(/(\.json)$/, "_result$1"), incidentData);
+    this._writeIncidentResult(incidentPath, {
+      ...incidentData,
+      corrector_preflight: correctorPreflight,
+      recovery_status: supervisorEnabled ? "verification_pending" : "environment_not_recoverable",
+      crisis_lane: supervisorEnabled ? "auto_resume_safe" : "environment_not_recoverable",
+    });
+    this._updateRunRecovery(runId, {
+      active: true,
+      status: supervisorEnabled ? "verification_pending" : "environment_not_recoverable",
+      lane: supervisorEnabled ? "auto_resume_safe" : "environment_not_recoverable",
+      incidentPath: path.resolve(String(incidentPath || "")),
+      incidentSignature: incidentData?.signature || null,
+      incidentWhere: incidentData?.where || null,
+      fixStatus: "success",
+      correctorPreflight,
+    });
     // Post-incident review (required) before resuming the pipeline after a Corrector-triggering incident.
     this._forcePostIncidentReview(runId, { incidentPath, incidentData });
     try {
@@ -11735,6 +14544,17 @@ class PipelineManager extends EventEmitter {
     // We clear the active turn and running lock before exiting so we don't lock forever
     try {
       const snap = this._getRunRequired(runId);
+      this._clearActiveLongJobReference(snap, { preserveLastJobId: true });
+      snap.status = "stopped";
+      snap.developerStatus = "idle";
+      snap.managerDecision = null;
+      snap.lastError = {
+        message: supervisorEnabled
+          ? "Corrector applied a fix; recovery verification is pending after restart."
+          : "Corrector applied a fix, but recovery cannot be verified automatically without supervisor restart support.",
+        at: nowIso(),
+        where: supervisorEnabled ? "corrector/recovery_pending" : "corrector/restart_required",
+      };
       if (snap.activeTurn) snap.activeTurn = null;
       this._setRun(runId, snap);
       this._releaseRunningLock(runId);
@@ -11744,7 +14564,11 @@ class PipelineManager extends EventEmitter {
 
     // Write a system-level resume marker
     ensureDir(path.join(this._dataDir, "auto_resume"));
-    writeJsonAtomic(path.join(this._dataDir, "auto_resume", "pending.json"), { runId });
+    writeJsonAtomic(path.join(this._dataDir, "auto_resume", "pending.json"), {
+      runId,
+      source: "corrector_fix_applied",
+      incidentPath: path.resolve(String(incidentPath || "")),
+    });
     try {
       writeJsonAtomic(path.join(this._dataDir, "auto_resume", "restart_request.json"), {
         at: nowIso(),
@@ -11761,8 +14585,6 @@ class PipelineManager extends EventEmitter {
     } catch {
       // ignore
     }
-
-    const supervisorEnabled = process.env.ANTIDEX_SUPERVISOR === "1";
     if (!supervisorEnabled) {
       try {
         const snap = this._getRunRequired(runId);
@@ -11770,7 +14592,11 @@ class PipelineManager extends EventEmitter {
         snap.status = "stopped";
         snap.developerStatus = "idle";
         snap.managerDecision = null;
-        snap.lastError = { message: "Corrector applied fix; restart Antidex to continue.", at: nowIso(), where: "corrector/restart_required" };
+        snap.lastError = {
+          message: "Corrector applied fix, but recovery cannot be verified automatically without supervisor restart support.",
+          at: nowIso(),
+          where: "corrector/restart_required",
+        };
         this._setRun(runId, snap);
       } catch {
         // ignore
@@ -11780,7 +14606,7 @@ class PipelineManager extends EventEmitter {
         const state = stateRead.ok && stateRead.value && typeof stateRead.value === "object" ? stateRead.value : {};
         state.developer_status = "idle";
         state.manager_decision = null;
-        state.summary = "Corrector applied fix; restart Antidex to continue.";
+        state.summary = "Corrector applied fix, but recovery verification still requires a restart under supervisor.";
         state.updated_at = nowIso();
         writeJsonAtomic(run.projectPipelineStatePath, state);
       } catch {

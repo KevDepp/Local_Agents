@@ -350,9 +350,26 @@ qu'elles ne deviennent un incident explicite visible uniquement a l'utilisateur.
 le monitor long-job ni le Correcteur; il joue le role de **sentinelle read-only**.
 
 Separation des roles (obligatoire):
-- **Auditeur externe**: lit, diagnostique, ecrit un rapport, et peut recommander un incident.
+- **Auditeur externe**: **agent dedie** qui lit, diagnostique, ecrit un rapport, et peut recommander un incident.
 - **Correcteur**: patch Antidex **seulement apres** un incident officiel.
-- **Guardian**: orchestre les boucles externes (serveur, pending corrector, futur tick auditeur).
+- **Guardian**: orchestre les boucles externes (serveur, pending corrector, tick auditeur, lancement de l'agent auditeur).
+- **Recovery verifier**: role logique porte par l'auditeur periodique apres un fix Correcteur; il ne juge pas la qualite du patch, il juge si le run est revenu dans un etat sain observable.
+
+Mode d'implementation (obligatoire):
+- L'auditeur doit etre implemente comme un **agent LLM distinct**, sur le meme principe general que les autres agents Antidex.
+- Le Guardian/backend ne doivent pas remplacer le raisonnement principal de l'auditeur par une heuristique locale.
+- Le Guardian/backend ne doivent faire que:
+  - preparer le contexte,
+  - lancer l'agent auditeur,
+  - recuperer son rapport,
+  - revalider localement les faits binaires avant toute action automatique.
+
+Difference de contexte avec le Manager:
+- Le **Manager** raisonne principalement sur le projet cible (tache, spec, preuves, decisions produit).
+- L'**Auditeur** doit raisonner sur un **double contexte**:
+  - contexte Antidex: orchestrateur, jobs, incidents, correcteur, guardian, projections API/UI, docs de robustesse;
+  - contexte du projet cible: `pipeline_state.json`, taches, preuves, artefacts de benchmark/job.
+- L'auditeur ne peut pas etre implemente correctement s'il ne voit qu'un snapshot reduit du projet cible. Son efficacite depend explicitement de cette vue combinee.
 
 Invariants:
 - L'auditeur ne doit **jamais** modifier le projet cible (`cwd`) ni le code Antidex pendant qu'un run est actif.
@@ -361,6 +378,9 @@ Invariants:
 - L'auditeur n'ouvre pas lui-meme un incident "brut". Il produit un **rapport d'audit** + une
   **recommandation d'incident**; l'orchestrateur/Guardian transforme ensuite cette recommandation en incident
   officiel apres une revalidation minimale.
+- L'auditeur ne doit pas etre l'unique source de verite pour les faits binaires simples: quand un predicate local
+  est revalidable (fichier present, status terminal, pid vivant, delta timeline, lock actif, etc.), Antidex doit
+  le verifier localement avant d'ouvrir un incident ou de conclure une recovery.
 - Si un `pending corrector` existe deja, l'auditeur ne doit pas lancer un second flux concurrent.
 - Si le run est `paused|stopped|canceled|completed`, l'auditeur n'ouvre pas de nouvel incident; il peut au plus
   ecrire un rapport passif si cela aide le diagnostic.
@@ -369,6 +389,8 @@ Perimetre initial:
 - Detecter les incoherences **Antidex/orchestrateur/UI/jobs**, pas les "mauvais choix metier" du projet cible.
 - Priorite aux signatures a **forte confiance** deja observees sur des runs reels.
 - Toute signature non suffisamment robuste doit rester en mode "rapport seulement" (pas d'incident automatique).
+- L'auditeur doit toutefois rester un **observateur generaliste**: il peut produire des findings pertinentes meme si elles ne correspondent a aucune signature connue.
+- Les signatures connues et predicates locaux ne doivent pas limiter la perception/description de l'auditeur; ils servent uniquement a borner l'action automatique d'Antidex.
 
 Artifacts d'audit:
 - Dossier par run: `data/external_auditor/<runId>/`
@@ -377,6 +399,9 @@ Artifacts d'audit:
 - Pointeurs stables: `latest.json`, `latest.md`
 - Si l'auditeur recommande un incident: ecrire aussi un marker stable
   `data/external_auditor/pending.json` contenant la recommendation en attente de revalidation.
+- Si un incident corrige reste en verification: conserver aussi un etat stable de recovery
+  (par exemple `data/external_auditor/recovery_status.json`) avec le dernier incident corrige,
+  la signature suivie, et le verdict courant de recovery.
 
 Schema minimal de `AUD-*.json`:
 ```json
@@ -385,12 +410,24 @@ Schema minimal de `AUD-*.json`:
   "at": "<ISO>",
   "run_id": "<runId>",
   "auditor_mode": "passive|enforcing",
-  "conclusion": "healthy|suspicious|incident_recommended",
+  "conclusion": "healthy|suspicious|incident_recommended|recovery_cleared|recovery_not_cleared|recovery_inconclusive|manager_action_required",
   "confidence": "low|medium|high",
   "summary": "short human summary",
-  "recommended_action": "none|observe|open_incident",
+  "recommended_action": "none|observe|open_incident|keep_under_periodic_observation|handoff_manager",
   "suggested_incident_where": "<guardrail/...|job/...|state/...|ui/...|review/...>",
   "suggested_incident_message": "<short message>",
+  "recovery_of_incident": "<INC-* or null>",
+  "recovery_status": "none|verification_pending|recovery_cleared|recovery_not_cleared|recovery_inconclusive|manager_action_required",
+  "local_revalidation": {
+    "performed": true,
+    "checks": [
+      {
+        "name": "result_json_exists",
+        "status": "pass|fail|n/a",
+        "evidence": ["<path>"]
+      }
+    ]
+  },
   "findings": [
     {
       "code": "state/status_mismatch",
@@ -399,6 +436,17 @@ Schema minimal de `AUD-*.json`:
       "evidence": ["<path or API field>", "<path or API field>"],
       "why_it_matters": "short",
       "confidence": "low|medium|high"
+    }
+  ],
+  "memory_updates": [
+    {
+      "transition": "observed|validated|reopened",
+      "scope": "antidex|project",
+      "canonical_class": "state/status_mismatch_durable",
+      "summary": "short factual memory summary",
+      "evidence": ["<path or fact>"],
+      "incident_path": "<INC-* or null>",
+      "audit_report_path": "<AUD-* or latest.json>"
     }
   ],
   "evidence_paths": ["<abs or rel paths>"],
@@ -416,6 +464,51 @@ Format minimal de `AUD-*.md`:
 - recommendation
 - liens vers preuves
 
+Note de philosophie:
+- L'auditeur doit fonctionner comme un **agent observateur generaliste**, pas comme un simple catalogue de bugs connus.
+- Il peut donc ecrire:
+  - des findings **cataloguees** (signature connue, revalidable localement),
+  - des findings **hors catalogue** (anomalie structurelle plausible, incoherence nouvelle, comportement surprenant a surveiller),
+  - tant que les preuves citees sont claires.
+- Les findings hors catalogue sont autorisees en `passive` et en `enforcing`, mais elles restent en mode **rapport seulement** tant qu'aucune politique d'automatisation fiable n'existe pour elles.
+
+Memoire vivante des bugs/patterns:
+- Antidex doit construire lui-meme une **memoire durable des anomalies** a partir des runs reels, et ne pas dependre uniquement d'une liste de bugs connus maintenue manuellement.
+- Cette memoire sert a capitaliser:
+  - ce que l'auditeur observe,
+  - ce que le Correcteur tente/corrige,
+  - ce qui a ete reellement valide ensuite en run.
+- Deux scopes minimaux:
+  - `scope=antidex`: bug/pattern sur le pipeline/orchestrateur/guardian/correcteur/jobs/UI/API Antidex
+  - `scope=project`: bug/pattern sur le projet cible courant
+- Fichiers cibles minimaux:
+  - memoire Antidex: `data/bug_memory/antidex_patterns.jsonl`
+  - memoire projet cible: `<cwd>/data/bug_memory/project_patterns.jsonl`
+- Une entree de memoire doit pouvoir pointer vers les incidents, audits, correctifs, taches/jobs/runs et preuves associes.
+- Mode d'ecriture obligatoire:
+  - les **agents** doivent produire eux-memes des **propositions structurees de mise a jour de memoire** (`memory_updates`);
+  - le backend/orchestrateur ne doit pas inventer librement la semantique des transitions;
+  - il doit surtout valider le schema, verifier la coherence des references (`runId`, `incidentPath`, `auditReportPath`, scope), dedupliquer, puis ecrire la memoire canonique de facon atomique.
+- Ce modele est appele **agent-authored, backend-committed**.
+
+Cycle de vie minimal d'un bug/pattern:
+- `observed`: l'anomalie est detectee et consignee
+- `corrected`: un correctif a ete applique ou tente
+- `validated`: un audit ulterieur confirme que le correctif tient en run
+- `reopened`: le meme bug reapparait apres `corrected` ou `validated`
+
+Responsabilites des agents sur ce cycle:
+- **Auditeur**:
+  - ecrit `observed`
+  - ecrit `validated`
+  - ecrit `reopened`
+- **Correcteur**:
+  - ecrit `corrected`
+- Important:
+  - `corrected` ne veut pas dire "bug reellement elimine"
+  - `validated` ne peut pas etre ecrit par le Correcteur lui-meme; il doit venir d'une observation ulterieure par l'auditeur
+  - le backend ne doit pas changer arbitrairement `observed` en `corrected`, ni `corrected` en `validated`; ces transitions doivent venir des agents autorises, puis etre validees/committees par Antidex
+
 Cadence:
 - Mode initial: toutes les **15 minutes** par run actif.
 - Backoff progressif si plusieurs audits consecutifs sont `healthy`:
@@ -429,6 +522,17 @@ Cadence:
 Modes:
 - `passive` (defaut au premier deploiement): ecrit seulement les rapports; **aucun incident** automatique.
 - `enforcing`: autorise l'ouverture d'incident **uniquement** pour une whitelist de signatures a forte confiance.
+
+Semantique `fix_status` vs recovery:
+- `fix_status=success|failed` dans le resultat Correcteur decrit l'application du patch et le smoke check backend, pas la sante finale du run.
+- `fix_status=success` ne doit **jamais** valoir a lui seul "incident clos" ou "run sain".
+- La fermeture reelle d'un incident automatise exige une verification de recovery ulterieure, effectuee par l'auditeur periodique avec revalidation locale.
+- Vocabulaire de recovery:
+  - `recovery_cleared`: la signature d'origine n'est plus observee et la reprise montre un progres coherent.
+  - `recovery_not_cleared`: la signature d'origine ou une rechute equivalente reste presente.
+  - `recovery_inconclusive`: la preuve de bonne recovery n'est pas encore disponible; conserver le point sous surveillance lors des audits periodiques suivants, sans audit rapproche dedie.
+  - `manager_action_required`: le bug technique est peut-etre borne, mais la suite depend d'un arbitrage Manager.
+  - `environment_not_recoverable`: le contexte systeme empeche une auto-correction ou une reprise fiable.
 
 Sources que l'auditeur doit lire:
 - API live:
@@ -460,6 +564,15 @@ Sources que l'auditeur doit lire:
   - `doc/DECISIONS.md`
   - `doc/INDEX.md`
 
+Exigence de contexte minimal:
+- L'implementation de l'auditeur ne doit pas se limiter a un petit snapshot backend ou a quelques detecteurs hard-codes.
+- Elle doit lui donner acces a suffisamment de contexte pour qu'un **agent auditeur** puisse reconstruire un diagnostic complet:
+  - ce qu'Antidex croit qu'il se passe,
+  - ce que les artefacts disent vraiment,
+  - ce que le projet cible attend/fournit,
+  - et ou se situe l'ecart entre les deux.
+- En pratique, si l'implementation produit seulement des verdicts a partir d'une petite whitelist de predicates internes, elle reste un moteur d'enforcement, pas encore un veritable auditeur.
+
 Signatures MVP autorisees en mode `enforcing` (whitelist initiale):
 1) `state/status_mismatch_durable`
    - ex: `status=waiting_job|implementing|reviewing` mais aucun `activeTurn`, aucun lock, aucune evolution de timeline
@@ -475,12 +588,37 @@ Signatures MVP autorisees en mode `enforcing` (whitelist initiale):
    - ex: projection API durablement incoherente avec les artefacts source (cas d'etat connu comme `stopped + waiting_job`,
      `activeJob` fantome, etc.).
 
+Important:
+- Cette whitelist MVP ne decrit **pas** tout ce que l'auditeur doit savoir observer.
+- Elle decrit seulement les cas ou Antidex s'autorise une **automatisation forte** (incident automatique / recovery auto-cloturable) parce que la revalidation locale est jugee assez robuste.
+- Une finding hors whitelist peut parfaitement apparaitre dans `AUD-*.json|md` avec `recommended_action=observe`.
+- Le fait qu'une anomalie ne soit pas dans la whitelist ne doit jamais empecher l'auditeur de la voir, surtout si elle emerge d'un ecart entre contexte Antidex et contexte projet cible.
+- Une signature large comme `ui_or_api/stale_projection` peut commencer en implementation par un **sous-cas robuste MVP** (par exemple un cas durable et fortement revalidable), puis s'elargir ensuite. Ce choix d'implementation locale ne doit pas etre confondu avec une limitation de ce que l'auditeur a le droit de percevoir.
+
 Signatures explicitement **hors MVP enforcing**:
 - "le Manager pense trop longtemps"
 - "le developer n'a pas encore assez avance"
 - "la tache semble mauvaise"
 - "la review n'est pas convaincante"
 - tout jugement metier sur la qualite du projet cible sans incoherence structurelle claire
+
+Preflight Correcteur (obligatoire a terme):
+- Avant `POST /api/corrector/run_pending`, le Guardian/backend doit verifier au minimum:
+  - serveur reachable et `/health` OK,
+  - incident toujours lisible et toujours pertinent,
+  - pas d'autre Correcteur deja en cours,
+  - pas de `paused` utilisateur a respecter,
+  - pas de tour concurrent deja en train de muter le meme run,
+  - environnement de restart coherent (`ANTIDEX_SUPERVISOR=1` ou lane explicite sans restart).
+- Si ces preconditions ne sont pas reunies, la sortie doit etre `environment_not_recoverable`, pas un faux `fix_failed` generique.
+
+Preflight reprise (obligatoire a terme):
+- Apres patch + restart, avant `Continue` best-effort, le Guardian/backend doit verifier au minimum:
+  - projections API rechargees,
+  - incident/etat stale nettoyables,
+  - absence de lock/tour zombie,
+  - contexte run/job/documentaire suffisamment reconcile pour qu'une reprise ait un sens.
+- Si ces preconditions ne sont pas reunies, conserver la recovery ouverte et ne pas forcer une reprise fragile.
 
 Regle d'ouverture d'incident:
 - `passive`: ne jamais ouvrir d'incident.
@@ -491,6 +629,23 @@ Regle d'ouverture d'incident:
   - aucun correcteur n'est deja pending,
   - le run n'est pas dans un etat terminal ou explicitement pause par l'utilisateur.
 
+Promotion vers l'automatisation forte:
+- Une anomalie nouvelle peut exister d'abord comme finding hors catalogue + entree `observed` dans la memoire des bugs.
+- Elle peut devenir auto-actionnable plus tard si Antidex dispose de trois briques:
+  1) une **classe canonique** stable (signature/famille d'incident)
+  2) une **revalidation locale robuste**
+  3) un branchement `enforcing` autorisant `open_incident`
+- Cette promotion peut etre nourrie par les run reels et la memoire accumulee par Antidex lui-meme; elle ne doit pas dependre exclusivement d'un catalogue ecrit a la main.
+- La promotion vers `enforcing` ne borne jamais la perception de l'auditeur; elle borne seulement l'action automatique.
+
+Regle de perception:
+- `passive` et `enforcing` ne changent pas ce que l'auditeur peut **voir** ou rapporter.
+- Ils changent seulement ce qu'Antidex peut **faire automatiquement** a partir d'une finding.
+- L'auditeur doit donc pouvoir signaler:
+  - une anomalie connue et auto-actionnable,
+  - une anomalie connue mais non suffisamment fiable pour l'automatisation,
+  - une anomalie nouvelle/non cataloguee qui merite surveillance ou analyse humaine.
+
 Dedup / cooldown:
 - Cle de dedup minimale: `runId + finding.code + currentTaskId + activeJobId(lastJobId si null) + summary hash`
 - Cooldown par signature sur un run: 30 min minimum avant de rouvrir le meme incident, sauf si la preuve change
@@ -498,11 +653,31 @@ Dedup / cooldown:
 
 Handoff vers le Correcteur:
 1) l'auditeur ecrit `AUD-*` + `latest.*`
+1bis) l'auditeur ecrit aussi ses `memory_updates` dans son rapport d'audit (source semantique de la memoire)
 2) si `incident_recommended` et mode `enforcing`, il ecrit `data/external_auditor/pending.json`
 3) le Guardian (ou une route backend dediee) relit ce marker et revalide minimalement la recommandation
 4) Antidex ecrit alors un incident officiel `INC-*` + bundle
 5) Antidex stoppe le run proprement
 6) le flux actuel `external_corrector/pending.json -> /api/corrector/run_pending` reprend sans changement conceptuel
+7) en parallele, le backend committe atomiquement les `memory_updates` valides proposes par l'auditeur
+
+Handoff post-Correcteur:
+1) le Correcteur applique un patch et ecrit son `_result` avec `fix_status`
+2) le Correcteur doit aussi ecrire une proposition structuree de `memory_updates` (au minimum `corrected`) dans un artefact dedie, par exemple `INC-..._memory_update.json`
+   - cette obligation doit aussi etre rappelee dans une instruction Correcteur dediee (ex: `doc/agent_instruction_templates/corrector_memory_update.md`)
+3) le backend valide puis committe cette proposition dans la memoire canonique
+4) le restart/respawn serveur se produit si requis
+5) le Guardian peut faire un `Continue` best-effort **seulement** si les preconditions de reprise sont satisfaites
+6) l'incident reste en etat logique `recovery verification pending`
+7) l'auditeur periodique verifie ensuite la disparition reelle de la signature et classe la recovery:
+   - `recovery_cleared`
+   - `recovery_not_cleared`
+   - `recovery_inconclusive`
+   - `manager_action_required`
+8) seule la classe `recovery_cleared` ferme completement la boucle automatique
+9) la memoire des bugs/patterns est mise a jour:
+   - `corrected` par le Correcteur via sa proposition de `memory_updates`
+   - `validated` ou `reopened` par l'auditeur via ses `memory_updates` ulterieurs
 
 Contrainte de revalidation avant incident officiel:
 - l'orchestrateur/Guardian ne doit pas faire confiance aveuglement au rapport LLM.
@@ -513,6 +688,32 @@ Contrainte de revalidation avant incident officiel:
   - deltas timeline/mtime,
   - presence d'un `pending corrector`,
   - statut terminal ou non.
+- En consequence, la revalidation locale est une **couche d'action**, pas une couche de perception: l'absence de predicate local robuste ne doit pas empecher l'auditeur de signaler une anomalie; elle doit seulement empecher l'action automatique forte.
+
+Contrainte de commit de memoire:
+- Le backend/orchestrateur doit traiter la memoire des bugs comme un **journal canonique**.
+- Il peut refuser une proposition agent si:
+  - le schema est invalide,
+  - la transition ne correspond pas au role de l'agent,
+  - `runId` / `incidentPath` / `auditReportPath` sont incoherents,
+  - la transition serait un duplicat evident deja committe.
+- En revanche, il ne doit pas reecrire librement le sens de la transition proposee par l'agent juste pour "faire joli".
+- Le commit de memoire doit donc etre:
+  - **agent-authored** sur le sens,
+  - **backend-validated** sur la coherence,
+  - **backend-committed** sur l'atomicite et l'indexation.
+
+Contrainte de revalidation apres Correcteur:
+- l'orchestrateur/Guardian ne doit pas faire confiance aveuglement a `fix_status=success`.
+- Il doit distinguer explicitement:
+  - "patch applique"
+  - "run sain a nouveau"
+- La verification de recovery doit revalider localement, selon la signature:
+  - existence/absence de fichiers terminaux,
+  - coherence API vs artefacts source,
+  - disparition de la signature d'origine,
+  - presence d'un progres observable apres reprise (nouveau turn, nouvelle timeline, nouvel artefact, nouvel etat).
+- Si la preuve de bonne recovery n'est pas encore disponible, classer `recovery_inconclusive` et attendre les audits periodiques normaux, sans lancer une mini-boucle d'audits dedies.
 
 Integration Guardian:
 - Le Guardian garde la responsabilite du tick periodique et du scheduling.
@@ -523,6 +724,14 @@ Integration Guardian:
   - conclusion
   - recommandation
   - eventuelle ouverture d'incident
+  - statut de recovery post-fix si un incident precedent est encore en verification
+
+Lanes de sortie de crise:
+- `auto_resume_safe`: patch applique, recovery revalidee, reprise automatique autorisee.
+- `manager_action_required`: le probleme technique est borne, mais un arbitrage Manager reste necessaire.
+- `environment_not_recoverable`: le contexte systeme empeche une auto-correction ou une reprise fiable.
+- `recovery_not_cleared`: le patch ne suffit pas ou la rechute est observee.
+- `recovery_inconclusive`: garder sous observation periodique; pas d'action immediate.
 
 Variables d'env proposees:
 - `ANTIDEX_EXTERNAL_AUDITOR=1|0`
@@ -538,6 +747,17 @@ UI / observabilite (obligatoire a terme):
 - afficher le dernier rapport d'audit par run (statut, resume, conclusion)
 - afficher si l'auditeur est en mode `passive` ou `enforcing`
 - afficher si une recommandation d'incident est en attente de revalidation
+- afficher le dernier statut de recovery post-fix
+- distinguer visuellement `fix applied` de `recovery cleared`
+
+Implication implementation:
+- Le backend doit fournir a l'agent auditeur un paquet de contexte explicite contenant au minimum:
+  - les pointeurs vers les artefacts Antidex pertinents,
+  - les pointeurs vers les artefacts du projet cible courant,
+  - l'etat des jobs/incidents/recovery,
+  - les docs Antidex pertinentes,
+  - et les contraintes d'automatisation (`passive|enforcing`, whitelist, revalidation locale).
+- Les detecteurs locaux backend restent autorises uniquement comme **couche de revalidation** et d'**enforcement**, pas comme substitut a l'agent auditeur.
 
 Strategie de rollout (obligatoire):
 1) phase A: `passive` seulement, sans stop automatique
@@ -550,6 +770,10 @@ Critere d'acceptation de cette future implementation:
 - en mode `passive`, aucun run sain n'est stoppe
 - en mode `enforcing`, les incidents ouverts automatiquement sont re-validables par predicates locaux simples
 - le Correcteur recupere le contexte de l'auditeur via le bundle d'incident sans inventer de nouveaux chemins paralleles
+- un `fix_status=success` non suivi d'une recovery saine ne ferme pas silencieusement le cas
+- la reprise automatique apres fix n'est consideree saine que si un progres observable apparait apres restart/continue
+- l'auditeur peut produire des findings utiles hors whitelist MVP, sans etre bloque par l'absence de signature connue
+- les signatures MVP/predicats locaux limitent seulement l'automatisation, pas la richesse des rapports d'audit
 
 Note robustesse (turn safety):
 - Si un tour Codex lance une commande longue (commandExecution en cours), le timeout **inactivity** doit etre suspendu

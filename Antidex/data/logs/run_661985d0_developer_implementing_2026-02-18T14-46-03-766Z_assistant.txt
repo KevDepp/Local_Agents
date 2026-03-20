@@ -1,7 +1,0 @@
-I’ve already completed T-001 and set `data/pipeline_state.json` to `ready_for_review`. You keep repeating the same instructions—do you want me to:
-
-1. Re-run the checks and refresh `dev_result.md`?
-2. Reset and redo the task from scratch?
-3. Proceed to the next task (`T-002_world`)?
-
-Reply with 1, 2, or 3.

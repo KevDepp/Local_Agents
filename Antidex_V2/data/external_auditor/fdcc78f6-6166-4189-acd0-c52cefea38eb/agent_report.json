@@ -1,0 +1,48 @@
+﻿{
+    "suggested_incident_message":  null,
+    "summary":  "Run marked completed with no active alerts or recovery; minor traceability/encoding anomalies observed in context packet.",
+    "suggested_incident_where":  null,
+    "recommendation":  null,
+    "run_id":  "fdcc78f6-6166-4189-acd0-c52cefea38eb",
+    "confidence":  "medium",
+    "conclusion":  "healthy",
+    "findings":  [
+                     {
+                         "confidence":  "medium",
+                         "code":  "encoding/mojibake_paths",
+                         "evidence":  [
+                                          "last_events[].path contains \"UniversitÃ©\" mojibake",
+                                          "evidence_paths entries contain \"UniversitÃ©\" mojibake",
+                                          "audit_context.antidex.cwd contains mojibake"
+                                      ],
+                         "summary":  "Some Windows paths show mojibake (e.g., \"UniversitÃ©\"), suggesting inconsistent text encoding in serialized context.",
+                         "severity":  "warn",
+                         "why_it_matters":  "Can break path-based tooling, matching, or downstream parsing/auditing; reduces operator trust in evidence strings."
+                     },
+                     {
+                         "confidence":  "medium",
+                         "code":  "metadata/orchestrator_version_placeholder",
+                         "evidence":  [
+                                          "audit_context.antidex.orchestrator_version"
+                                      ],
+                         "summary":  "orchestrator_version is reported as \"0.0.0\".",
+                         "severity":  "info",
+                         "why_it_matters":  "Weakens traceability when correlating behavior across upgrades; harder to confirm fixes are deployed."
+                     },
+                     {
+                         "confidence":  "low",
+                         "code":  "incidents/recent_watchdog_history",
+                         "evidence":  [
+                                          "last_events[type=recent_incident] x3",
+                                          "summary.run_status=completed",
+                                          "recovery=null"
+                                      ],
+                         "summary":  "Context lists multiple recent watchdog incidents (dated 2026-02-28) although current run status is completed with no active recovery.",
+                         "severity":  "info",
+                         "why_it_matters":  "Not necessarily an issue, but suggests historical instability; worth watching if watchdog triggers recur."
+                     }
+                 ],
+    "generated_at":  "2026-03-15T20:07:57.9376933Z",
+    "schema":  "antidex.external_auditor.agent_report.v1",
+    "recommended_action":  "observe"
+}

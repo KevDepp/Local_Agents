@@ -521,6 +521,7 @@ async function handleApi(req, res, url) {
       const agCodexRatio = body?.agCodexRatio ? String(body.agCodexRatio) : null;
       const userCommandMessage = body?.userCommandMessage ? String(body.userCommandMessage) : null;
       const userCommandSource = body?.userCommandSource ? String(body.userCommandSource) : null;
+      const resumeSource = body?.resumeSource ? String(body.resumeSource) : null;
       const maxStepsRaw = body?.maxSteps;
       const maxSteps = Number.isFinite(Number(maxStepsRaw)) ? Number(maxStepsRaw) : null;
 
@@ -546,6 +547,7 @@ async function handleApi(req, res, url) {
         agCodexRatioDefault,
         agCodexRatio,
         ...(userCommandMessage ? { userCommandMessage, userCommandSource: userCommandSource || "ui_send" } : {}),
+        ...(resumeSource ? { resumeSource } : {}),
         ...(maxSteps != null ? { maxSteps } : {}),
       });
       sendJson(res, 200, { ok: true, run });
@@ -611,6 +613,57 @@ async function handleApi(req, res, url) {
   if (req.method === "POST" && url.pathname === "/api/corrector/run_pending") {
     try {
       const out = await pipeline.runExternalCorrectorPending();
+      sendJson(res, 200, { ok: true, out });
+    } catch (e) {
+      sendJson(res, 500, { ok: false, error: safeErrorMessage(e) });
+    }
+    return;
+  }
+
+  if (req.method === "GET" && url.pathname === "/api/auditor/snapshot") {
+    try {
+      const runId = url.searchParams.get("runId");
+      if (!runId) {
+        sendJson(res, 400, { ok: false, error: "Missing runId" });
+        return;
+      }
+      const snapshot = pipeline.getExternalAuditorSnapshot(String(runId));
+      sendJson(res, 200, { ok: true, snapshot });
+    } catch (e) {
+      sendJson(res, 500, { ok: false, error: safeErrorMessage(e) });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/auditor/run") {
+    try {
+      const body = await readJson(req);
+      const runId = body?.runId ? String(body.runId) : null;
+      const mode = body?.mode ? String(body.mode) : "passive";
+      if (!runId) {
+        sendJson(res, 400, { ok: false, error: "Missing runId" });
+        return;
+      }
+      const out = await pipeline.runExternalAuditorPass(runId, { mode });
+      sendJson(res, 200, { ok: true, out, snapshot: out?.snapshot || null });
+    } catch (e) {
+      sendJson(res, 500, { ok: false, error: safeErrorMessage(e) });
+    }
+    return;
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/auditor/open_incident") {
+    try {
+      const body = await readJson(req);
+      const runId = body?.runId ? String(body.runId) : null;
+      if (!runId) {
+        sendJson(res, 400, { ok: false, error: "Missing runId" });
+        return;
+      }
+      const recommendation = body?.recommendation && typeof body.recommendation === "object" ? body.recommendation : null;
+      const auditReportPath = body?.auditReportPath ? String(body.auditReportPath) : null;
+      const mode = body?.mode ? String(body.mode) : null;
+      const out = await pipeline.openAuditorRecommendationAsIncident({ runId, recommendation, auditReportPath, mode });
       sendJson(res, 200, { ok: true, out });
     } catch (e) {
       sendJson(res, 500, { ok: false, error: safeErrorMessage(e) });
@@ -1382,7 +1435,12 @@ server.listen(PORT, "127.0.0.1", () => {
           console.log(`[antidex] Auto-resume pending for run ${parsed.runId}. Resuming pipeline...`);
           fs.rmSync(pendingPath, { force: true });
           const codex = getCodexStatus();
-          pipeline.continuePipeline({ runId: parsed.runId, codexExe: codex.path, autoRun: true }).catch(err => {
+          pipeline.continuePipeline({
+            runId: parsed.runId,
+            codexExe: codex.path,
+            autoRun: true,
+            resumeSource: parsed?.source ? String(parsed.source) : "auto_resume",
+          }).catch(err => {
             console.error(`[antidex] Auto-resume failed for run ${parsed.runId}:`, err);
           });
         }

@@ -247,6 +247,11 @@ Objectif: valider le chemin `audit read-only -> rapport -> (optionnel) recommand
      - conclusion `suspicious` ou `incident_recommended`
      - recommendation visible dans le rapport
      - aucun stop automatique
+  2bis) Run avec anomalie plausible **hors signature cataloguee**:
+     - l'auditeur ecrit tout de meme une finding/observation exploitable
+     - conclusion `suspicious` ou `healthy` selon les preuves
+     - aucun incident automatique
+     - l'absence de signature connue ne bloque pas le rapport
   3) Run `paused|stopped|completed`:
      - pas de nouvel incident automatique
      - pas de Correcteur declenche
@@ -266,6 +271,78 @@ Objectif: valider le chemin `audit read-only -> rapport -> (optionnel) recommand
   2) `review/stale_loop_high_confidence`:
      - l'incident n'est ouvert que si la preuve locale est revalidable
      - pas de double incident pour la meme signature avant cooldown
+  3) Anomalie hors whitelist:
+     - l'auditeur peut la decrire dans `AUD-*`
+     - aucun incident automatique tant qu'elle n'appartient pas a la whitelist enforcing
+     - la finding reste visible pour analyse ulterieure
+
+### B2) Recovery verification post-Correcteur
+- Objectif: valider que `fix_status=success` ne clot pas le cas a lui seul.
+- Pre-requis:
+  - un incident automatique connu
+  - Correcteur externe + Guardian actifs
+  - auditeur actif au minimum en `passive`
+- Cas a verifier:
+  1) Patch applique mais guerison reelle absente:
+     - le Correcteur ecrit `_result` avec `fix_status=success`
+     - apres restart/reprise, l'auditeur classe `recovery_not_cleared`
+     - le cas n'est pas ferme juste parce que le backend a redemarre
+  2) Patch applique mais preuve encore insuffisante:
+     - l'auditeur classe `recovery_inconclusive`
+     - aucun audit rapproche dedie n'est planifie
+     - le point reste seulement visible pour les audits periodiques suivants
+  3) Patch applique et signature disparue:
+     - l'auditeur classe `recovery_cleared`
+     - la fermeture du cas est tracable
+  4) Patch applique mais reprise impossible pour raison systeme:
+     - classification `environment_not_recoverable` ou `manager_action_required` selon le cas
+
+### B3) Preflight Correcteur / reprise
+- Provoquer un incident avec:
+  1) app-server indisponible:
+     - pas de faux `success`
+     - sortie de crise explicite `environment_not_recoverable`
+  2) tour concurrent deja actif:
+     - le Correcteur ne doit pas empirer l'etat
+     - l'incident reste ouvert proprement
+  3) reprise best-effort apres restart:
+     - si aucun progres mesurable n'apparait, la recovery ne doit pas etre classee `cleared`
+
+### B4) Memoire vivante des bugs/patterns
+- Verifier qu'une anomalie observee par l'auditeur cree ou met a jour une entree persistante de memoire:
+  - `scope=antidex` si le probleme concerne le pipeline/orchestrateur/guardian/correcteur/UI/API Antidex
+  - `scope=project` si le probleme concerne durablement le projet cible courant
+- Verifier que la semantique des transitions vient bien des **agents**:
+  - l'auditeur propose explicitement ses `memory_updates` dans son rapport
+  - le Correcteur propose explicitement ses `memory_updates` dans son artefact dedie
+  - le backend committe, mais ne reinvente pas librement la transition
+- Verifier le cycle de vie:
+  1) `observed`:
+     - ecrit par l'auditeur
+     - contient `first_observed_at`, `last_observed_at`, classe/signature, preuves, run/task/job lies
+  2) `corrected`:
+     - ecrit par le Correcteur
+     - contient `corrected_at`, lien vers patch/incident, sans valoir "bug valide comme gueri"
+  3) `validated`:
+     - ecrit par l'auditeur sur un audit ulterieur
+     - contient `validated_at` + preuves de run reel
+  4) `reopened`:
+     - ecrit par l'auditeur si le meme bug revient apres `corrected` ou `validated`
+     - incremente un compteur de reouverture
+- Verifier qu'un bug `corrected` mais non encore `validated` reste clairement distinct d'un bug reellement stabilise.
+- Verifier qu'une proposition invalide est bien rejetee par le backend:
+  - transition non autorisee pour l'agent
+  - `incidentPath` / `auditReportPath` incoherent
+  - duplicat deja committe
+
+### B5) Promotion vers incident auto-actionnable
+- Verifier qu'une anomalie nouvelle peut d'abord exister en memoire comme `observed` sans etre dans la whitelist MVP.
+- Verifier qu'une anomalie/pattern ne devient auto-actionnable que si Antidex dispose:
+  - d'une classe canonique
+  - d'une revalidation locale robuste
+  - d'un branchement `enforcing`
+- Verifier que cette promotion n'empeche jamais l'auditeur de continuer a voir/rapporter d'autres anomalies hors catalogue.
+- Verifier qu'une signature large comme `ui_or_api/stale_projection` peut commencer par un sous-cas robuste MVP, puis s'elargir ensuite sans changer la philosophie generale.
 
 ### C) Dedup / cooldown
 - Ouvrir deux fois la meme signature sur le meme run sans nouvelle preuve:
@@ -280,11 +357,31 @@ Objectif: valider le chemin `audit read-only -> rapport -> (optionnel) recommand
   - seules les sorties `data/external_auditor/*` sont autorisees
   - aucun appel a `Pause/Stop/Continue` n'est emis directement par l'auditeur
 
+### D2) Separation perception / action
+- Verifier que:
+  - une finding hors signature connue peut apparaitre dans le rapport
+  - l'absence de predicate local robuste n'empeche pas le rapport
+  - mais empeche bien l'ouverture automatique d'incident
+  - la memoire des bugs peut enregistrer cette anomalie comme `observed` meme si elle n'est pas encore auto-actionnable
+
+### D3) Contexte auditeur complet
+- Verifier que l'auditeur ne raisonne pas seulement sur un etat projet reduit:
+  - il doit disposer de contexte Antidex (timeline, incidents, jobs, docs de robustesse, etat API)
+  - et de contexte projet cible (pipeline_state, task.md, manager_instruction, manager_review, dev_result, artefacts de job/benchmark)
+- Verifier qu'un ecart entre "ce qu'Antidex croit" et "ce que les artefacts projet disent" peut apparaitre dans le rapport d'audit.
+- Verifier qu'un cas transversal non visible par le seul Manager peut etre decrit par l'auditeur.
+- Verifier que l'auditeur est bien execute comme **agent dedie**:
+  - Guardian/backend preparent le contexte et lancent l'agent,
+  - le rapport final provient de l'agent,
+  - la whitelist/predicats locaux ne servent qu'a la revalidation et a l'action automatique.
+
 ### E) UI / observabilite
 - Verifier qu'un utilisateur peut voir:
   - le dernier rapport d'audit
   - le mode `passive|enforcing`
   - si une recommendation d'incident est en attente de revalidation
+  - la difference entre `fix applied` et `recovery cleared`
+  - le dernier statut de recovery post-fix
 
 ## UI orchestrateur Antidex (AG) â€” tests manuels exhaustifs
 

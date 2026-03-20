@@ -160,6 +160,8 @@ async function main() {
     const inc = findLatestIncident(dataDir);
     assert(inc && fs.existsSync(inc.incPath), "Missing incident artifact in data/incidents");
     assert(fs.existsSync(inc.resPath), "Missing incident result artifact INC-..._result.json");
+    const memoryUpdatePath = inc.incPath.replace(/\.json$/i, "_memory_update.json");
+    assert(fs.existsSync(memoryUpdatePath), "Missing incident memory update artifact INC-..._memory_update.json");
 
     const correctorTestDir = path.join(dataDir, "corrector_test");
     assert(fs.existsSync(correctorTestDir), "Missing data/corrector_test directory");

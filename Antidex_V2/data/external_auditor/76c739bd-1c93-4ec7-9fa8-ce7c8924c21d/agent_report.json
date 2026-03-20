@@ -1,0 +1,37 @@
+{
+  "schema": "antidex.external_auditor.agent_report.v1",
+  "generated_at": "2026-03-15T20:05:09.885Z",
+  "run_id": "76c739bd-1c93-4ec7-9fa8-ce7c8924c21d",
+  "conclusion": "suspicious",
+  "confidence": "medium",
+  "summary": "Run is stopped with developer blocked by explicit user stop; auditor also cannot read project pipeline_state, so overall state is treated as suspicious but no incident is recommended.",
+  "recommended_action": "observe",
+  "suggested_incident_where": null,
+  "suggested_incident_message": null,
+  "recommendation": null,
+  "findings": [
+    {
+      "code": "state/project_pipeline_state_unreadable",
+      "severity": "error",
+      "summary": "Project pipeline_state.json is missing or unreadable from the auditor context.",
+      "evidence": [
+        "summary.run_status",
+        "audit_context.project.pipeline_state.path"
+      ],
+      "why_it_matters": "Auditor cannot see project pipeline_state, reducing observability into pipeline health.",
+      "confidence": "high"
+    },
+    {
+      "code": "state/pipeline_user_stopped_blocked",
+      "severity": "info",
+      "summary": "Pipeline is stopped and developer is blocked due to explicit user stop.",
+      "evidence": [
+        "pipeline.status",
+        "pipeline.developer_status",
+        "pipeline.last_error"
+      ],
+      "why_it_matters": "Indicates a human-driven stop instead of a system failure; recovery and resumption depend on a future manager decision.",
+      "confidence": "high"
+    }
+  ]
+}
